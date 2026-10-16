@@ -92,18 +92,32 @@ SMALL_FS = 18
 MONO_FS = 22
 
 
-def _wrap(text: str, max_chars: int) -> str:
-    """Greedy word wrap, used for the rails in vertical mode (max two-ish lines)."""
-    words, lines, line = text.split(), [], ""
+def _wrap(text: str, max_chars: int) -> list[str]:
+    """Balanced word wrap for the rails in vertical mode: the fewest lines that fit
+    `max_chars`, with the break chosen so lines come out about equal (no orphan words)."""
+    words = text.split()
+    if len(text) <= max_chars or len(words) < 2:
+        return [text]
+    n_lines = 2 if len(text) <= 2 * max_chars + 4 else 3
+    target = len(text) / n_lines
+    lines, line = [], ""
     for w in words:
-        if line and len(line) + 1 + len(w) > max_chars:
+        if line and len(line) + 1 + len(w) > target + 3 and len(lines) < n_lines - 1:
             lines.append(line)
             line = w
         else:
             line = f"{line} {w}".strip()
-    if line:
-        lines.append(line)
-    return "\n".join(lines)
+    lines.append(line)
+    return lines
+
+
+def _rail_text(text: str, fs: int, color, max_chars: int, **kw):
+    """One Text, or (vertical) centred stacked lines; layout QA treats both as text."""
+    lines = _wrap(text, max_chars) if VERTICAL else [text]
+    if len(lines) == 1:
+        return Text(lines[0], font=FONT, font_size=fs, color=color, **kw)
+    return VGroup(*[Text(ln, font=FONT, font_size=fs, color=color, **kw) for ln in lines]
+                  ).arrange(DOWN, buff=0.14)
 
 
 def bg(scene) -> None:
@@ -116,20 +130,16 @@ def bg(scene) -> None:
 # (charter rule 1); the caption is the verbatim line being spoken, so the video is
 # fully readable muted and the WebVTT track matches the frame.
 # --------------------------------------------------------------------------------------
-def headline(text: str, color=INK, fs: int = TITLE_FS) -> Text:
-    if VERTICAL:
-        text = _wrap(text, 24)
-    t = Text(text, font=FONT, font_size=fs, color=color, weight="MEDIUM")
+def headline(text: str, color=INK, fs: int = TITLE_FS):
+    t = _rail_text(text, fs, color, 24, weight="MEDIUM")
     if t.width > 2 * SAFE_W:
         t.scale_to_fit_width(2 * SAFE_W)
     t.move_to([0, TITLE_Y, 0])
     return t
 
 
-def caption(text: str, color=MUTED, fs: int = BODY_FS) -> Text:
-    if VERTICAL:
-        text = _wrap(text, 32)
-    t = Text(text, font=FONT, font_size=fs, color=color)
+def caption(text: str, color=MUTED, fs: int = BODY_FS):
+    t = _rail_text(text, fs, color, 32)
     if t.width > 2 * SAFE_W:
         t.scale_to_fit_width(2 * SAFE_W)
     t.move_to([0, CAPTION_Y, 0])

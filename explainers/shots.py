@@ -539,7 +539,7 @@ class TensorGrid:
     def __init__(self, data, *, cell: float = 0.62, buff: float = 0.06, fs: int = MONO_FS,
                  color=STROKE, fill=PANEL, show_index: bool = False,
                  index_fs: int = SMALL_FS, shape=True, stride=None, name: str | None = None,
-                 label_fs: int = SMALL_FS, depth_offset: float = 0.28,
+                 label_fs: int = SMALL_FS, depth_offset: float | None = None,
                  max_width: float | None = None):
         self.data = data
         self.is3d = _is_3d(data)
@@ -571,7 +571,10 @@ class TensorGrid:
             rows.arrange(DOWN, buff=buff)
             self.slices.append(rows)
 
-        # Back slices up-right and dimmed; front slice (k=0) drawn last.
+        # Back slices up-right and dimmed; front slice (k=0) drawn last. The offset is a
+        # little over half a cell so every back cell shows a readable corner.
+        if depth_offset is None:
+            depth_offset = 0.55 * (cell + buff)
         for k in range(1, self.depth):
             self.slices[k].shift(RIGHT * depth_offset * k + UP * depth_offset * k)
             self.slices[k].set_opacity(max(0.35, 0.8 - 0.2 * k))
@@ -586,7 +589,11 @@ class TensorGrid:
                 self.idx.add(lb)
             for j in range(self.cols):
                 lb = Text(str(j), font=MONO, font_size=index_fs, color=MUTED)
-                lb.next_to(self.front[0][j], UP, buff=0.12)
+                # 3D: back slices own the space above, so column indices go underneath.
+                if self.is3d:
+                    lb.next_to(self.front[-1][j], DOWN, buff=0.12)
+                else:
+                    lb.next_to(self.front[0][j], UP, buff=0.12)
                 self.idx.add(lb)
 
         self.labels = VGroup()
@@ -607,7 +614,7 @@ class TensorGrid:
             self.labels.add(self.stride_label)
         if len(self.labels):
             self.labels.arrange(DOWN, buff=0.12)
-            self.labels.next_to(self.grid, DOWN, buff=0.26)
+            self.labels.next_to(VGroup(self.grid, self.idx), DOWN, buff=0.26)
         self.group = VGroup(self.grid, self.idx, self.labels)
         if self.name_label is not None:
             self.name_label.next_to(VGroup(self.grid, self.idx), UP, buff=0.22)
@@ -1027,6 +1034,17 @@ def softmax(xs, temperature: float = 1.0):
 # --------------------------------------------------------------------------------------
 # CompGraph — autograd computation graph (micrograd-style).
 # --------------------------------------------------------------------------------------
+def _border_point(mob, toward):
+    """Where the ray from mob's centre toward `toward` leaves mob's bounding box."""
+    c = mob.get_center()
+    d = toward - c
+    hw, hh = mob.width / 2, mob.height / 2
+    tx = hw / abs(d[0]) if abs(d[0]) > 1e-9 else float("inf")
+    ty = hh / abs(d[1]) if abs(d[1]) > 1e-9 else float("inf")
+    t = min(tx, ty, 1.0)
+    return c + d * t
+
+
 def value_node(name: str, data=None, grad=None, *, w: float = 1.7, h: float = 0.86,
                color=PRIMARY, fs: int = 18) -> VGroup:
     """A value node: rounded box with its name, `data` and `grad` rows."""
@@ -1080,10 +1098,12 @@ class CompGraph:
         self.edges = {}
         self.group_edges = VGroup()
         for a, b in edges:
-            arr = arrow_between(self.nodes[a], self.nodes[b], color=MUTED, stroke=2.4)
-            # Re-anchor to the node borders so the arrow never runs under a box.
-            arr.put_start_and_end_on(self.nodes[a].get_right() + RIGHT * 0.04,
-                                     self.nodes[b].get_left() + LEFT * 0.04)
+            A, B = self.nodes[a], self.nodes[b]
+            # Anchor on the node borders along the centre line, so the arrow never runs
+            # under a box whatever the relative placement.
+            arr = Arrow(_border_point(A, B.get_center()), _border_point(B, A.get_center()),
+                        buff=0.05, color=MUTED, stroke_width=2.4,
+                        max_tip_length_to_length_ratio=0.3)
             self.edges[(a, b)] = arr
             self.group_edges.add(arr)
         self.group = VGroup(self.group_edges, self.group_nodes)

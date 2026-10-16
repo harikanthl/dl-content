@@ -129,10 +129,11 @@ SOURCES = {
     "DS_LLM": ("DeepSeek LLM: scaling open-source LMs with longtermism", "paper", "https://arxiv.org/abs/2401.02954"),
     "DS_MOE": ("DeepSeekMoE: fine-grained + shared experts", "paper", "https://arxiv.org/abs/2401.06066"),
     "DS_V32": ("DeepSeek-V3.2 (DeepSeek Sparse Attention)", "paper", "https://arxiv.org/abs/2512.02556"),
-    "DS_MHC": ("DeepSeek 2026, Manifold-Constrained Hyper-Connections (mHC)", "paper", "https://arxiv.org/search/?searchtype=all&query=Manifold-Constrained+Hyper-Connections"),
+    "DS_MHC": ("DeepSeek 2026, Manifold-Constrained Hyper-Connections (mHC)", "paper", "https://arxiv.org/abs/2512.24880"),
     "HYPERCONN": ("Zhu et al. 2024, Hyper-Connections", "paper", "https://arxiv.org/abs/2409.19606"),
-    "DS_ENGRAM": ("DeepSeek 2026, Conditional Memory via Scalable Lookup (Engram)", "paper", "https://arxiv.org/search/?searchtype=all&query=Conditional+Memory+via+Scalable+Lookup"),
-    "DS_V4": ("DeepSeek-V4: Towards Highly Efficient Million-Token Context Intelligence", "paper", "https://arxiv.org/search/?searchtype=all&query=DeepSeek-V4+Million-Token+Context"),
+    "DS_ENGRAM": ("DeepSeek 2026, Conditional Memory via Scalable Lookup (Engram)", "paper", "https://arxiv.org/abs/2601.07372"),
+    "DS_ENGRAM_CODE": ("deepseek-ai/Engram", "code", "https://github.com/deepseek-ai/Engram"),
+    "DS_V4": ("DeepSeek-V4: Towards Highly Efficient Million-Token Context Intelligence", "paper", "https://arxiv.org/abs/2606.19348"),
     "DS_OCR": ("DeepSeek-OCR: Contexts Optical Compression", "paper", "https://arxiv.org/abs/2510.18234"),
     "DS_FIREFLYER": ("Fire-Flyer AI-HPC (DeepSeek's cluster co-design)", "paper", "https://arxiv.org/abs/2408.14158"),
     "DS_DUALPIPE": ("deepseek-ai/DualPipe", "code", "https://github.com/deepseek-ai/DualPipe"),
@@ -199,7 +200,7 @@ M = "Mac"; G = "RunPod 1x RTX 4090"; H = "RunPod 1x H100"; G4 = "RunPod 4x GPU";
 # Each episode: (title, what you learn, what you build/verify, hardware, [source keys])
 EPISODES = {
 "M00": [
- ("Why I'm learning LLMs by building every piece", "The map: 186 videos from tensors to SGLang, and how to follow along", "Repo tour + the 'receipt' rule: every from-scratch piece is checked against PyTorch", M, ["CS336", "ZERO_HERO"]),
+ ("Why I'm learning LLMs by building every piece", "The map: 216 videos from tensors to research, and how to follow along", "Repo tour + the 'receipt' rule: every from-scratch piece is checked against PyTorch", M, ["CS336", "ZERO_HERO"]),
  ("Setup: uv, PyTorch, MPS vs CUDA, RunPod in 10 minutes", "A reproducible env on a Mac and on a rented GPU, with a spend cap", "env_check.py prints device, dtype support, matmul TFLOPs on MPS and CUDA", M, ["PT_BASICS", "RUNPOD"]),
 ],
 "M01": [
@@ -246,7 +247,7 @@ EPISODES = {
  ("Why tokenization exists", "Characters vs words vs bytes; UTF-8; sequence length tradeoffs", "Encode text 3 ways; compare lengths and vocab sizes", M, ["KARPATHY_TOK", "CS336"]),
  ("Byte Pair Encoding by hand", "Merge the most frequent pair, repeat", "Run BPE on a 1-line corpus on the whiteboard and in code", M, ["BPE", "MINBPE"]),
  ("Train a byte-level BPE tokenizer", "Training loop: count pairs, merge, record merges", "Train a 512-token BPE on TinyStories (CS336 A1)", M, ["CS336", "MINBPE"]),
- ("Encode and decode", "Applying merges in order; round-trip guarantees", "encode(decode(x)) == x property test", M, ["MINBPE"]),
+ ("Encode and decode", "Applying merges in order; round-trip guarantees", "decode(encode(s)) == s property test (and why the reverse fails)", M, ["MINBPE"]),
  ("Pre-tokenization and special tokens", "The GPT-2/4 regex split; <|endoftext|>; why split first", "Add regex pre-tokenization; handle special tokens", M, ["TIKTOKEN", "CS336"]),
  ("tiktoken vs SentencePiece vs HF tokenizers", "Byte-level vs unigram; vocab size vs sequence length", "Same text through 3 tokenizers; tokens/char table", M, ["TIKTOKEN", "SENTENCEPIECE"]),
  ("Why LLMs can't spell", "Token boundaries explain counting letters, arithmetic and glitch tokens", "Show tokenizations behind classic failures", M, ["KARPATHY_TOK"]),
@@ -442,13 +443,13 @@ EPISODES = {
  ("Engram: conditional memory as a new sparsity axis", "Hashed N-gram lookup memory next to MoE compute; the U-shaped allocation law", "Engram module on a small model; memory-vs-experts allocation sweep", G, ["DS_ENGRAM"]),
  ("DeepSeek-V4: million-token context", "The V4 attention design and what it saves vs V3.2 (read the report first; verify details)", "KV/FLOPs calculator: V3 vs V3.2 vs V4 at 128k and 1M tokens", M, ["DS_V4", "DS_V32"]),
  ("DeepSeek-OCR and the infra papers", "Vision tokens as context compression; Fire-Flyer cluster and 3FS co-design", "Compression ratio vs accuracy demo; infra diagram", G, ["DS_OCR", "DS_FIREFLYER", "DS_3FS"]),
- ("DeepSeek in miniature: putting it together", "Which ideas transfer to small scale, and which only pay off at scale", "Ablation table from P9: dense vs MoE vs +MTP vs +DSA vs +mHC", G4, ["DSV3", "DS_MHC"]),
+ ("DeepSeek in miniature: putting it together", "Which ideas transfer to small scale, and which only pay off at scale", "Ablation table from P6: dense vs MoE vs +MTP vs +DSA vs +mHC", G4, ["DSV3", "DS_MHC"]),
 ],
 "M17": [
  ("Capstone 1: pretrain, SFT, GRPO a tiny model", "Every stage of the pipeline on one model", "nanochat-style run end to end with costs", G8, ["NANOCHAT", "CS336"]),
  ("Capstone 2: quantize and serve it", "Your engine + your quantization", "Latency/throughput/quality table", G, ["NANOVLLM", "TORCHAO"]),
  ("Capstone 3: a distributed run with full numbers", "FSDP+TP on rented GPUs, written up", "MFU and scaling report", G4, ["TORCHFEATHER", "ULTRASCALE"]),
- ("The whole map: what 186 videos taught me", "Recap, mistakes, what to learn next", "One-page diagram of every piece", M, ["CS336"]),
+ ("The whole map: what 216 videos taught me", "Recap, mistakes, what to learn next", "One-page diagram of every piece", M, ["CS336"]),
 ],
 }
 

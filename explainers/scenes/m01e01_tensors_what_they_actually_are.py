@@ -24,10 +24,10 @@ from manim import (
     FadeOut,
     GrowArrow,
     Indicate,
+    ReplacementTransform,
     Restore,
     Text,
     Transform,
-    TransformFromCopy,
     VGroup,
     Write,
 )
@@ -109,8 +109,8 @@ CHAPTERS = {
 # Layout: landscape puts the two views side by side under the storage row; the vertical cut
 # keeps the same order but uses the tall frame (views side by side, readouts underneath).
 if VERTICAL:
-    L = dict(storage_y=3.7, cell=0.62, grid_cell=0.6, a=(-1.85, 0.5), t=(2.2, 0.5),
-             mid=(0, -2.3), mid2=(0, -3.2), hook=(0, 0.6), chips_y=(-1.4, -2.5))
+    L = dict(storage_y=3.5, cell=0.84, grid_cell=0.76, a=(-1.95, 0.1), t=(2.25, 0.1),
+             mid=(0, -2.7), mid2=(0, -3.7), hook=(0, 0.4), chips_y=(-1.5, -2.7))
 else:
     L = dict(storage_y=0.95, cell=0.72, grid_cell=0.62, a=(-4.0, -1.35), t=(4.0, -1.35),
              mid=(0, -1.0), mid2=(0, -1.75), hook=(0, -0.1), chips_y=(-1.45, -2.25))
@@ -137,6 +137,25 @@ class TensorsWhatTheyAre(PrebakedVoiceMovingCameraScene):
             getattr(self, f"_beat{i}")()
 
     # ------------------------------------------------------------------------- helpers
+    def _fly(self, pairs, parent, run_time):
+        """Copies of `src` travel onto each `dst` (the view is read out of what is already
+        on screen), then the individual targets are folded back into their parent group so
+        the scene holds one clean object per thing."""
+        self.play(*[ReplacementTransform(src.copy(), dst) for src, dst in pairs],
+                  run_time=run_time)
+        self.remove(*[dst for _src, dst in pairs])
+        self.add(parent)
+
+    def _clear(self, keep=(), run_time=0.45):
+        """Fade every stage mobject except the rails, the hairline and `keep`."""
+        # Compare by family: playing an animation on a sub-group (e.g. Indicate on three
+        # storage cells) makes manim split the parent into its children at top level.
+        spare = {id(f) for m in (*self._rails, self.rule_line, *keep) for f in m.get_family()}
+        gone = [m for m in self.mobjects
+                if not any(id(f) in spare for f in m.get_family())]
+        if gone:
+            self.play(*[FadeOut(m) for m in gone], run_time=run_time)
+
     def _view(self, data, stride, pos, fs=22):
         g = TensorGrid(data, cell=L["grid_cell"], fs=fs, stride=stride, label_fs=SMALL_FS)
         g.group.move_to([pos[0], pos[1], 0])
@@ -148,7 +167,8 @@ class TensorsWhatTheyAre(PrebakedVoiceMovingCameraScene):
         with self.voiceover(text=BEATS[0]) as tr:
             swap_rails(self, headline("A tensor is not really a grid."),
                        caption("so what is actually stored?"))
-            self.play(FadeIn(rule()), run_time=0.3)
+            self.rule_line = rule()
+            self.play(FadeIn(self.rule_line), run_time=0.3)
             self.hook = TensorGrid(GRID, cell=0.8, fs=28, shape=False)
             self.hook.group.move_to([L["hook"][0], L["hook"][1], 0])
             self.play(FadeIn(self.hook.grid, shift=UP * 0.2),
@@ -164,26 +184,14 @@ class TensorsWhatTheyAre(PrebakedVoiceMovingCameraScene):
         with self.voiceover(text=BEATS[1]) as tr:
             swap_rails(self, headline("Underneath: one flat block of memory."),
                        caption("storage, six numbers side by side"))
-            moves = []
-            for r in range(ROWS):
-                for c in range(COLS):
-                    moves.append(TransformFromCopy(self.hook.cell(r, c),
-                                                   self.storage.cell(r * COLS + c)))
-            self.play(*moves, run_time=min(1.8, max(1.0, tr.duration * 0.25)))
+            pairs = [(self.hook.cell(r, c), self.storage.cell(r * COLS + c))
+                     for r in range(ROWS) for c in range(COLS)]
+            self._fly(pairs, self.storage.cells, min(1.8, max(1.0, tr.duration * 0.25)))
             self.play(FadeOut(self.hook.grid), FadeIn(self.storage.idx),
                       FadeIn(self.store_tag), FadeIn(self.off_tag), run_time=0.6)
-            # The copies became the storage cells; swap in the real row object.
-            self.remove(*[m for m in self.mobjects if m not in self.storage.cells
-                          and m not in (self.storage.idx, self.store_tag, self.off_tag)
-                          and m not in self._rails and m is not None
-                          and type(m).__name__ == "VGroup" and m not in self._keep()])
-            self.add(self.storage.cells)
             self.play(Indicate(self.storage.cells, color=PRIMARY, scale_factor=1.04),
                       run_time=0.7)
             self.wait(_remaining(tr))
-
-    def _keep(self):
-        return [m for m in self.mobjects if type(m).__name__ == "Line"]
 
     def _beat2(self):
         """Shape: the grid comes back, read row by row out of storage."""
@@ -194,8 +202,9 @@ class TensorsWhatTheyAre(PrebakedVoiceMovingCameraScene):
             step = min(0.9, max(0.5, tr.duration * 0.14))
             for r in range(ROWS):
                 span = VGroup(*[self.storage.cell(r * COLS + c) for c in range(COLS)])
-                self.play(Indicate(span, color=ACCENT, scale_factor=1.06),
-                          TransformFromCopy(span, self.A.row(r)), run_time=step)
+                self.play(Indicate(span, color=ACCENT, scale_factor=1.06), run_time=step * 0.5)
+                self._fly([(self.storage.cell(r * COLS + c), self.A.cell(r, c))
+                           for c in range(COLS)], self.A.row(r), step)
             self.play(FadeIn(self.A.shape_label, shift=UP * 0.1), run_time=0.45)
             self.wait(_remaining(tr))
 
@@ -207,8 +216,9 @@ class TensorsWhatTheyAre(PrebakedVoiceMovingCameraScene):
             self.play(FadeIn(self.A.stride_label, shift=UP * 0.1), run_time=0.4)
             frame = self.camera.frame
             frame.save_state()
-            self.play(frame.animate.scale(0.55).move_to(self.A.labels.get_center() + UP * 0.6),
-                      run_time=0.7)
+            # Tight enough that the rails sit fully outside the zoomed frame.
+            focus = VGroup(self.A.grid, self.A.labels)
+            self.play(frame.animate.scale(0.34).move_to(focus.get_center()), run_time=0.7)
             self.wait(min(1.4, max(0.4, tr.duration * 0.12)))
             self.play(Restore(frame), run_time=0.6)
 
@@ -254,11 +264,11 @@ class TensorsWhatTheyAre(PrebakedVoiceMovingCameraScene):
             arrow.move_to([L["mid"][0], L["a"][1] + 0.2, 0]) if not VERTICAL else \
                 arrow.move_to([(L["a"][0] + L["t"][0]) / 2 + 0.15, L["a"][1] + 1.45, 0])
             self.play(FadeIn(arrow), run_time=0.35)
-            moves = [TransformFromCopy(self.A.cell(i, j), self.T.cell(j, i))
-                     for i in range(ROWS) for j in range(COLS)]
-            self.play(*moves, run_time=min(1.6, max(0.9, tr.duration * 0.22)))
-            self.play(TransformFromCopy(self.A.shape_label, self.T.shape_label), run_time=0.6)
-            self.play(TransformFromCopy(self.A.stride_label, self.T.stride_label), run_time=0.6)
+            self._fly([(self.A.cell(i, j), self.T.cell(j, i))
+                       for i in range(ROWS) for j in range(COLS)], self.T.grid,
+                      min(1.6, max(0.9, tr.duration * 0.22)))
+            self._fly([(self.A.shape_label, self.T.shape_label)], self.T.shape_label, 0.6)
+            self._fly([(self.A.stride_label, self.T.stride_label)], self.T.stride_label, 0.6)
             self.play(Indicate(self.T.stride_label, color=ACCENT, scale_factor=1.12),
                       run_time=0.6)
             self.wait(_remaining(tr))
@@ -292,8 +302,9 @@ class TensorsWhatTheyAre(PrebakedVoiceMovingCameraScene):
             same.move_to([L["mid2"][0], L["mid2"][1] - 0.1, 0])
             self.play(FadeIn(same, scale=0.95), run_time=0.45)
             self.wait(_remaining(tr, 0.6))
-            self.play(FadeOut(VGroup(head, path, same, self.A.group, self.T.group)),
-                      *self.storage.reset_all(), run_time=0.5)
+            self.play(*self.storage.reset_all(), run_time=0.3)
+            self._clear(keep=(self.storage.cells, self.storage.idx, self.store_tag,
+                              self.off_tag))
 
     def _beat7(self):
         """dtype and device: bytes per slot, and where the block lives."""
@@ -317,8 +328,7 @@ class TensorsWhatTheyAre(PrebakedVoiceMovingCameraScene):
             self.play(Indicate(self.storage.cells, color=PRIMARY, scale_factor=1.04),
                       run_time=0.6)
             self.wait(_remaining(tr, 0.6))
-            self.play(FadeOut(VGroup(brace, nbytes, dtype, device, self.storage.group,
-                                     self.store_tag, self.off_tag)), run_time=0.5)
+            self._clear()
 
     def _beat8(self):
         """Recall card: the five fields, storage first because it is the only data."""

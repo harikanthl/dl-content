@@ -52,7 +52,12 @@ Track honestly at the end of every session.
 | Area | Status |
 |---|---|
 | Curriculum (216 eps, 18 modules, 9 projects) | ✅ |
-| Outlines/scripts | in progress |
-| Prep sheets + code | M00–M01 in progress |
-| Explainer engine | porting |
-| Google Sheet | built locally; import pending |
+| Outlines/scripts | ✅ 216/216 (curriculum/outlines) |
+| Prep sheets + code | ✅ M00–M01 (16 eps, all tests pass); M02 onward: write a week ahead |
+| Explainer engine | ✅ explainers/ (16:9 + --vertical); M01E01 built |
+| Google Sheet | ✅ "LLM Roadmap (DL content)": https://docs.google.com/spreadsheets/d/1bzBoZvzsl55eVUd6ocMGG9ORmn_UJJp0PBdFmU77Cvc |
+| GPU credits | researched (funding/); nothing sent yet, needs YouTube URL |
+
+The Google Sheet is the live status tracker. Rebuilding the xlsx and re-importing would wipe
+ticked status, so after the first import, edit the live sheet directly (new tabs/rows by hand
+or via Chrome), not by re-import.

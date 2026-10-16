@@ -1,0 +1,422 @@
+[
+  {
+    "code": "M02E01",
+    "hook": "Attention is a dot product. And the reason every transformer divides by the square root of d is one line of variance math.",
+    "beats": [
+      "0:00 HOOK — Attention is a dot product. And the reason every transformer divides by the square root of d is one line of variance math.",
+      "0:15 QUESTION — When GPT-2 decides which earlier token to look at, it scores each pair with q dot k. When a retrieval system finds a similar document, it uses cosine similarity. Same operation. If you understand what a dot product measures, attention stops being magic.",
+      "1:00 INTUITION — Two readings of one number. Algebra: multiply matching entries and add. Geometry: length of a times length of b times the cosine of the angle between them. Big when they point the same way, zero when perpendicular, negative when opposed. [EXPLAINER plays here.]",
+      "2:45 MATH — 1) a . b = sum_i a_i b_i. 2) a . b = ||a|| ||b|| cos(theta), from the law of cosines: ||a - b||^2 = ||a||^2 + ||b||^2 - 2 a . b. 3) cos(theta) = a . b / (||a|| ||b||). 4) Gradients for the receipt: d(a . b)/da = b, and d cos/da = b / (||a|| ||b||) - cos(theta) * a / ||a||^2. 5) Scaling: if q_i, k_i are independent with mean 0 and variance 1, Var(q . k) = sum_i Var(q_i k_i) = d. So the scores' std grows like sqrt(d), and dividing by sqrt(d) puts it back to 1.",
+      "6:00 CODE — dot_loop(a, b): python loop over i. dot_mul(a, b): (a * b).sum(). dot_mm(a, b): a @ b. cosine(a, b): (a @ b) / (a.norm() * b.norm()). cosine_grad_a(a, b): the formula from step 4. Real vectors: load GPT-2's token embedding matrix from Hugging Face, wte of shape (50257, 768), and compare cosine for ' king', ' queen', ' apple', ' banana' token ids.",
+      "8:30 RECEIPT — torch.testing.assert_close for dot_loop, dot_mul and dot_mm against torch.dot. torch.testing.assert_close(cosine(a, b), F.cosine_similarity(a, b, dim=0)). Then autograd: a.requires_grad_(); cosine(a, b).backward(); torch.testing.assert_close(a.grad, cosine_grad_a(a, b)) in float64.",
+      "10:00 MEASURE — Variance of q . k for random unit-variance vectors at d = 16, 64, 256, 1024 over 10000 samples: measured variance tracks d, after dividing by sqrt(d) it sits at 1. Plot softmax of 8 such scores at d = 1024 with and without scaling: unscaled is nearly one-hot.",
+      "11:15 TAKEAWAY — A dot product is unnormalized cosine similarity, and its variance grows with dimension. Interview line: we scale attention scores by 1 over sqrt(d_k) because q . k has variance d_k, and unscaled scores saturate the softmax and kill its gradients.",
+      "11:50 NEXT — A dot product is one row meeting one column. A matmul is all of them at once, and there are three ways to see it. Next: Matrix multiplication, three ways."
+    ],
+    "key_math": "a . b = sum_i a_i b_i = ||a|| ||b|| cos(theta); d cos/da = b/(||a|| ||b||) - cos(theta) a/||a||^2; Var(q . k) = d for iid zero-mean unit-variance entries, so scores use q . k / sqrt(d).",
+    "code_task": "dot_loop, dot_mul, dot_mm for a, b of shape (d,); cosine(a, b) and analytic cosine_grad_a(a, b); GPT-2 wte (50257, 768) cosine similarity table for 4 tokens; score_variance(d, n=10000) for d in [16, 64, 256, 1024].",
+    "receipt": "torch.testing.assert_close(dot_mul(a, b), torch.dot(a, b)); torch.testing.assert_close(cosine(a, b), F.cosine_similarity(a, b, dim=0)); in float64, cosine(a, b).backward() then torch.testing.assert_close(a.grad, cosine_grad_a(a, b)); measured Var(q . k) / d within 5% of 1.",
+    "gotchas": "F.cosine_similarity defaults to dim=1, so on 1D vectors you must pass dim=0; a word is often several GPT-2 tokens and needs a leading space to be one token, check the tokenizer output; torch.dot only accepts 1D tensors, batched dot products need (a * b).sum(-1) or einsum.",
+    "interview_q": "Why does scaled dot-product attention divide by sqrt(d_k)? With zero-mean unit-variance q and k, q . k has variance d_k, so for large d_k the logits are large and softmax saturates to near one-hot with tiny gradients; dividing by sqrt(d_k) restores unit variance.",
+    "explainer": [
+      "Two arrows, a and b. Their dot product multiplies matching entries and adds them up into a single number.",
+      "The same number has a picture. It is the length of a, times the length of b, times the cosine of the angle between.",
+      "Swing b around. Pointing the same way, the dot product is large. At ninety degrees it is zero. Opposite, it goes negative.",
+      "Divide out both lengths and only the angle is left. That is cosine similarity, and it is how embeddings measure meaning.",
+      "In attention, each query takes a dot product with every key. Similar directions get high scores and more attention.",
+      "But in high dimensions the scores spread out. Their variance grows with d, so we divide by the square root of d."
+    ],
+    "explainer_visuals": [
+      "Two 2D arrows a and b from the origin; their coordinates multiply pairwise and sum into a number readout.",
+      "The projection of a onto b drawn as a shadow, with ||a||, ||b|| and angle theta labeled.",
+      "Arrow b rotates through 360 degrees; a live readout of a . b sweeps from positive through zero to negative.",
+      "Both arrows shrink to unit length on a circle; the readout becomes cos(theta).",
+      "One query arrow and five key arrows; bars of q . k scores appear, tallest for the most aligned key.",
+      "Histograms of q . k for d = 16, 256, 1024 widening, then collapsing back to the same width after dividing by sqrt(d)."
+    ],
+    "short": "The 10:00 MEASURE: variance of q . k grows with d, then the sqrt(d) fix. Caption: 'Why attention divides by √d.'",
+    "yt_title": "Dot Product and Cosine Similarity: why attention divides by sqrt(d)",
+    "thumbnail": "WHY DIVIDE BY √d?",
+    "x_post": "q . k with unit-variance entries has variance d. At d=1024 unscaled attention softmax is nearly one-hot. Derived it, measured it, and checked my cosine-similarity gradient against autograd. Code + video:",
+    "linkedin": "Started the math module with dot products: algebraic and geometric forms, cosine similarity on GPT-2's real token embeddings, and the variance argument for attention's 1/sqrt(d) scale. I derived the gradient of cosine similarity by hand and matched autograd in float64, then measured Var(q . k) tracking d from 16 to 1024.",
+    "prereq": "M01E05"
+  },
+  {
+    "code": "M02E02",
+    "hook": "The same matrix multiply, three completely different pictures. One of them is how GPUs tile it, one is how LoRA works.",
+    "beats": [
+      "0:00 HOOK — The same matrix multiply, three completely different pictures. One of them is how GPUs tile it, one is how LoRA works.",
+      "0:15 QUESTION — Matmuls are almost all of the FLOPs in Llama and Qwen. Later we write tiled matmul kernels in Triton and reason about low-rank updates in LoRA. Both get easy once you can see a matmul three ways.",
+      "1:00 INTUITION — View 1, rows meet columns: each output is a dot product. View 2, column combinations: each output column is a weighted mix of A's columns. View 3, sum of outer products: C is a stack of rank-1 layers, one per inner index. [EXPLAINER plays here.]",
+      "3:00 MATH — Shapes: A (m, k), B (k, n), C (m, n); inner dims must match. 1) C_ij = sum_p A_ip B_pj. 2) C[:, j] = sum_p B_pj A[:, p]: column j of C lives in the column space of A. 3) C = sum_p A[:, p] outer B[p, :], each term (m, n) with rank 1. 4) Cost: m n outputs times k multiply-adds = 2 m n k FLOPs. 5) Consequence of view 3: a sum of r outer products has rank at most r, which is exactly the LoRA update Delta W = B A with r much smaller than d.",
+      "6:30 CODE — matmul_loops(A, B): triple loop over i, j, p with C[i, j] += A[i, p] * B[p, j]. matmul_dots(A, B): for i, j: C[i, j] = A[i] @ B[:, j]. matmul_cols(A, B): for j: C[:, j] = (A * B[:, j]).sum(1). matmul_outer(A, B): C = sum over p of torch.outer(A[:, p], B[p]). Use A (64, 32), B (32, 48).",
+      "9:00 RECEIPT — For each of the four: torch.testing.assert_close(f(A, B), A @ B) in float32 with default tolerances, and torch.equal is allowed to fail, explain why: float addition order differs. Rank check: torch.linalg.matrix_rank(sum of first r outer products) == r for r in 1, 4, 16.",
+      "10:30 MEASURE — Time matmul_loops vs A @ B at 64 x 32 x 48, and A @ B at 4096 cubed: report achieved GFLOP/s using 2 m n k / t. The Python loop is several orders of magnitude slower. Show max abs difference between the loop version and @ is around 1e-6, not 0.",
+      "11:45 TAKEAWAY — Rows times columns, columns mixed by weights, or a sum of rank-1 layers, all equal and all useful. Interview line: a matmul of (m, k) by (k, n) costs 2 m n k FLOPs, and the outer-product view is why a low-rank adapter has rank at most r.",
+      "12:20 NEXT — We can compute big functions out of matmuls. To train them we need derivatives, and the chain rule is the only rule we need. Next: Derivatives and the chain rule."
+    ],
+    "key_math": "C_ij = sum_p A_ip B_pj; C[:, j] = sum_p B_pj A[:, p]; C = sum_p A[:, p] B[p, :]^T (rank-1 terms); FLOPs = 2 m n k; rank(sum of r outer products) <= r.",
+    "code_task": "matmul_loops, matmul_dots, matmul_cols, matmul_outer for A (64, 32), B (32, 48) -> C (64, 48); timing and GFLOP/s for the loop vs @; rank check of partial outer-product sums with torch.linalg.matrix_rank.",
+    "receipt": "For f in (matmul_loops, matmul_dots, matmul_cols, matmul_outer): torch.testing.assert_close(f(A, B), A @ B); torch.linalg.matrix_rank(sum(torch.outer(A[:, p], B[p]) for p in range(r))) == r for r in (1, 4, 16).",
+    "gotchas": "Expecting torch.equal between a loop and @ fails because floating point addition is not associative and the order differs; indexing a tensor element by element in Python creates a new 0-d tensor per access and is extremely slow; mixing up (k, n) and (n, k) gives a shape error with @ but a silent wrong answer if the matrix is square.",
+    "interview_q": "How many FLOPs does a forward pass through a Linear layer with input (N, d_in) and output d_out take? 2 * N * d_in * d_out, one multiply and one add per weight per row; the backward pass costs about twice that.",
+    "explainer": [
+      "Here is a matrix multiply, A times B equals C. The first picture: every cell of C is one row of A meeting one column of B.",
+      "Second picture. Look at one column of C. It is a mix of A's columns, weighted by the entries in B's matching column.",
+      "Third picture. Take column p of A and row p of B. Their outer product is a full sized layer, but with rank one.",
+      "Stack all k of these thin layers and they add up to exactly C. Nothing new, just a different order of adding.",
+      "Every view costs the same, two times m times n times k operations, one multiply and one add per triple.",
+      "And the third view explains LoRA. Keep only r layers and the sum can never have rank higher than r."
+    ],
+    "explainer_visuals": [
+      "Grids A (m x k), B (k x n), C (m x n); one row of A and one column of B light up, filling one cell of C.",
+      "Columns of A drawn as colored vertical bars, scaled by weights from B[:, j], summing into C[:, j].",
+      "Column A[:, p] and row B[p, :] sweep across each other to paint a full m x n rank-1 layer.",
+      "k translucent layers stack on top of each other and merge into the solid C grid.",
+      "A counter tallies 2mnk as a 3D block of m x n x k unit cubes fills in.",
+      "Only r layers remain, labeled 'Delta W = B A, rank <= r', next to a full-rank W."
+    ],
+    "short": "The 1:00 INTUITION: one matmul shown as dots, column mixes, and stacked rank-1 layers. Caption: 'Matrix multiplication, 3 ways.'",
+    "yt_title": "Matrix Multiplication 3 Ways: rows, columns, outer products in PyTorch",
+    "thumbnail": "MATMUL 3 WAYS",
+    "x_post": "One matmul, three views: row-dot-column, column combinations, sum of rank-1 outer products. The third is why a LoRA update has rank at most r. Implemented all three, assert_close to A @ B, and timed them. Code + video:",
+    "linkedin": "Implemented matrix multiplication four ways in PyTorch (triple loop, dot products, column combinations, outer products) and verified each against A @ B. The outer-product view makes the rank bound behind LoRA obvious, which I confirmed with matrix_rank. The Python loop runs orders of magnitude slower than the library matmul for identical math.",
+    "prereq": "M02E01"
+  },
+  {
+    "code": "M02E03",
+    "hook": "Backprop is the chain rule and nothing else. Here is a five node graph, done by hand, matching autograd to six decimals.",
+    "beats": [
+      "0:00 HOOK — Backprop is the chain rule and nothing else. Here is a five node graph, done by hand, matching autograd to six decimals.",
+      "0:15 QUESTION — Every gradient that trains GPT-2 is a product of small local derivatives along a graph. If you can do one small graph by hand, including the case where a variable is used twice, you can read any backward pass, and in two modules you'll write one.",
+      "1:00 INTUITION — A derivative is an exchange rate: nudge the input, how much does the output move. The chain rule multiplies exchange rates along a path. When a variable feeds two paths, the nudges add. [EXPLAINER plays here.]",
+      "2:45 MATH — Graph: d = a * b + c, e = tanh(d), L = e * a. Values at a = 0.5, b = -1, c = 0.25: d = -0.25, e = tanh(-0.25) = -0.244919, L = -0.122459. Local derivatives: dL/de = a, de/dd = 1 - e^2 = 0.940015, dd/da = b, dd/db = a, dd/dc = 1, and L also depends on a directly with dL/da(direct) = e. Chain rule: dL/dc = a * (1 - e^2) = 0.470007. dL/db = a * (1 - e^2) * a = 0.235004. dL/da = e + a * (1 - e^2) * b = -0.244919 - 0.470007 = -0.714926, the two paths summed.",
+      "6:30 CODE — Forward by hand in plain Python floats, then backward by hand in reverse topological order: grad_L = 1; grad_e = a * grad_L; grad_a_direct = e * grad_L; grad_d = (1 - e**2) * grad_e; grad_c = grad_d; grad_b = a * grad_d; grad_a = grad_a_direct + b * grad_d. Then the same graph with torch tensors, requires_grad=True, L.backward().",
+      "8:30 RECEIPT — torch.testing.assert_close(torch.tensor([grad_a, grad_b, grad_c], dtype=torch.float64), torch.stack([a.grad, b.grad, c.grad])) with float64 tensors. Expected values printed: -0.714926, 0.235004, 0.470007. Then torch.autograd.gradcheck on the function (a, b, c) -> tanh(a*b + c) * a with float64 inputs returns True.",
+      "9:45 MEASURE — Show what happens if you forget the second path for a: you get -0.470007 instead of -0.714926, an error of 34 percent. Finite differences with h = 1e-1, 1e-3, 1e-5, 1e-7, 1e-9: error falls then rises again from rounding. Plot error vs h on log-log.",
+      "11:00 TAKEAWAY — Multiply local derivatives along each path and add across paths. Interview line: reverse-mode autodiff computes all parameter gradients of a scalar loss in one backward pass whose cost is a small constant times the forward.",
+      "11:30 NEXT — We have gradients. Now, what do we do with them, and why does the step size matter so much. Next: Gradient descent, geometrically."
+    ],
+    "key_math": "d = ab + c; e = tanh d; L = e a. dL/dc = a(1 - e^2); dL/db = a^2 (1 - e^2); dL/da = e + a b (1 - e^2). Multivariable chain rule: dL/dx = sum over paths of products of local derivatives.",
+    "code_task": "Manual forward and backward in Python floats for the 5-node graph at a=0.5, b=-1, c=0.25; same graph in float64 torch tensors with backward(); central-difference sweep over h for dL/da.",
+    "receipt": "torch.testing.assert_close(torch.tensor([-0.714926, 0.235004, 0.470007], dtype=torch.float64), torch.stack([a.grad, b.grad, c.grad]), atol=1e-6, rtol=0); torch.autograd.gradcheck(lambda a, b, c: torch.tanh(a*b + c)*a, (a, b, c)) is True.",
+    "gotchas": "Forgetting that a variable used twice gets the sum of both path gradients; using float32 for finite differences gives noisy checks because rounding error dominates at small h; writing backward in the wrong order uses a gradient before all its contributions have been added.",
+    "interview_q": "What does backward do when a tensor is used in two places in the forward? Its gradient is the sum of the gradients flowing back through each use, by the multivariable chain rule; autograd accumulates them before propagating further.",
+    "explainer": [
+      "Here is a tiny computation. a times b plus c, through tanh, then multiplied by a again. Five nodes, three inputs.",
+      "Forward, values flow left to right. With a one half, b minus one and c a quarter, the output is about minus point one two.",
+      "Backward starts at the output with a gradient of one. Each node multiplies by its own local derivative and passes it left.",
+      "Through tanh, the local derivative is one minus tanh squared, about point nine four. Small changes mostly pass through.",
+      "Now the tricky part. a feeds two places, so two gradients arrive at a, and the chain rule says add them.",
+      "The total for a is minus point seven one five. Drop the second path and we would be off by a third."
+    ],
+    "explainer_visuals": [
+      "A computation graph: inputs a, b, c on the left, nodes mul, add, tanh, mul, output L on the right; a has two outgoing edges.",
+      "Numbers animate along edges left to right: -0.5, -0.25, -0.2449, -0.1225.",
+      "A '1.0' token appears at L and moves right to left, multiplying at each node, edge labels showing local derivatives.",
+      "Zoom on tanh node with a plot of tanh and its slope 0.94 at d = -0.25.",
+      "Two gradient tokens converge on node a from different edges, values -0.2449 and -0.4700.",
+      "They merge into -0.7149; a ghost value -0.4700 with a red X shows the single-path mistake."
+    ],
+    "short": "The 6:30 CODE / 8:30 RECEIPT: hand gradients next to autograd, the double path for a. Caption: 'Backprop by hand, checked against PyTorch.'",
+    "yt_title": "Chain Rule and Backprop by Hand: a graph checked vs PyTorch autograd",
+    "thumbnail": "BACKPROP BY HAND",
+    "x_post": "Backprop is the chain rule: multiply local derivatives along each path, add across paths. Did a 5-node graph by hand where a is used twice, got dL/da = -0.714926, matched autograd and gradcheck. Forget the second path and you're off 34%. Code + video:",
+    "linkedin": "Worked a small computation graph through forward and backward by hand, including a variable used on two paths, and matched PyTorch autograd to 1e-6 in float64 plus gradcheck. I also swept finite-difference step sizes to show truncation versus rounding error. This is the exact mechanism the next modules build an autograd engine on.",
+    "prereq": "M02E02, M01E06"
+  },
+  {
+    "code": "M02E04",
+    "hook": "There is an exact learning rate where gradient descent stops converging and explodes. It's two over the largest eigenvalue, and I'll hit it on camera.",
+    "beats": [
+      "0:00 HOOK — There is an exact learning rate where gradient descent stops converging and explodes. It's two over the largest eigenvalue, and I'll hit it on camera.",
+      "0:15 QUESTION — Every LLM run starts with a learning rate sweep, and loss spikes in big runs are often this exact instability. On a quadratic we can predict the cliff to the decimal. That intuition carries to warmup, Adam, and why ill-conditioned losses train slowly.",
+      "1:00 INTUITION — The negative gradient is the steepest downhill direction. A bowl is easy. A ravine, steep sideways and shallow along the floor, makes gradient descent bounce wall to wall while it crawls forward. [EXPLAINER plays here.]",
+      "2:45 MATH — 1) First-order Taylor: L(theta + delta) ~ L(theta) + grad . delta, minimized over ||delta|| = eps by delta = -eps grad / ||grad||. That's why minus the gradient. 2) Quadratic L = (1/2) theta^T H theta with H = diag(lambda_1, lambda_2): grad = H theta. 3) Update theta_{t+1} = (I - eta H) theta_t, so each coordinate multiplies by (1 - eta lambda_i) every step. 4) Converges iff |1 - eta lambda_i| < 1 for all i, that is 0 < eta < 2 / lambda_max. 5) The slow direction shrinks by (1 - eta lambda_min) per step; with the best fixed eta = 2 / (lambda_max + lambda_min), the rate is (kappa - 1) / (kappa + 1), where kappa = lambda_max / lambda_min. Big kappa means slow.",
+      "7:00 CODE — quad_loss(theta, H) = 0.5 * theta @ H @ theta. gd(theta0, H, eta, steps): loop with theta = theta - eta * grad, where grad comes from autograd on quad_loss; return the trajectory (steps, 2). Bowl H = diag(1, 1), ravine H = diag(1, 100). Run eta = 0.019, 0.0199, 0.0201 on the ravine. Plot trajectories over contour lines.",
+      "9:00 RECEIPT — 1) Autograd gradient equals H theta: torch.testing.assert_close(theta.grad, H @ theta). 2) Our gd trajectory matches torch.optim.SGD(lr=eta) step for step with assert_close. 3) The cliff: at eta = 0.99 * 2/100 the final loss is below the start, at eta = 1.01 * 2/100 it has grown by orders of magnitude. 4) Measured per-step contraction on the floor direction equals 1 - eta * 1.",
+      "10:30 MEASURE — Steps to reach loss < 1e-6 versus condition number kappa = 1, 10, 100, 1000 at the best fixed eta: it grows roughly linearly with kappa. Plot it. This is the motivation for momentum and Adam.",
+      "11:45 TAKEAWAY — Gradient descent is stable only below 2 over the largest curvature, and its speed is set by the smallest. Interview line: the learning rate is capped by the sharpest direction of the loss and progress is limited by the flattest, so the condition number sets how slow plain gradient descent is.",
+      "12:20 NEXT — So far our gradients came from autograd. Next we derive the gradient of the one operation that dominates transformers. Next: Backprop through a matmul by hand."
+    ],
+    "key_math": "theta_{t+1} = theta_t - eta grad L; quadratic: theta_{t+1} = (I - eta H) theta_t; stable iff eta < 2 / lambda_max(H); best fixed rate (kappa - 1)/(kappa + 1), kappa = lambda_max / lambda_min.",
+    "code_task": "quad_loss(theta (2,), H (2, 2)); gd(theta0, H, eta, steps) -> trajectory (steps + 1, 2) using autograd gradients; contour plots for bowl diag(1, 1) and ravine diag(1, 100); stability sweep around eta = 0.02; steps_to_tol(kappa) for kappa in [1, 10, 100, 1000].",
+    "receipt": "torch.testing.assert_close(theta.grad, H @ theta); trajectory of gd equals torch.optim.SGD([theta], lr=eta) trajectory via assert_close at every step; final loss at eta = 0.0198 < initial loss and at eta = 0.0202 > 1e3 * initial loss after 500 steps.",
+    "gotchas": "Plotting loss on a linear axis hides both slow convergence and early divergence, use log scale; the threshold 2/lambda_max is exact only for quadratics, real networks have curvature that changes during training; reusing the same theta tensor for the reference optimizer run means the second run starts from the first run's end point.",
+    "interview_q": "Why does a too-large learning rate make training diverge? Locally the loss is roughly quadratic, and gradient descent multiplies each eigen-direction by (1 - eta lambda); once eta exceeds 2 / lambda_max that factor's magnitude exceeds 1 and the sharpest direction oscillates with growing amplitude.",
+    "explainer": [
+      "Here is a round bowl. From any point, minus the gradient points straight at the bottom, and gradient descent walks right in.",
+      "Now squash it into a ravine, a hundred times steeper across than along. The gradient points mostly at the nearest wall.",
+      "So each step overshoots across the ravine and barely moves along it. The path zigzags while it creeps toward the minimum.",
+      "Each direction gets multiplied by one minus the step size times its curvature, every single step.",
+      "Below two over the steepest curvature, that factor stays smaller than one. Cross it, and the zigzag grows instead of shrinking.",
+      "Same ravine, step size one percent past the line, and the path flies off the plot within a few dozen steps."
+    ],
+    "explainer_visuals": [
+      "Circular contour lines; arrows from several start points straight to the center; a dot rolling in.",
+      "Contours stretch into thin ellipses; gradient arrow at a point mostly perpendicular to the long axis.",
+      "Zigzag path bouncing between the steep walls, slowly advancing along the valley floor.",
+      "Two number lines for the two eigen-directions with multipliers (1 - eta*1) and (1 - eta*100) shrinking each coordinate.",
+      "A slider for eta with a red line at 2/100; the multiplier for the steep direction crosses -1 as the slider passes it.",
+      "The zigzag widening into a spiral out of frame, loss counter shooting up on a log axis."
+    ],
+    "short": "The 9:00 RECEIPT cliff: eta just under vs just over 2/lambda_max on the ravine. Caption: 'The exact learning rate where training explodes.'",
+    "yt_title": "Gradient Descent Explained Geometrically: the 2/λ learning rate cliff",
+    "thumbnail": "THE LR CLIFF",
+    "x_post": "On a quadratic, gradient descent multiplies each eigendirection by (1 - lr*lambda). Stable iff lr < 2/lambda_max. Set lr 1% under: converges. 1% over: explodes. Verified against torch.optim.SGD step for step. Code + video:",
+    "linkedin": "Derived gradient descent's stability limit on a quadratic, learning rate below 2 over the largest Hessian eigenvalue, and hit it on camera: 1% under converges, 1% over diverges. My trajectories matched torch.optim.SGD exactly, and steps-to-converge grew roughly linearly with the condition number. That is the clean version of why LR sweeps and momentum exist.",
+    "prereq": "M02E03, M01E07"
+  },
+  {
+    "code": "M02E05",
+    "hook": "The backward pass of a linear layer is two matmuls you can guess from shapes alone. No calculus memorization required.",
+    "beats": [
+      "0:00 HOOK — The backward pass of a linear layer is two matmuls you can guess from shapes alone. No calculus memorization required.",
+      "0:15 QUESTION — Every Linear in GPT-2, every Q, K, V projection and MLP, backprops through Y = X W. FlashAttention's backward and every fused kernel we write later need this by hand. It is also where the famous 6 N D training FLOPs rule comes from.",
+      "1:00 INTUITION — The upstream gradient G = dL/dY has Y's shape. The gradient for X must have X's shape and the gradient for W must have W's shape. There is exactly one way to multiply G with the other operand to get each shape. [EXPLAINER plays here.]",
+      "2:45 MATH — Convention: X (N, in), W (in, out), Y = X W (N, out), G = dL/dY (N, out). 1) Index form Y_ij = sum_k X_ik W_kj. 2) dL/dX_ik = sum_j G_ij * dY_ij/dX_ik = sum_j G_ij W_kj, so dL/dX = G W^T, shape (N, out)(out, in) = (N, in). 3) dL/dW_kj = sum_i G_ij X_ik, so dL/dW = X^T G, shape (in, N)(N, out) = (in, out). The sum over i is the sum over the batch. 4) Bias Y = X W + b: dL/db = G.sum(0). 5) PyTorch stores W as (out, in) and computes Y = X W^T, so there dL/dX = G W and dL/dW = G^T X. 6) FLOPs: forward 2 N in out, backward two matmuls of the same size, 4 N in out, total 6 N in out, so 6 FLOPs per parameter per token.",
+      "6:30 CODE — linear_backward(X, W, b, G) -> (dX, dW, db) for PyTorch layout: dX = G @ W; dW = G.T @ X; db = G.sum(0). Then a custom op: class MyLinearFn(torch.autograd.Function) with forward(ctx, X, W, b): ctx.save_for_backward(X, W); return X @ W.T + b, and backward(ctx, G): return G @ W, G.T @ X, G.sum(0). Shapes: N = 32, in = 64, out = 16.",
+      "9:00 RECEIPT — X, W, b with requires_grad in float64; Y = F.linear(X, W, b); G = torch.randn_like(Y); Y.backward(G). torch.testing.assert_close(dX, X.grad), assert_close(dW, W.grad), assert_close(db, b.grad). Then torch.autograd.gradcheck(MyLinearFn.apply, (X, W, b)) returns True.",
+      "10:30 MEASURE — Time forward vs forward plus backward for N = 4096, in = out = 4096 on MPS with sync: backward takes about 2x forward, so the step is about 3x. Show the FLOP count 6 N in out and the achieved TFLOP/s.",
+      "11:45 TAKEAWAY — dX = G W^T, dW = X^T G in the math convention, check by shapes. Interview line: training costs about 6 FLOPs per parameter per token, 2 for the forward and 4 for the two backward matmuls, which is where C = 6 N D comes from.",
+      "12:20 NEXT — This hand-written backward is the pattern we'll reuse for FlashAttention's backward in the feather-attn project. Now, the other half of a language model: probabilities. Next: Probability for language models."
+    ],
+    "key_math": "Y = X W: dL/dX = G W^T (N, in), dL/dW = X^T G (in, out), dL/db = sum_i G_i; PyTorch layout Y = X W^T: dX = G W, dW = G^T X; FLOPs fwd 2 N d_in d_out, bwd 4 N d_in d_out, total 6 per parameter per token.",
+    "code_task": "linear_backward(X (N, in), W (out, in), b (out,), G (N, out)) -> dX (N, in), dW (out, in), db (out,); MyLinearFn(torch.autograd.Function) with save_for_backward; timing fwd vs fwd+bwd at 4096^3 on MPS.",
+    "receipt": "In float64: Y = F.linear(X, W, b); Y.backward(G); torch.testing.assert_close(linear_backward(X, W, b, G), (X.grad, W.grad, b.grad)); torch.autograd.gradcheck(MyLinearFn.apply, (X, W, b)) is True.",
+    "gotchas": "Mixing up the math convention W (in, out) with PyTorch's (out, in) gives transposed gradients that only error when in != out; forgetting the batch sum for db, G.sum(0), returns an (N, out) tensor; gradcheck in float32 fails from rounding, always use float64 inputs.",
+    "interview_q": "Derive the gradient of Y = XW with respect to W. dL/dW = X^T dL/dY: each weight W_kj touches every row's output Y_ij through X_ik, so its gradient sums X_ik G_ij over the batch; the shape (in, N)(N, out) is the only one that works.",
+    "explainer": [
+      "Here is a linear layer. X is N by in, W is in by out, and Y is N by out. The loss sends back G, shaped like Y.",
+      "We want the gradient for X, which must be N by in. The only way to get that from G is to multiply by W transposed.",
+      "Look at one entry of X. It touched an entire row of Y through one row of W, so its gradient sums those paths.",
+      "For W we need in by out. X transposed times G is the only product with that shape, and it sums over the batch.",
+      "So the backward pass is two matmuls, each the same size as the forward. Twice the work of the forward pass.",
+      "Two for forward, four for backward, six operations per weight per token. That is where six N D comes from."
+    ],
+    "explainer_visuals": [
+      "Three grids X (N x in), W (in x out), Y (N x out), plus a G grid with the same outline as Y.",
+      "A dX grid shaped N x in appears; a puzzle-fit animation shows G (N x out) times W^T (out x in) is the only fit.",
+      "One cell X_ik highlighted, lines fanning to row i of Y via row k of W, gradient contributions summing.",
+      "dW grid (in x out) fills from X^T (in x N) times G (N x out), with the N axis collapsing.",
+      "Three equal-size matmul blocks: one forward, two backward, labeled 2, 2, 2 units.",
+      "Formula 2 + 4 = 6 FLOPs per parameter per token, then C = 6 N D."
+    ],
+    "short": "The 2:45 MATH shape argument: guess dX and dW from shapes alone. Caption: 'Backprop through a matmul in 30 seconds.'",
+    "yt_title": "Backprop Through a Matmul by Hand: dW = XᵀG, matched to autograd",
+    "thumbnail": "dW = XᵀG",
+    "x_post": "Backward of Y = XW is two matmuls: dX = G W^T, dW = X^T G. You can get both from shapes alone. Wrote it as a torch.autograd.Function, gradcheck passes, and it explains 6 FLOPs per param per token. Code + video:",
+    "linkedin": "Derived the backward pass of a linear layer by index notation and by shape matching, then implemented it as a custom torch.autograd.Function that passes gradcheck in float64. Timing on the M4 GPU showed backward costs about twice the forward, which is the origin of the 6ND training compute rule. Hand-written backwards are what FlashAttention-style kernels need.",
+    "prereq": "M02E02, M02E03"
+  },
+  {
+    "code": "M02E06",
+    "hook": "Multiply the probabilities of a 200 word paragraph and your computer returns exactly zero. Language models use logs for survival, not style.",
+    "beats": [
+      "0:00 HOOK — Multiply the probabilities of a 200 word paragraph and your computer returns exactly zero. Language models use logs for survival, not style.",
+      "0:15 QUESTION — GPT-2's training objective is to maximize the probability of the training text. That probability is a product of billions of small numbers. Everything about how we write the loss, logs, sums, perplexity, comes from that fact.",
+      "1:00 INTUITION — A language model is a distribution over the next token. A unigram model ignores context: every word has a fixed probability, its frequency. A sentence's probability is the product of its words' probabilities, and the log turns that product into a sum. [EXPLAINER plays here.]",
+      "2:45 MATH — 1) Unigram: p(w_1 .. w_n) = prod_i p(w_i). 2) Log-likelihood: log p = sum_i log p(w_i). 3) Maximum likelihood with counts c_w and total N: maximize sum_w c_w log p_w subject to sum_w p_w = 1. Lagrangian: sum_w c_w log p_w - lambda (sum_w p_w - 1). Derivative: c_w / p_w = lambda, so p_w = c_w / lambda = c_w / N. MLE is counting. 4) Average negative log-likelihood per token is the cross-entropy, and perplexity = exp(average NLL), the effective number of equally likely choices. 5) Underflow: 200 words at p around 1e-4 gives 1e-800, far below float64's smallest positive number, about 4.9e-324.",
+      "6:30 CODE — Tokenize tiny Shakespeare into lowercase words. counts = collections.Counter(words); vocab and probs tensor p (V,) = counts / N. score(sentence) returns sum of torch.log(p[ids]). prob_naive(sentence) returns math.prod of raw probabilities. perplexity(text) = exp(-mean log p). Then the autograd check: logits = torch.zeros(V, requires_grad=True); maximize sum_w c_w log_softmax(logits)_w with Adam for a few hundred steps.",
+      "9:00 RECEIPT — 1) torch.testing.assert_close(torch.softmax(logits, -1), counts / N, atol=1e-4, rtol=0): gradient-based maximum likelihood recovers counting. 2) Log-prob sum equals torch.distributions.Categorical(probs=p).log_prob(ids).sum(). 3) prob_naive on a 200 word passage == 0.0 while score is a finite number around minus 1500 or so, print the actual value.",
+      "10:30 MEASURE — Perplexity of the unigram model on a held-out slice of Shakespeare, printed. Then a sentence containing a word never seen in training: log 0 = -inf and perplexity is infinite. Add-one smoothing fixes it; show the new perplexity.",
+      "11:45 TAKEAWAY — Likelihood is a product, so we work in log space, and maximum likelihood for a categorical is just counting. Interview line: perplexity is exp of the average negative log-likelihood per token, the effective branching factor of the model.",
+      "12:20 NEXT — Neural language models produce scores, not probabilities. The function that turns scores into a distribution is softmax, and it has its own overflow problem. Next: Softmax, temperature and log-sum-exp."
+    ],
+    "key_math": "log p(w_1..w_n) = sum_i log p(w_i); MLE: maximize sum_w c_w log p_w s.t. sum_w p_w = 1 gives p_w = c_w / N; NLL = -(1/n) sum_i log p(w_i); perplexity = exp(NLL).",
+    "code_task": "Unigram model over tiny Shakespeare words: counts (V,), probs p (V,); score(sentence) -> log prob; prob_naive(sentence) -> product; perplexity(text); gradient-based MLE with logits (V,) and Adam maximizing sum c_w log_softmax(logits)_w; add-one smoothing.",
+    "receipt": "torch.testing.assert_close(torch.softmax(logits, -1), counts / counts.sum(), atol=1e-4, rtol=0) after optimization; torch.testing.assert_close(score_ids(ids), torch.distributions.Categorical(probs=p).log_prob(ids).sum()); assert prob_naive(passage_200_words) == 0.0 and math.isfinite(score(passage_200_words)).",
+    "gotchas": "An out-of-vocabulary word gives log 0 = -inf and an infinite perplexity, so smooth or use an UNK token; averaging log-probs per sentence instead of per token makes long and short texts incomparable; torch.log on a float32 probability near 1e-45 is already at the edge of subnormals, compute in log space from logits when you can.",
+    "interview_q": "Why do we minimize negative log-likelihood instead of maximizing the likelihood directly? The likelihood is a product of many small probabilities that underflows; the log is monotonic so it has the same maximizer, turns the product into a sum, and gives well-scaled gradients.",
+    "explainer": [
+      "A language model assigns a probability to each next word. The simplest one ignores context and uses word frequency.",
+      "The word 'the' might get three percent. A rare word gets a tiny sliver. Every probability is between zero and one.",
+      "A sentence's probability is the product. Every word multiplies the total by something small, and it shrinks fast.",
+      "After two hundred words, the true value is around ten to the minus eight hundred. The computer rounds it to zero.",
+      "Take the log of each probability instead. Products become sums, and the total is an ordinary number like minus fifteen hundred.",
+      "Average that per word, flip the sign, and exponentiate. That is perplexity, how many choices the model is torn between."
+    ],
+    "explainer_visuals": [
+      "A bar chart of word frequencies from Shakespeare, 'the', 'and', 'i' tallest, a long tail.",
+      "Zoom on a few bars with labels 0.03, 0.02, 0.0001.",
+      "A running product meter dropping one order of magnitude per word as a sentence types out.",
+      "The meter hits the float64 floor 4.9e-324 and snaps to 0.0 in red.",
+      "The same sentence with a log-prob meter that decreases linearly, ending at a finite value.",
+      "Formula exp(-mean log p) producing a single perplexity number, with an icon of N equally likely doors."
+    ],
+    "short": "The 9:00 RECEIPT underflow demo: product of probabilities equals 0.0, log sum is fine. Caption: 'Why language models use log probabilities.'",
+    "yt_title": "Probability for Language Models: likelihood, log-probs, perplexity",
+    "thumbnail": "PRODUCT = 0.0",
+    "x_post": "A 200-word passage has probability around 1e-800. float64 can't go below 4.9e-324, so the product is exactly 0.0. Logs fix it. Also derived that maximum likelihood is counting, and gradient descent on logits agrees. Code + video:",
+    "linkedin": "Built a unigram language model on Shakespeare to cover likelihood, log-likelihood and perplexity. I derived that the maximum likelihood estimate is normalized counts using a Lagrange multiplier, then recovered the same distribution with gradient ascent on softmax logits. The naive probability of a 200-word passage underflows to exactly 0.0, which is why every LM loss lives in log space.",
+    "prereq": "M02E03"
+  },
+  {
+    "code": "M02E07",
+    "hook": "The textbook softmax returns nan for a logit of 1000. The fix is one subtraction, and it's the seed of FlashAttention.",
+    "beats": [
+      "0:00 HOOK — The textbook softmax returns nan for a logit of 1000. The fix is one subtraction, and it's the seed of FlashAttention.",
+      "0:15 QUESTION — Every attention layer and every output layer in an LLM runs a softmax, and sampling from ChatGPT or Claude uses a temperature. Softmax's math is simple, its numerics are not, and its Jacobian is what we need for every backward pass through attention.",
+      "1:00 INTUITION — Softmax exponentiates so everything is positive, then normalizes so it sums to one. Temperature divides the logits first: low temperature sharpens toward the argmax, high temperature flattens toward uniform. [EXPLAINER plays here.]",
+      "2:45 MATH — 1) s_i = exp(z_i) / sum_j exp(z_j). 2) Shift invariance: softmax(z - c) = softmax(z), since exp(-c) cancels. Pick c = max_j z_j, then the largest exponent is exp(0) = 1, no overflow. 3) Log-sum-exp: LSE(z) = log sum_j exp(z_j) = m + log sum_j exp(z_j - m), m = max z. And log softmax(z)_i = z_i - LSE(z). 4) Jacobian: ds_i/dz_j = s_i (delta_ij - s_j), so J = diag(s) - s s^T. The rows of J sum to 0, which is shift invariance again. 5) dLSE/dz = softmax(z). 6) Temperature: softmax(z / T); as T -> 0 it tends to one-hot on argmax, as T -> infinity to uniform. 7) Float32 exp overflows past about 88.7.",
+      "7:00 CODE — softmax_naive(z) and softmax_stable(z, dim=-1) with z - z.amax(dim, keepdim=True). logsumexp_stable(z, dim=-1). softmax_jacobian(s) = torch.diag(s) - torch.outer(s, s) for a 1D s. Then a two-block online merge as a preview: given (m1, l1) and (m2, l2) for two halves, m = max(m1, m2), l = l1 * exp(m1 - m) + l2 * exp(m2 - m). Shapes: z (4, 10) for batches, (10,) for the Jacobian.",
+      "9:30 RECEIPT — z = torch.randn(4, 10) * 1000: softmax_naive has nan; torch.testing.assert_close(softmax_stable(z), torch.softmax(z, -1)); assert_close(logsumexp_stable(z), torch.logsumexp(z, -1)). Jacobian: torch.testing.assert_close(softmax_jacobian(torch.softmax(z0, 0)), torch.autograd.functional.jacobian(lambda x: torch.softmax(x, 0), z0)) in float64. Online merge equals LSE of the full vector.",
+      "11:00 MEASURE — Entropy of softmax(z / T) for T in 0.1, 0.5, 1, 2, 10 on a fixed GPT-2-like logit vector: plot entropy vs T. Show the largest z where softmax_naive is still finite in float32 is about 88.",
+      "12:00 TAKEAWAY — Subtract the max, compute in log space, and the softmax Jacobian is diag(s) - s s^T. Interview line: the max-subtraction trick plus a running rescale of the normalizer is exactly the online softmax that lets FlashAttention process attention in tiles without materializing the full score matrix.",
+      "12:40 NEXT — That running max and normalizer is the core of the feather-attn FlashAttention project. Right now, softmax plus a log gives us the loss every LLM trains on. Next: Cross-entropy is negative log-likelihood."
+    ],
+    "key_math": "s_i = exp(z_i)/sum_j exp(z_j); softmax(z - c) = softmax(z); LSE(z) = m + log sum_j exp(z_j - m); ds_i/dz_j = s_i(delta_ij - s_j), J = diag(s) - s s^T; dLSE/dz = softmax(z); online merge: m = max(m1, m2), l = l1 e^{m1 - m} + l2 e^{m2 - m}.",
+    "code_task": "softmax_naive(z), softmax_stable(z, dim=-1), logsumexp_stable(z, dim=-1) for z (4, 10); softmax_jacobian(s (V,)) -> (V, V); online_merge((m1, l1), (m2, l2)) -> (m, l); temperature entropy sweep.",
+    "receipt": "torch.testing.assert_close(softmax_stable(z), torch.softmax(z, -1)) and torch.testing.assert_close(logsumexp_stable(z), torch.logsumexp(z, -1)) at z = randn(4, 10) * 1000; torch.testing.assert_close(softmax_jacobian(torch.softmax(z0, 0)), torch.autograd.functional.jacobian(lambda x: torch.softmax(x, 0), z0)) in float64; torch.isnan(softmax_naive(z)).any() is True.",
+    "gotchas": "Forgetting keepdim=True in amax breaks the broadcast against z; computing log(softmax(z)) instead of z - LSE(z) gives -inf when a probability underflows to 0; temperature 0 is a division by zero, sampling code special-cases it as argmax.",
+    "interview_q": "What is the Jacobian of softmax and why do its rows sum to zero? ds_i/dz_j = s_i(delta_ij - s_j), J = diag(s) - s s^T; adding a constant to all logits does not change softmax, so the derivative along the all-ones direction is zero, J 1 = s - s(s^T 1) = 0.",
+    "explainer": [
+      "Softmax takes any list of scores and turns them into probabilities. Exponentiate to make them positive, then divide by the total.",
+      "Push one score to a thousand and the exponential overflows to infinity. Infinity divided by infinity is not a number.",
+      "But adding the same constant to every score changes nothing, because it cancels top and bottom. So subtract the biggest one.",
+      "Now the largest exponent is exactly one and everything else is smaller. Same probabilities, no overflow, at any scale.",
+      "Temperature divides the scores before softmax. Turn it down and the tallest bar takes everything. Turn it up and the bars level out.",
+      "Process scores in two chunks, keep each chunk's max and sum, and rescale when merging. That is the online softmax inside FlashAttention."
+    ],
+    "explainer_visuals": [
+      "Bar chart of 6 logits morphing into exp bars, then normalized probability bars summing to 1.",
+      "One bar shoots to 1000; exp value shows 'inf', probabilities turn into 'nan' labels.",
+      "All bars slide down together by the max; probability bars stay unchanged.",
+      "The tallest bar now sits at 0, exp(0) = 1 shown; probabilities match torch.softmax with a green check.",
+      "A temperature slider: at T=0.1 one bar fills, at T=10 bars become nearly equal; entropy readout changes.",
+      "The logit vector splits into two halves, each with (m, l) tags; arrows merge them with exp(m1 - m) rescale factors."
+    ],
+    "short": "The 9:30 RECEIPT: naive softmax nan at 1000, one subtraction fixes it. Caption: 'One line that keeps every LLM from returning NaN.'",
+    "yt_title": "Softmax, Temperature and Log-Sum-Exp: the stable softmax, derived",
+    "thumbnail": "SOFTMAX = NaN?",
+    "x_post": "Naive softmax is nan at logit 1000 (float32 exp overflows past ~88.7). Subtract the max: same answer, no overflow. Derived the softmax Jacobian diag(s) - ss^T and matched autograd, plus the online-softmax merge FlashAttention uses. Code + video:",
+    "linkedin": "Derived softmax, its shift invariance, the log-sum-exp trick and the Jacobian diag(s) - s s^T, then verified each numerically: my stable softmax and logsumexp match PyTorch at logits of 1000 where the naive version returns nan, and my Jacobian matches torch.autograd.functional.jacobian. I also built the two-block online merge that FlashAttention is based on.",
+    "prereq": "M02E06, M00E01"
+  },
+  {
+    "code": "M02E08",
+    "hook": "The gradient of cross-entropy is predicted probabilities minus the one-hot answer. That's it. Every LLM's learning starts with this subtraction.",
+    "beats": [
+      "0:00 HOOK — The gradient of cross-entropy is predicted probabilities minus the one-hot answer. That's it. Every LLM's learning starts with this subtraction.",
+      "0:15 QUESTION — GPT-2, Llama 3 and DeepSeek-V3 are all pretrained on one loss: cross-entropy on the next token. The gradient that flows into the whole network starts at the output layer as softmax minus one-hot. Knowing that tells you the starting loss, why a model can't get a zero gradient on a token it predicts wrong, and why fused CE kernels exist.",
+      "1:00 INTUITION — Cross-entropy only looks at the probability of the correct token and takes minus its log. The gradient pushes the correct logit up by how much probability is missing and pushes every wrong logit down by how much probability it stole. [EXPLAINER plays here.]",
+      "2:45 MATH — 1) CE(z, y) = -log softmax(z)_y = -z_y + LSE(z). This is exactly the negative log-likelihood from the probability episode. 2) dCE/dz_j = -1[j = y] + dLSE/dz_j = softmax(z)_j - 1[j = y]. 3) Vector form: dL/dz = p - onehot(y). 4) Batch mean over N rows: divide by N. 5) Sum of the gradient over classes is 0, and each entry lies in [-1, 1]. 6) At init with near-uniform logits, CE = log V: ln 10 = 2.303 for MNIST, ln 50257 = 10.82 for GPT-2, ln 128256 = 11.76 for Llama 3.",
+      "6:00 CODE — ce_manual(logits, y): logits - torch.logsumexp(logits, -1, keepdim=True), gather the target column, negate, mean. ce_grad_manual(logits, y) = (torch.softmax(logits, -1) - F.one_hot(y, V).to(logits.dtype)) / N. Shapes: logits (N, V) = (32, 50257) with N = 32 rows, y (N,) int64.",
+      "8:00 RECEIPT — logits requires_grad in float64; loss = F.cross_entropy(logits, y); loss.backward(). torch.testing.assert_close(ce_manual(logits, y), loss); torch.testing.assert_close(ce_grad_manual(logits.detach(), y), logits.grad). Also assert logits.grad.sum(-1) is close to 0 for every row. Initial loss of random small logits with V = 50257 is close to 10.82.",
+      "9:45 MEASURE — Two numbers. 1) Naive -torch.log(torch.softmax(z, -1))[y] at logits scaled by 100 returns inf, F.cross_entropy stays finite. 2) Memory: Llama 3 logits for 8192 tokens times a 128256 vocab in float32 is 8192 * 128256 * 4 bytes = 4.2 GB, plus the same again for its gradient. That's why fused, chunked cross-entropy kernels like Liger's exist.",
+      "11:00 TAKEAWAY — Cross-entropy is negative log-likelihood of the target, and its gradient is softmax minus one-hot. Interview line: the logits gradient is p minus y over N, bounded and summing to zero per row, which is why the output layer trains stably and why a fused kernel can compute it without storing the probabilities.",
+      "11:40 NEXT — The gradient is well behaved at the output. Whether it survives fifty layers back depends on how we initialize the weights. Next: Variance and initialization."
+    ],
+    "key_math": "CE(z, y) = -z_y + log sum_j exp(z_j); dCE/dz = softmax(z) - onehot(y); batch mean: (p - Y)/N; initial CE ~ ln V (ln 50257 = 10.82, ln 128256 = 11.76).",
+    "code_task": "ce_manual(logits (N, V), y (N,)) -> scalar via logsumexp and gather; ce_grad_manual(logits, y) -> (N, V) = (softmax - one_hot)/N; with N=32, V=50257; overflow comparison against naive -log(softmax); memory calculation for Llama 3 vocab.",
+    "receipt": "In float64: torch.testing.assert_close(ce_manual(logits, y), F.cross_entropy(logits, y)); after F.cross_entropy(logits, y).backward(), torch.testing.assert_close(ce_grad_manual(logits.detach(), y), logits.grad); torch.testing.assert_close(logits.grad.sum(-1), torch.zeros(N, dtype=torch.float64)).",
+    "gotchas": "F.cross_entropy expects raw logits, passing softmax output applies softmax twice and shrinks the gradients; forgetting to divide by N makes the manual gradient N times larger than autograd's with reduction='mean'; F.one_hot returns int64, cast to the logits dtype before subtracting.",
+    "interview_q": "Derive the gradient of softmax cross-entropy with respect to the logits. CE = -z_y + LSE(z) and dLSE/dz = softmax(z), so dCE/dz = softmax(z) - onehot(y); each wrong class is pushed down by its probability and the correct class pushed up by 1 - p_y.",
+    "explainer": [
+      "The model outputs one score per vocabulary token. Softmax turns them into probabilities, and one token is the right answer.",
+      "Cross entropy only cares about the right answer. It takes the probability the model gave it and returns minus its log.",
+      "Ninety percent on the right token costs about point one. One percent costs four point six. Confident and wrong is expensive.",
+      "Now the gradient. Subtract the one hot answer from the probabilities. That vector is the whole gradient for every logit.",
+      "The right token gets pushed up by the probability it is missing. Every wrong token gets pushed down by what it took.",
+      "The pushes up and down cancel exactly, so the gradient in each row sums to zero. Nothing about this ever blows up."
+    ],
+    "explainer_visuals": [
+      "A row of 10 logit bars feeding into a softmax box, probability bars come out, one bar outlined as 'target'.",
+      "The target bar zooms in; a -log(p) curve is drawn beside it with the current point marked.",
+      "Two points on the -log p curve: p=0.9 -> 0.105, p=0.01 -> 4.6.",
+      "Probability bars minus a one-hot bar (1 at target) produce a gradient bar chart with one negative bar.",
+      "Arrows on logits: up arrow on target sized 1 - p_y, down arrows on others sized p_j.",
+      "Up and down arrows stacking on a balance scale that stays level; label 'sum = 0'."
+    ],
+    "short": "The 2:45 MATH line: dL/dz = softmax - onehot, then the autograd match. Caption: 'The gradient that trains every LLM is one subtraction.'",
+    "yt_title": "Cross-Entropy Gradient Derived: softmax minus one-hot, vs autograd",
+    "thumbnail": "SOFTMAX − ONE-HOT",
+    "x_post": "Cross-entropy = -z_y + logsumexp(z). Its gradient = softmax(z) - onehot(y), divided by N for a mean. Derived it, matched F.cross_entropy's autograd to float64 precision. Also: Llama 3 logits for 8k tokens are 4.2 GB in fp32. Code + video:",
+    "linkedin": "Derived cross-entropy as negative log-likelihood and its gradient, softmax minus one-hot, then matched F.cross_entropy's loss and autograd gradient in float64 on a GPT-2 sized vocabulary. Initial loss lands at ln(50257) = 10.82 as predicted. The memory math, 4.2 GB of float32 logits for 8k tokens at Llama 3's vocabulary, explains why fused cross-entropy kernels exist.",
+    "prereq": "M02E06, M02E07"
+  },
+  {
+    "code": "M02E09",
+    "hook": "Stack fifty ReLU layers with weights from a standard normal and the activations hit infinity before layer forty. One factor of two fixes it.",
+    "beats": [
+      "0:00 HOOK — Stack fifty ReLU layers with weights from a standard normal and the activations hit infinity before layer forty. One factor of two fixes it.",
+      "0:15 QUESTION — Deep networks only train if signals keep roughly the same scale going forward and backward. GPT-2 initializes with std 0.02 and scales residual projections by 1 over the square root of the number of layers. Kaiming He derived the rule for ReLU in 2015. We'll derive it too.",
+      "1:00 INTUITION — Each layer multiplies the signal's variance by some factor. If the factor is 2, after 50 layers it's 2 to the 50. If it's 0.5, the signal vanishes. Initialization is choosing the weight variance so the factor is exactly 1. [EXPLAINER plays here.]",
+      "2:30 MATH — 1) Pre-activation y_j = sum_{i=1}^{n_in} w_ji x_i, with w and x independent, w zero-mean. 2) Var(y_j) = n_in Var(w) E[x_i^2]. 3) If x is the previous pre-activation passed through ReLU and that pre-activation is symmetric around 0, E[relu(h)^2] = Var(h) / 2. 4) So Var(y) = n_in Var(w) Var(h) / 2. Keeping it constant needs Var(w) = 2 / n_in: Kaiming, std sqrt(2 / n_in) = 0.0625 for n_in = 512. 5) Without the ReLU halving, linear or tanh near 0, you get Var(w) = 1 / n_in; Xavier averages the forward and backward conditions: Var(w) = 2 / (n_in + n_out). 6) Per-layer variance factors for width 512 with ReLU: N(0, 1) gives 256, std grows 16x per layer and float32 overflows near layer 32 since 16^32 = 3.4e38; Xavier gives 0.5, so std shrinks by 0.707 per layer to about 3e-8 after 50; Kaiming gives 1.",
+      "6:30 CODE — deep_stats(init_fn, depth=50, width=512, n=1000): x = torch.randn(n, width); for each layer: W = init_fn(width, width); x = torch.relu(x @ W.T); record x.std(). init functions: standard normal, xavier = randn * sqrt(2 / (in + out)), kaiming = randn * sqrt(2 / in), and nn.Linear's default for comparison. Then a gradient version: build the same stack as nn.Linear layers with requires_grad, backprop a sum, record each layer's weight gradient std via autograd.",
+      "9:00 RECEIPT — 1) Our kaiming matches PyTorch's: W = torch.empty(512, 512); torch.nn.init.kaiming_normal_(W, mode='fan_in', nonlinearity='relu'); W.std() is within 2 percent of 0.0625, and so is ours. 2) The empirical half rule: E[relu(h)^2] / Var(h) is about 0.5 for h ~ N(0, 1) with 1e6 samples. 3) With Kaiming, activation std at layer 50 is within a factor of 2 of layer 1, and the autograd gradient stds per layer are roughly flat.",
+      "10:45 MEASURE — One plot, log-scale y: activation std vs layer for standard normal (explodes to inf), Xavier (decays), nn.Linear default (decays faster, its weight variance is 1 / (3 n_in)), Kaiming (flat). Second plot: per-layer gradient std from autograd for the same four.",
+      "12:00 TAKEAWAY — Choose Var(w) so each layer multiplies variance by 1: 2 / n_in for ReLU. Interview line: Kaiming init uses variance 2 over fan-in because ReLU zeroes half the inputs and halves the second moment; transformers rely more on normalization and residual scaling, like GPT-2's 0.02 std with residual projections scaled by 1 over sqrt of 2 times the number of layers.",
+      "12:40 NEXT — Initialization keeps forward and backward scales sane. Last piece of math: what autograd is really computing when it sends those gradients back. Next: Jacobians and vector-Jacobian products."
+    ],
+    "key_math": "Var(y) = n_in Var(w) E[x^2]; E[relu(h)^2] = Var(h)/2; Kaiming: Var(w) = 2/n_in; Xavier: Var(w) = 2/(n_in + n_out); per-layer factor with N(0,1), width 512, ReLU: 256 (std x16).",
+    "code_task": "deep_stats(init_fn, depth=50, width=512, n=1000) -> list of activation stds per layer for init_fn in {standard normal, xavier, kaiming, nn.Linear default}; relu_second_moment(n=1e6); grad_stats(init_fn) building an nn.Sequential of 50 Linear+ReLU and recording each weight.grad.std() via autograd.",
+    "receipt": "torch.nn.init.kaiming_normal_(W, mode='fan_in', nonlinearity='relu') gives W.std() within 2% of math.sqrt(2/512) = 0.0625, and so does our kaiming init; (torch.relu(h)**2).mean() / h.var() within 0.01 of 0.5 for h = randn(1_000_000); Kaiming layer-50 activation std / layer-1 std in [0.5, 2].",
+    "gotchas": "nn.Linear's default init is kaiming_uniform_ with a = sqrt(5), which gives variance 1/(3 fan_in), not the ReLU Kaiming value, so deep ReLU stacks with defaults shrink; mode='fan_in' preserves forward variance while mode='fan_out' preserves backward variance; with standard normal init the activations become inf and then nan, and that nan propagates silently into the loss.",
+    "interview_q": "Derive Kaiming initialization. For y = W x with independent zero-mean weights, Var(y) = n_in Var(w) E[x^2]; with ReLU inputs E[x^2] = Var(h)/2, so keeping Var(y) = Var(h) needs Var(w) = 2/n_in.",
+    "explainer": [
+      "A signal enters a deep network with a spread of one. Watch what each layer does to that spread.",
+      "Each output adds up five hundred twelve inputs times weights. Its variance is the count times weight variance times input variance.",
+      "ReLU then zeroes every negative value. On average that throws away exactly half of the second moment.",
+      "With weights from a standard normal, the variance grows two hundred fifty six times per layer. By layer thirty two it is infinity.",
+      "With Xavier, built for symmetric activations, ReLU's halving wins and the signal fades layer after layer toward zero.",
+      "Kaiming sets the weight variance to two over fan in. The halving and the doubling cancel, and the spread stays flat for fifty layers."
+    ],
+    "explainer_visuals": [
+      "A bell curve of activations at layer 0 with std = 1 labeled.",
+      "One output neuron with 512 incoming arrows, formula n_in * Var(w) * E[x^2] appearing beside it.",
+      "The bell curve with its negative half grayed out and collapsed to a spike at 0; '/2' label.",
+      "Log-scale plot of std vs layer: a red line shooting up and hitting 'inf' near layer 32.",
+      "A blue line on the same axes decaying toward 1e-8 by layer 50.",
+      "A green flat line at std ~ 1 across all 50 layers; legend: N(0,1), Xavier, Kaiming."
+    ],
+    "short": "The 10:45 MEASURE plot: activation std vs depth for three inits, one explodes, one vanishes, one stays flat. Caption: 'Why your deep network dies at initialization.'",
+    "yt_title": "Weight Initialization Derived: Xavier vs Kaiming, 50 layers deep",
+    "thumbnail": "INF BY LAYER 32",
+    "x_post": "50 ReLU layers, width 512. N(0,1) weights: std x16 per layer, inf near layer 32. Xavier: fades to ~1e-8. Kaiming, Var(w)=2/fan_in: flat. Derived the factor of 2 and matched torch.nn.init.kaiming_normal_. Code + video:",
+    "linkedin": "Derived Xavier and Kaiming initialization from the variance of a sum, including the factor of 2 from ReLU halving the second moment, and verified it on a 50-layer ReLU stack. Standard normal weights overflow near layer 32, Xavier and PyTorch's default nn.Linear init decay, Kaiming stays flat for activations and autograd gradients. My init matches torch.nn.init.kaiming_normal_ statistics.",
+    "prereq": "M02E01, M02E05"
+  },
+  {
+    "code": "M02E10",
+    "hook": "The Jacobian of one linear layer on a normal batch would need 70 terabytes. Autograd never builds it. Here's what it computes instead.",
+    "beats": [
+      "0:00 HOOK — The Jacobian of one linear layer on a normal batch would need 70 terabytes. Autograd never builds it. Here's what it computes instead.",
+      "0:15 QUESTION — Backprop through GPT-2 moves gradients through tensors with millions of entries at every layer. If autograd built Jacobians, nothing would fit in memory. It computes vector-Jacobian products, and once you see that, writing a custom backward is just writing a VJP.",
+      "1:00 INTUITION — A Jacobian is the full table of how every output moves with every input. Backward doesn't need the table. It needs one row-vector times the table: the upstream gradient, pushed back one step. [EXPLAINER plays here.]",
+      "2:45 MATH — 1) f: R^n -> R^m, Jacobian J in R^{m x n}, J_ij = df_i / dx_j. 2) Chain rule for a scalar loss L: dL/dx = (dL/dy)^T J, a vector-Jacobian product v^T J, shape (n,). 3) Reverse mode computes v^T J for any v at about the cost of one forward pass, never forming J. 4) Getting the full J needs m VJPs, one per output, which is why gradients of scalar losses are cheap and full Jacobians are expensive. Forward mode computes J u, a JVP, and needs n of them. 5) Elementwise tanh: J = diag(1 - tanh(x)^2), so v^T J = v * (1 - tanh(x)^2), O(n) instead of O(n^2). 6) Linear Y = X W^T with X (1024, 4096), W (4096, 4096): J has (1024 * 4096)^2 = 1.76e13 entries, 70 TB in float32, while the VJP is G W, a (1024, 4096) matmul, 16 MB.",
+      "6:30 CODE — f = torch.tanh, x (n,). J = torch.autograd.functional.jacobian(f, x), shape (n, n). out, vjp_fn = torch.func.vjp(f, x); (g,) = vjp_fn(v). Analytic vjp_tanh(x, v) = v * (1 - torch.tanh(x)**2). jvp: torch.func.jvp(f, (x,), (u,)). Linear: g = vjp of lambda X: X @ W.T at a small size, compare to G @ W. Full Jacobian via torch.func.jacrev on the small linear case, shape (N, out, N, in).",
+      "9:00 RECEIPT — torch.testing.assert_close(vjp_fn(v)[0], v @ J); assert_close(vjp_fn(v)[0], vjp_tanh(x, v)); assert_close(torch.func.jvp(f, (x,), (u,))[1], J @ u); for the small linear case assert_close(vjp result, G @ W) and assert_close(jacrev(...) contracted with G, G @ W). All in float64.",
+      "10:30 MEASURE — Table for tanh with n = 256, 1024, 4096: time and memory of the full jacobian versus one vjp. jacobian memory is n^2 * 4 bytes, 64 MB at n = 4096 versus 16 KB for the VJP, and the time gap grows with n. Then print the 70 TB number for the linear layer and why it doesn't matter.",
+      "11:45 TAKEAWAY — Autograd chains vector-Jacobian products from the loss backward and never forms a Jacobian. Interview line: reverse mode costs one VJP per scalar output, so the gradient of a scalar loss over billions of parameters costs about as much as a couple of forward passes, and a custom autograd.Function backward is exactly a VJP.",
+      "12:20 NEXT — That's the math. Next module, we build our own autograd engine that chains these products for real, starting from a single scalar. Next: micrograd, part 1: an autograd engine."
+    ],
+    "key_math": "J_ij = df_i/dx_j, J in R^{m x n}; dL/dx = v^T J with v = dL/dy (VJP, reverse mode); JVP = J u (forward mode); tanh: v^T J = v * (1 - tanh(x)^2); Linear Y = X W^T: VJP = G W; full J for X (1024, 4096), W (4096, 4096) has 1.76e13 entries (70 TB fp32).",
+    "code_task": "For f = tanh on x (n,): full Jacobian with torch.autograd.functional.jacobian, VJP with torch.func.vjp, JVP with torch.func.jvp, analytic vjp_tanh(x, v); small linear case X (8, 16), W (4, 16) with torch.func.jacrev giving (8, 4, 8, 16); timing and memory table for n in [256, 1024, 4096].",
+    "receipt": "In float64: torch.testing.assert_close(torch.func.vjp(torch.tanh, x)[1](v)[0], v @ torch.autograd.functional.jacobian(torch.tanh, x)); torch.testing.assert_close(torch.func.vjp(torch.tanh, x)[1](v)[0], v * (1 - torch.tanh(x)**2)); torch.testing.assert_close(torch.func.jvp(torch.tanh, (x,), (u,))[1], J @ u); linear VJP equals G @ W.",
+    "gotchas": "torch.func.vjp returns (output, vjp_fn) and vjp_fn returns a tuple, so you need [0] even for one input; the Jacobian of a function with tensor inputs and outputs has shape out.shape + in.shape, flatten before treating it as a matrix; calling torch.autograd.functional.jacobian on a big layer will try to allocate the full table and crash, test at small sizes.",
+    "interview_q": "Why is reverse-mode autodiff used for training instead of forward mode? Training needs the gradient of one scalar loss with respect to many parameters; reverse mode gets all of them with one vector-Jacobian product sweep, while forward mode would need one Jacobian-vector product per parameter.",
+    "explainer": [
+      "A function takes n numbers in and gives m numbers out. The Jacobian is the m by n table of every sensitivity.",
+      "For tanh on a vector, that table is almost all zeros. Each output only depends on its own input, so only the diagonal is filled.",
+      "Backward never needs the table itself. It needs the upstream gradient, a single row, multiplied through the table.",
+      "For tanh, that product is the gradient times one minus tanh squared, element by element. No table, no zeros stored.",
+      "For a linear layer on a real batch, the full table would take seventy terabytes. Its vector Jacobian product is one matmul.",
+      "Backprop chains these products from the loss to the inputs. One sweep, every gradient, and no Jacobian ever exists."
+    ],
+    "explainer_visuals": [
+      "Input vector of n cells, output vector of m cells, and an m x n grid between them labeled J.",
+      "The grid for tanh: off-diagonal cells fade to gray zeros, diagonal cells glow.",
+      "A row vector v slides on top of the grid and multiplies down into an n-length result row.",
+      "The grid disappears; v and (1 - tanh^2) multiply elementwise directly into the result.",
+      "A tiny matmul block 'G @ W' next to an enormous shaded block labeled '70 TB' that overflows the screen.",
+      "A chain of layers; a gradient vector passes right to left through VJP boxes, each labeled with its local rule."
+    ],
+    "short": "The 10:30 MEASURE: full Jacobian vs one VJP, 64 MB vs 16 KB, and the 70 TB linear layer. Caption: 'Autograd never builds the Jacobian.'",
+    "yt_title": "Jacobians and Vector-Jacobian Products: what PyTorch autograd computes",
+    "thumbnail": "70 TB JACOBIAN",
+    "x_post": "The full Jacobian of one Linear layer on a (1024, 4096) batch has 1.76e13 entries, 70 TB in fp32. Autograd never builds it. It computes vector-Jacobian products: G @ W. Checked torch.func.vjp/jvp against the full Jacobian. Code + video:",
+    "linkedin": "Closed the math module with what autograd actually computes: vector-Jacobian products, never Jacobians. I verified torch.func.vjp and torch.func.jvp against full Jacobians from torch.autograd.functional.jacobian, and measured memory and time as size grows. The full Jacobian of a single linear layer on a realistic batch would be 70 TB; its VJP is one matmul.",
+    "prereq": "M02E05, M01E06"
+  }
+]

@@ -35,7 +35,7 @@
       "Each storage box widens to show 4 bytes, then shrinks to 2 bytes for bf16; a chip icon labeled 'mps' under the row."
     ],
     "short": "The 2:30 CODE beat showing transpose has the same data_ptr and swapped strides. Caption: 'Transpose copies zero bytes. Here is proof.'",
-    "yt_title": "PyTorch Tensors Explained: storage, shape, stride, and why transpose is free",
+    "yt_title": "PyTorch Tensors Explained: storage, stride, and why transpose is free",
     "thumbnail": "TENSORS AREN'T GRIDS",
     "x_post": "A PyTorch tensor is a flat block of memory plus shape, stride, offset, dtype, device. Transpose swaps two strides and copies zero bytes. I rebuilt a tensor and its transpose by hand with torch.as_strided. Code + video:",
     "linkedin": "Started the PyTorch from Zero series with what a tensor actually is: flat storage plus shape, stride, offset, dtype and device. I rebuilt a (2, 3) tensor and its transpose from a flat list using as_strided and showed both share one data pointer. The address formula offset + sum(i_d * stride_d) explains every view operation.",
@@ -78,7 +78,7 @@
       "Pipeline diagram: bf16 inputs into a matmul block, an fp32 accumulator box, bf16 output."
     ],
     "short": "The 4:30 CODE overflow/swamping demo. Caption: 'In float16, 70,000 is infinity.'",
-    "yt_title": "PyTorch dtypes: float32 vs float16 vs bfloat16, with finfo and overflow demos",
+    "yt_title": "PyTorch dtypes: float32 vs float16 vs bfloat16, and when they break",
     "thumbnail": "70000 = INFINITY",
     "x_post": "float16 max is 65504, so 70000 becomes inf. bfloat16 never overflows like that, but 1 + 0.001 == 1 in bf16. That is why we store in bf16 and accumulate in fp32. Showed it all with torch.finfo. Code + video:",
     "linkedin": "Episode 2 of PyTorch from Zero covers dtypes. I measured float32, float16 and bfloat16 with torch.finfo and reproduced the two classic failures: float16 overflow at 70000 and bfloat16 swamping where 1 + 0.001 rounds to 1. Summing 10,000 small values in bf16 stalls far below the true answer, which is exactly why mixed precision keeps float32 accumulators.",
@@ -121,7 +121,7 @@
       "Tensor (B, T, C) splits into H colored head slabs (B, H, T, D), then slabs merge back with a 'contiguous' copy icon."
     ],
     "short": "The 3:30 CODE beat: view crashes, reshape works, storage pointers prove the copy. Caption: 'reshape is secretly copying your tensor.'",
-    "yt_title": "PyTorch view vs reshape vs contiguous: when your tensor secretly copies",
+    "yt_title": "PyTorch view vs reshape vs contiguous: when tensors secretly copy",
     "thumbnail": "VIEW CRASHES. WHY?",
     "x_post": "x.t().view(6) raises, x.t().reshape(6) works. reshape silently copied because no stride can express that order. Proved every view vs copy with storage pointers, including the attention head split. Code + video:",
     "linkedin": "In this episode I proved which PyTorch indexing operations are views and which copy, by comparing storage pointers. Slicing and transpose are free, advanced indexing and reshape-after-transpose copy. On a 4096x4096 tensor, the difference between .t() and .t().contiguous() is the difference between metadata and a full memory pass.",
@@ -250,7 +250,7 @@
       "A 'zero_grad' sweeper clears the box back to 0 before the next pass."
     ],
     "short": "The 2:45 CODE accumulation demo: backward twice, gradient doubles. Caption: 'Why your PyTorch gradients keep doubling.'",
-    "yt_title": "PyTorch Autograd Explained: grad_fn, backward, and why gradients accumulate",
+    "yt_title": "PyTorch Autograd Explained: backward, and why gradients accumulate",
     "thumbnail": "BACKWARD TWICE = 2X",
     "x_post": "PyTorch adds into .grad on every backward call, by design, so gradient accumulation is free and forgetting zero_grad is a bug. Checked autograd against a hand derivative, finite differences, and gradcheck. Code + video:",
     "linkedin": "Autograd episode: I checked PyTorch's gradient of f(x, y) = x^2 y + sin x against my hand derivative, central finite differences, and torch.autograd.gradcheck in float64. I also showed why gradients accumulate across backward calls and why gradcheck fails in float32. Gradient accumulation for large effective batch sizes is built on this exact behavior.",
@@ -336,7 +336,7 @@
     ],
     "short": "The 5:45 RECEIPT: load nn.Linear weights into a hand-written MyLinear and outputs match. Caption: 'nn.Linear is 40 lines. Here they are.'",
     "yt_title": "nn.Module from Scratch: write nn.Linear yourself and match PyTorch",
-    "thumbnail": "WRITE NN.LINEAR",
+    "thumbnail": "WRITE NN.LINEAR YOURSELF",
     "x_post": "nn.Linear is a Parameter (out, in), a bias, a kaiming_uniform_ init with a=sqrt(5), and x @ W.T + b. Wrote it from scratch, loaded nn.Linear's state_dict into it, outputs and grads match. Code + video:",
     "linkedin": "I implemented nn.Linear from scratch as an nn.Module, including PyTorch's default initialization, and verified it matches nn.Linear and F.linear for outputs and gradients after loading the same state_dict. Along the way: parameters vs buffers, state_dict keys, train/eval, and forward hooks. Module is bookkeeping, and the bookkeeping is readable.",
     "prereq": "M01E07"
@@ -378,7 +378,7 @@
       "Two columns of weights 'MySGD' and 'torch.optim.SGD' updating in lockstep for steps 1-20, all green."
     ],
     "short": "The 5:45 RECEIPT: MySGD and torch.optim.SGD in lockstep for 20 steps. Caption: 'torch.optim.SGD is 3 lines of math.'",
-    "yt_title": "PyTorch Optimizers from Scratch: SGD with momentum that matches torch.optim",
+    "yt_title": "PyTorch Optimizer from Scratch: SGD momentum that matches torch.optim",
     "thumbnail": "OPTIMIZER = 3 LINES",
     "x_post": "PyTorch SGD momentum: buf = mu*buf + g, p -= lr*buf, first step buf = g. Not the textbook form. Wrote it by hand with weight decay and matched torch.optim.SGD parameter-for-parameter over 20 steps. Code + video:",
     "linkedin": "I implemented SGD with momentum and weight decay from scratch and matched torch.optim.SGD exactly over 20 steps on an MLP. The details that matter: the momentum buffer is initialized to the first gradient, lr sits outside the buffer, and weight decay is added to the gradient. I also showed F.cross_entropy equals nll_loss of log_softmax.",
@@ -393,7 +393,7 @@
       "0:45 INTUITION — Two modes. train(): dropout drops, BatchNorm updates its running stats. eval(): both frozen and deterministic. Separately, torch.no_grad() stops graph building. They are different switches and you usually want both at eval. [EXPLAINER plays here.]",
       "1:45 CODE — def train(model, train_loader, val_loader, opt, loss_fn, epochs, device): for epoch: model.train(); for x, y in train_loader: x, y = x.to(device), y.to(device); opt.zero_grad(set_to_none=True); loss = loss_fn(model(x), y); loss.backward(); opt.step(); log loss.item() every k steps. Then val_loss = evaluate(model, val_loader, loss_fn, device). Return a history dict.",
       "3:30 CODE — @torch.no_grad() def evaluate(model, loader, loss_fn, device): model.eval(); total, n = 0.0, 0; for x, y: total += loss_fn(model(x), y).item() * len(x); n += len(x); model.train(); return total / n. Weight by batch size so a short last batch doesn't skew it. Model: MLP with nn.Dropout(0.5) on a toy classification set.",
-      "5:00 RECEIPT — Determinism check: evaluate twice, assert the two values are equal. Then run the model in train mode twice on the same input, outputs differ, proving dropout is live. Also assert no parameter has requires_grad tensors stored in the val output: out = model(x) inside evaluate has out.requires_grad False.",
+      "5:00 RECEIPT — Determinism check: evaluate twice, assert the two values are equal. Then run the model in train mode twice on the same input, outputs differ, proving dropout is live. Also assert that inside evaluate, model(x).requires_grad is False, so no graph was built.",
       "6:15 MEASURE — Plot train and val loss per epoch from the history dict. Show the eval-mode bug: validation loss computed in train mode is noisier and higher. Show memory: forward under no_grad doesn't keep activations, compare peak memory with and without on MPS via torch.mps.current_allocated_memory().",
       "7:15 TAKEAWAY — train() and eval() control layer behavior, no_grad controls graph building, and validation loss is a sample-weighted average. Interview line: eval mode and no_grad are independent, one changes what layers compute, the other changes whether autograd records it.",
       "7:45 NEXT — Our loop takes loaders but we've been faking the data. Let's build a real Dataset and DataLoader. Next: Dataset and DataLoader."
@@ -462,7 +462,7 @@
       "Side-by-side batches: random (lots of gray) vs length-bucketed (little gray), with waste percentages."
     ],
     "short": "The 3:00 CODE collate_fn: ragged strings to a padded tensor and mask. Caption: 'How LLMs batch sentences of different lengths.'",
-    "yt_title": "PyTorch Dataset and DataLoader: custom text dataset + padding collate_fn",
+    "yt_title": "PyTorch Dataset and DataLoader: text dataset + padding collate_fn",
     "thumbnail": "PAD. MASK. BATCH.",
     "x_post": "A Dataset is __len__ + __getitem__. A DataLoader shuffles indices, batches them, and calls collate_fn. Wrote a padding collate_fn with a mask, matched pad_sequence, and measured how much compute random batching wastes on padding. Code + video:",
     "linkedin": "Built a custom PyTorch Dataset over a text file and a padding collate_fn that returns tokens plus an attention mask, verified against torch.nn.utils.rnn.pad_sequence. I also checked that a shuffled epoch visits every example exactly once and measured padding waste with and without length bucketing. Pretraining sidesteps this by packing, fine-tuning does not.",
@@ -588,7 +588,7 @@
       "A 4x4 grid of bugs by checks, each row with exactly one red cell."
     ],
     "short": "The 3:30 CODE beat, bug 1: double softmax, loss looks fine, overfit-one-batch exposes it. Caption: 'This bug never crashes. It just ruins your model.'",
-    "yt_title": "Debugging Neural Networks in PyTorch: 4 silent bugs and how to find them",
+    "yt_title": "Debugging Neural Networks in PyTorch: 4 silent bugs, how to find them",
     "thumbnail": "4 BUGS. 0 ERRORS.",
     "x_post": "Broke a working model 4 ways: double softmax, missing zero_grad, (N,1) vs (N,) targets, LR too high + log(0). None crash. Initial-loss check, overfit-one-batch, shape asserts and forward hooks each catch one. Code + video:",
     "linkedin": "Final episode of PyTorch from Zero: I injected four silent bugs into a working model and found each with a cheap check: initial loss vs ln(C), overfitting one batch, shape asserts, and forward hooks plus gradient norms. None of the bugs raised an error. This checklist now runs before any long training job in the series.",

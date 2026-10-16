@@ -763,7 +763,7 @@
   "DS_MHC": {
    "name": "DeepSeek 2026, Manifold-Constrained Hyper-Connections (mHC)",
    "kind": "paper",
-   "url": "https://arxiv.org/search/?searchtype=all&query=Manifold-Constrained+Hyper-Connections"
+   "url": "https://arxiv.org/abs/2512.24880"
   },
   "HYPERCONN": {
    "name": "Zhu et al. 2024, Hyper-Connections",
@@ -773,12 +773,17 @@
   "DS_ENGRAM": {
    "name": "DeepSeek 2026, Conditional Memory via Scalable Lookup (Engram)",
    "kind": "paper",
-   "url": "https://arxiv.org/search/?searchtype=all&query=Conditional+Memory+via+Scalable+Lookup"
+   "url": "https://arxiv.org/abs/2601.07372"
+  },
+  "DS_ENGRAM_CODE": {
+   "name": "deepseek-ai/Engram",
+   "kind": "code",
+   "url": "https://github.com/deepseek-ai/Engram"
   },
   "DS_V4": {
    "name": "DeepSeek-V4: Towards Highly Efficient Million-Token Context Intelligence",
    "kind": "paper",
-   "url": "https://arxiv.org/search/?searchtype=all&query=DeepSeek-V4+Million-Token+Context"
+   "url": "https://arxiv.org/abs/2606.19348"
   },
   "DS_OCR": {
    "name": "DeepSeek-OCR: Contexts Optical Compression",
@@ -890,7 +895,7 @@
    "mod_ep": 1,
    "title": "Why I'm learning LLMs by building every piece",
    "slug": "why-i-m-learning-llms-by-building-every-piece",
-   "learn": "The map: 186 videos from tensors to SGLang, and how to follow along",
+   "learn": "The map: 216 videos from tensors to research, and how to follow along",
    "build": "Repo tour + the 'receipt' rule: every from-scratch piece is checked against PyTorch",
    "hardware": "Mac",
    "sources": [
@@ -1652,7 +1657,7 @@
    "title": "Encode and decode",
    "slug": "encode-and-decode",
    "learn": "Applying merges in order; round-trip guarantees",
-   "build": "encode(decode(x)) == x property test",
+   "build": "decode(encode(s)) == s property test (and why the reverse fails)",
    "hardware": "Mac",
    "sources": [
     "MINBPE"
@@ -4768,7 +4773,7 @@
    "title": "DeepSeek in miniature: putting it together",
    "slug": "deepseek-in-miniature-putting-it-together",
    "learn": "Which ideas transfer to small scale, and which only pay off at scale",
-   "build": "Ablation table from P9: dense vs MoE vs +MTP vs +DSA vs +mHC",
+   "build": "Ablation table from P6: dense vs MoE vs +MTP vs +DSA vs +mHC",
    "hardware": "RunPod 4x GPU",
    "sources": [
     "DSV3",
@@ -5121,8 +5126,8 @@
    "module": "M17",
    "module_name": "Capstones",
    "mod_ep": 4,
-   "title": "The whole map: what 186 videos taught me",
-   "slug": "the-whole-map-what-186-videos-taught-me",
+   "title": "The whole map: what 216 videos taught me",
+   "slug": "the-whole-map-what-216-videos-taught-me",
    "learn": "Recap, mistakes, what to learn next",
    "build": "One-page diagram of every piece",
    "hardware": "Mac",
@@ -5130,9 +5135,9 @@
     "CS336"
    ],
    "folder": "M17-capstone",
-   "prep": "prep/M17-capstone/E04-the-whole-map-what-186-videos-taught-me.md",
-   "code_file": "code/M17-capstone/e04_the_whole_map_what_186_videos_taught_me.py",
-   "explainer": "explainers/scenes/m17e04_the_whole_map_what_186_videos_ta.py"
+   "prep": "prep/M17-capstone/E04-the-whole-map-what-216-videos-taught-me.md",
+   "code_file": "code/M17-capstone/e04_the_whole_map_what_216_videos_taught_me.py",
+   "explainer": "explainers/scenes/m17e04_the_whole_map_what_216_videos_ta.py"
   }
  ]
 }

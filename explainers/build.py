@@ -55,6 +55,12 @@ CURRICULUM = REPO / "curriculum" / "curriculum.json"
 
 ENGINE_FILES = ("house.py", "shots.py", "prebaked_voice.py")
 
+# A short breath after every line. It is added to each beat's duration in the voice
+# manifest, so the scene allots it and the voice track never runs past the picture.
+# (The source studio appended it unconditionally in the mux instead, which drifted the voice
+# 0.28 s later per beat and let `-shortest` clip the final line whenever no beat overran.)
+BREATH = 0.28
+
 # Render tiers: (landscape resolution, vertical resolution, fps). `preview` is for fast
 # visual iteration; narration durations are real, so the layout you inspect is the layout
 # you ship.
@@ -167,7 +173,9 @@ def prepare(stem: str, voice: Voice | None = None,
         (work / name).unlink(missing_ok=True)
 
     durations = synth_beats(beats, work, voice=voice)
-    total = sum(durations)
+    (work / "voice_manifest.json").write_text(
+        json.dumps([round(d + BREATH, 3) for d in durations]))
+    total = sum(durations) + BREATH * len(durations)
     words = sum(len(b.split()) for b in beats)
     print(f"  narration: {len(beats)} beats, {words} words, {total:.1f}s "
           f"({voice.describe if voice else 'auto'})")
@@ -253,13 +261,6 @@ def build_audio(work: Path, beats: list[str], video: Path) -> Path | None:
             pad_index += 1
         lines.append(f"file '{wav.name}'")
         cursor = start + dur
-        # A short breath between beats so lines don't butt together.
-        tail = seq / f"tail{pad_index:03d}.wav"
-        _run(["ffmpeg", "-y", "-v", "error", "-f", "lavfi", "-i",
-              "anullsrc=r=48000:cl=mono", "-t", "0.28", str(tail)])
-        lines.append(f"file '{tail.name}'")
-        pad_index += 1
-        cursor += 0.28
 
     for _, wav, _d in clips:
         shutil.copy2(wav, seq / wav.name)
@@ -277,7 +278,8 @@ def build_audio(work: Path, beats: list[str], video: Path) -> Path | None:
     final = work / "final.mp4"
     res = subprocess.run([
         "ffmpeg", "-y", "-v", "error", "-i", str(video), "-i", str(track),
-        "-c:v", "copy", "-c:a", "aac", "-b:a", "192k", "-shortest",
+        "-c:v", "copy", "-c:a", "aac", "-b:a", "192k",
+        "-t", f"{ffprobe_duration(video):.3f}",  # the picture sets the length, never cut it
         "-movflags", "+faststart", str(final),
     ], capture_output=True, text=True)
     if res.returncode != 0:

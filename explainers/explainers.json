@@ -1,0 +1,71 @@
+{
+  "M01E01": {
+    "title": "Tensors: what they actually are",
+    "summary": "A tensor is one flat block of storage plus shape, stride, dtype and device; a transpose is new metadata over the same memory, not a copy.",
+    "duration": 88.0,
+    "beats": 9,
+    "chapters": [
+      {
+        "at": 0.0,
+        "label": "A grid is a picture"
+      },
+      {
+        "at": 7.4,
+        "label": "Storage"
+      },
+      {
+        "at": 16.87,
+        "label": "Shape"
+      },
+      {
+        "at": 23.7,
+        "label": "Stride"
+      },
+      {
+        "at": 45.03,
+        "label": "Transpose without a copy"
+      },
+      {
+        "at": 67.3,
+        "label": "dtype and device"
+      },
+      {
+        "at": 79.77,
+        "label": "Recap"
+      }
+    ],
+    "vertical": {
+      "duration": 85.4,
+      "chapters": [
+        {
+          "at": 0.0,
+          "label": "A grid is a picture"
+        },
+        {
+          "at": 6.97,
+          "label": "Storage"
+        },
+        {
+          "at": 16.43,
+          "label": "Shape"
+        },
+        {
+          "at": 23.3,
+          "label": "Stride"
+        },
+        {
+          "at": 43.83,
+          "label": "Transpose without a copy"
+        },
+        {
+          "at": 64.9,
+          "label": "dtype and device"
+        },
+        {
+          "at": 77.43,
+          "label": "Recap"
+        }
+      ]
+    }
+  }
+}

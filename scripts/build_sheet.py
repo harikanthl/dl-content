@@ -129,17 +129,17 @@ ws = wb.create_sheet("Today")
 ws["A1"] = "Today"; ws["A1"].font = Font(bold=True, size=16)
 ws["B1"] = "=TODAY()"; ws["B1"].number_format = "dddd, mmm d yyyy"
 ws["A3"] = "Recording today"; ws["A3"].font = Font(bold=True)
-ws["A4"] = '=IFERROR(FILTER(Calendar!B2:E, Calendar!A2:A=TODAY()), "Nothing scheduled today")'
+ws["A4"] = '=IFERROR(FILTER(Calendar!B2:E500, Calendar!A2:A500=TODAY()), "Nothing scheduled today")'
 ws["A8"] = "Tomorrow (read the prep sheets tonight)"; ws["A8"].font = Font(bold=True)
-ws["A9"] = '=IFERROR(FILTER(Calendar!B2:E, Calendar!A2:A=TODAY()+1), "Nothing scheduled")'
+ws["A9"] = '=IFERROR(FILTER(Calendar!B2:E500, Calendar!A2:A500=TODAY()+1), "Nothing scheduled")'
 ws["A13"] = "Scripts for today"; ws["A13"].font = Font(bold=True)
-ws["A14"] = ('=IFERROR(FILTER({\'Episodes & Scripts\'!B2:B, \'Episodes & Scripts\'!F2:F, \'Episodes & Scripts\'!G2:G}, '
-             '\'Episodes & Scripts\'!D2:D=TODAY()), "")')
+ws["A14"] = ('=IFERROR(FILTER({\'Episodes & Scripts\'!B2:B300, \'Episodes & Scripts\'!F2:F300, \'Episodes & Scripts\'!G2:G300}, '
+             '\'Episodes & Scripts\'!D2:D300=TODAY()), "")')
 ws["A20"] = "Progress"; ws["A20"].font = Font(bold=True)
-ws["A21"] = "Episodes recorded"; ws["B21"] = "=COUNTIF('Episodes & Scripts'!P2:P,\"Y\")"
-ws["A22"] = "Episodes published (YouTube)"; ws["B22"] = "=COUNTIF('Episodes & Scripts'!R2:R,\"Y\")"
+ws["A21"] = "Episodes recorded"; ws["B21"] = "=COUNTIF('Episodes & Scripts'!P2:P300,\"Y\")"
+ws["A22"] = "Episodes published (YouTube)"; ws["B22"] = "=COUNTIF('Episodes & Scripts'!R2:R300,\"Y\")"
 ws["A23"] = "Total episodes"; ws["B23"] = len(eps)
-ws["A24"] = "Behind / ahead (episodes)"; ws["B24"] = "=B21-COUNTIFS('Episodes & Scripts'!D2:D,\"<\"&TODAY())"
+ws["A24"] = "Behind / ahead (episodes)"; ws["B24"] = "=B21-COUNTIFS('Episodes & Scripts'!D2:D300,\"<\"&TODAY())"
 for col, w in zip("ABCDE", (30, 22, 60, 60, 20)):
     ws.column_dimensions[col].width = w
 

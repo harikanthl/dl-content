@@ -8,7 +8,6 @@ Test:  .venv/bin/python -m pytest code/M01-pytorch/e12_mnist_mlp_end_to_end_on_t
 """
 import gzip
 import os
-import sys
 import time
 from pathlib import Path
 
@@ -109,7 +108,6 @@ if __name__ == "__main__":
             # epoch 0 includes warm-up (MPS compiles kernels on first use), so report the rest
             print(f"{dev:4s} bs={bs:5d} | test acc {acc:.4f} | "
                   f"epoch0 {times[0]:.2f}s | steady {np.mean(times[1:]):.2f}s/epoch")
-    sys.exit(0)
 
 
 # ---------------------------------------------------------------------------

@@ -1,0 +1,178 @@
+[
+ {
+  "code": "M17E01",
+  "hook": "About a hundred dollars and four hours on eight H100s buys a chat model you trained yourself, every stage. I log every dollar.",
+  "beats": [
+   "0:00 HOOK — About a hundred dollars and four hours on eight H100s buys a chat model you trained yourself, every stage. I log every dollar.",
+   "0:15 QUESTION — Karpathy's nanochat runs the full pipeline: tokenizer, pretraining, midtraining, SFT and optional RL, in one script on one 8xH100 node, with a report card at the end. I run it, then swap in my own pieces from this series stage by stage, and compare report cards. This is what 'I built an LLM end to end' should mean.",
+   "1:00 INTUITION — An assembly line with five stations: tokenizer, base pretraining on web text, midtraining on conversations and tool use, SFT on curated chats, GRPO on math. Each station has an input, an output and a quality check. If any check fails, everything downstream is suspect. [EXPLAINER plays here]",
+   "2:30 MATH — Budget: cost = GPU-hours * price. Compute: C = 6 N D. For nanochat's default speedrun (a depth-20 model, about 561M parameters, trained Chinchilla-style at about 20 tokens per parameter, so roughly 11B tokens; verify the README's exact numbers), C is about 6 * 5.6e8 * 1.1e10, roughly 3.7e19 FLOPs. Eight H100s at 989 TFLOPs BF16 and 40 percent MFU deliver about 3.2e15 FLOPs/s, so pretraining takes about 3.2 hours. Check that against the run's wall clock.",
+   "4:30 CODE — On RunPod 8x H100 SXM. Clone nanochat, run speedrun.sh in a screen session, log to W&B. Then the swaps, one per run on the cheaper d-12 config: my BPE tokenizer from M04E03 in place of theirs (compression ratio compared), my GPT block from M05/M09 in place of theirs (same param count), my SFT loop from M11E03, my GRPO from M11E12 for the RL stage on GSM8K. Track cost per stage from the logs: GPU-hours times the pod's hourly rate.",
+   "8:00 RECEIPT — Receipt one: the stock speedrun's report card (CORE, ARC-Easy, ARC-Challenge, MMLU, GSM8K, HumanEval) matches the numbers published in the nanochat README or its speedrun discussion within noise (verify the current published table). Receipt two: each swapped component reproduces the stock run's metric within CI at the d-12 scale before I claim it works. Receipt three: my 6ND estimate of pretraining wall clock is within 25 percent of the actual.",
+   "10:00 MEASURE — Report card table: stock vs mine, with cost per stage in dollars. Stacked bar of cost by stage. Loss curves of all stages on one figure. Ten sample chats, read out loud, warts included.",
+   "11:45 TAKEAWAY — A full LLM pipeline fits on one node for about a hundred dollars, and every stage can be swapped for your own code and checked against a report card. Interview line: I have trained a small chat model end to end, tokenizer through RL, and I know the cost and metric of each stage.",
+   "12:30 NEXT — Next: Capstone 2: quantize and serve it"
+  ],
+  "key_math": "C = 6 N D ~ 6 * 5.6e8 * 1.1e10 ~ 3.7e19 FLOPs (verify N, D); t = C / (n_gpu * peak * MFU); cost = GPU_hours * $/hr.",
+  "code_task": "Run nanochat speedrun.sh; swap modules: tokenizer (M04E03 BPE), model block, sft loop (M11E03), grpo (M11E12); cost_tracker.py parsing logs -> $/stage; report_card_compare(stock.json, mine.json) -> table with CIs.",
+  "receipt": "Stock speedrun report card within noise of the published nanochat numbers (verify current table); each swapped component matches the stock d-12 metric within CI; 6ND wall-clock estimate within 25% of actual.",
+  "gotchas": "RunPod pods with PCIe H100s instead of SXM are much slower for this workload, check nvidia-smi topo before paying; the dataset download can take a long time on first run, pre-stage it on a network volume; swapping the tokenizer changes token counts, so compare metrics, not loss.",
+  "interview_q": "Walk me through training a chat model from scratch on a fixed budget. Train a tokenizer, pretrain on filtered web text at about Chinchilla-optimal tokens, midtrain on conversation and tool formats, SFT on curated chats, then RL on verifiable tasks, checking a report card at each stage and tracking cost.",
+  "explainer": [
+   "Here is the whole pipeline on one machine with eight GPUs. Five stations, left to right.",
+   "Station one turns raw text into tokens. Station two reads billions of them and learns to predict the next one.",
+   "Station three teaches the conversation format and tool calls. Station four fine tunes on curated chats.",
+   "Station five runs reinforcement learning on math problems with checkable answers.",
+   "Under each station we record its cost in dollars and its score on the report card.",
+   "Then we swap our own code in, one station at a time, and check that the score holds.",
+   "About a hundred dollars and an afternoon, for a model we can explain end to end."
+  ],
+  "explainer_visuals": [
+   "8-GPU node icon with five station boxes in a row.",
+   "Text stream into a tokenizer, then a large pretraining box with a loss curve.",
+   "Midtraining box with chat bubbles and a tool icon; SFT box with curated chat cards.",
+   "RL box with math problems and green check rewards.",
+   "Cost tags and report-card metrics appearing under each station.",
+   "One station box swapped for a differently colored one, metric unchanged.",
+   "Total cost receipt with ~$100 and a final chat sample."
+  ],
+  "short": "The cost receipt per stage. Caption: 'I trained a chat model for about $100.'",
+  "yt_title": "Train a Chat LLM End to End for ~$100: nanochat With My Own Code",
+  "thumbnail": "$100 CHATGPT",
+  "x_post": "Full pipeline on one 8xH100 node: tokenizer -> pretrain -> midtrain -> SFT -> GRPO. Stock nanochat report card first, then my own tokenizer, model, SFT and GRPO swapped in one at a time, each checked. Cost per stage logged. Code + video:",
+  "linkedin": "I trained a small chat model end to end on one 8xH100 node with Karpathy's nanochat, then replaced its tokenizer, model, SFT and RL stages with code I wrote in this series, checking each swap against the stock report card. Every stage's cost and metrics are published.",
+  "prereq": "M04E03, M06E16, M11E03, M11E12, M14E02"
+ },
+ {
+  "code": "M17E02",
+  "hook": "Four-bit weights cut my model's memory about 3x. What did it cost in quality, and can my own server keep up with vLLM?",
+  "beats": [
+   "0:00 HOOK — Four-bit weights cut my model's memory about 3x. What did it cost in quality, and can my own server keep up with vLLM?",
+   "0:15 QUESTION — A trained model is only useful once it serves requests cheaply. I take the Capstone 1 model, quantize it with my own GPTQ from M12 and with torchao, and serve it with featherserve, my engine from Project P2, next to vLLM and nano-vllm. The deliverable is one table: latency, throughput and quality for every combination.",
+   "1:00 INTUITION — Decode is memory-bound, so tokens per second is roughly memory bandwidth divided by bytes read per token. Halve the bytes and you nearly double the speed, until dequantization math or batching changes the bottleneck. Quality is the price, measured on the same evals as Capstone 1. [EXPLAINER plays here]",
+   "2:30 MATH — Decode upper bound at batch 1: tok/s ~ BW / (bytes_weights + bytes_KV per token). For 561M params on an RTX 4090 (about 1 TB/s): bf16 weights 1.12 GB give about 900 tok/s ideal; int4 with group size 128 is about 4.25 bits per weight including scales, about 0.3 GB, about 3300 tok/s ideal. Real numbers are lower due to kernel efficiency and small-model overheads. Quality: perplexity ratio PPL_q / PPL_bf16 and report-card deltas.",
+   "4:30 CODE — On RunPod 1x RTX 4090. Quantize: my gptq_quantize(model, calib=128 samples, bits=4, group_size=128) from M12E06; torchao quantize_(model, Int4WeightOnlyConfig(group_size=128)) (name differs across torchao versions; older is int4_weight_only); FP8 weight-only as a third option. Serve: featherserve with paged KV and continuous batching, vLLM with the same weights, nano-vllm as a minimal reference. Load test: a ShareGPT-style workload at concurrency 1, 8, 32, 64 with my M13E04 benchmark client.",
+   "8:00 RECEIPT — Receipt one: int4 perplexity on the held-out set within 2 percent of bf16 (the P8 bar), or I report the gap. Receipt two: featherserve's greedy outputs equal vLLM's greedy outputs token for token on 20 prompts in bf16, so throughput comparisons are fair. Receipt three: batch-1 decode tok/s for each format compared to the bandwidth bound; reaching 50 to 70 percent of the bound is a reasonable result for a small model.",
+   "10:00 MEASURE — The table: format by engine, with memory, TTFT p50/p99, ITL, throughput at concurrency 32, perplexity and two report-card metrics. Plot: throughput vs concurrency for each engine in bf16 and int4. Featherserve's fraction of vLLM throughput, the P2 bar is 60 percent.",
+   "11:45 TAKEAWAY — Quantization trades bytes for speed and a little quality, and the only honest way to report it is one table with latency, throughput and evals from the same weights. Interview line: decode is memory-bound, so weight-only int4 speeds it up nearly in proportion to bytes saved, until kernels and batching shift the bottleneck.",
+   "12:30 NEXT — Next: Capstone 3: a distributed run with full numbers"
+  ],
+  "key_math": "tok/s_max ~ BW / bytes_per_token; int4 g128 ~ 4 + 16/128 + (zero point) ~ 4.25 bits/weight; quality = PPL_q / PPL_bf16.",
+  "code_task": "quantize_all(model) -> {bf16, gptq_int4, torchao_int4, fp8}; serve(engine in {featherserve, vllm, nanovllm}, weights); load_test(endpoint, workload, concurrency=[1,8,32,64]) -> TTFT/ITL/throughput; eval_quality(weights) -> ppl, report-card subset; results_table() -> markdown + CSV.",
+  "receipt": "ppl(int4) / ppl(bf16) - 1 < 0.02 or the gap reported; featherserve greedy tokens == vLLM greedy tokens on 20 prompts in bf16; batch-1 tok/s printed as a fraction of the BW / bytes bound for each format.",
+  "gotchas": "Comparing engines with different sampling defaults or max batch settings makes throughput numbers meaningless, pin them; tiny models are often overhead-bound (Python, kernel launch), so int4 shows less speedup than the bound, CUDA graphs help; GPTQ calibration data from the eval set inflates quality, use a separate calibration split.",
+  "interview_q": "Why does weight-only int4 quantization speed up decoding but not prefill much? Decode at small batch is memory-bound on reading weights, so 4x fewer weight bytes nearly cuts time proportionally; prefill is compute-bound on large matmuls, where dequantizing to bf16 adds work without reducing FLOPs.",
+  "explainer": [
+   "Here is our trained model on one GPU, and the pipe from memory to the compute cores.",
+   "Every decoded token has to read every weight through that pipe. The pipe's width sets the speed limit.",
+   "In bf16 each weight is sixteen bits. In int4 it is four bits plus a small scale per group of one twenty eight.",
+   "Fewer bits through the same pipe means more tokens per second, almost in proportion.",
+   "The price is a little quality, so we measure perplexity and the report card on the same weights.",
+   "Then three servers face the same traffic: our own engine, vLLM, and a minimal reference.",
+   "One table holds it all. Memory, latency, throughput, and quality, for every format and engine."
+  ],
+  "explainer_visuals": [
+   "GPU diagram with HBM, a pipe labeled 1 TB/s, and SM cores.",
+   "Weight blocks streaming through the pipe for each token; speed-limit sign.",
+   "A 16-bit weight shrinking to 4 bits with a shared scale per 128-weight group.",
+   "Throughput bar growing as bytes shrink.",
+   "Perplexity gauges for bf16 and int4 side by side.",
+   "Three server icons receiving the same request stream; latency histograms.",
+   "Final results table filling in cell by cell."
+  ],
+  "short": "16-bit to 4-bit weights through the memory pipe. Caption: '4 bits, same model, much faster.'",
+  "yt_title": "Quantize and Serve Your Own LLM: GPTQ/int4, My Engine vs vLLM",
+  "thumbnail": "4-BIT, SERVED",
+  "x_post": "Capstone 2: my model quantized with my GPTQ and torchao int4, served by my own engine next to vLLM. Greedy outputs identical to vLLM in bf16 first, then latency/throughput/perplexity for every format and engine in one table. Code + video:",
+  "linkedin": "I quantized my capstone model with my own GPTQ and with torchao, then served it with my from-scratch inference engine next to vLLM and nano-vllm under the same workload. One table reports memory, latency, throughput and quality. My engine's greedy outputs matched vLLM token for token before any speed comparison.",
+  "prereq": "M17E01, M12E06, M12E08, M13E15"
+ },
+ {
+  "code": "M17E03",
+  "hook": "Four GPUs should be four times faster. Mine weren't, and the write-up explains where every missing percent went.",
+  "beats": [
+   "0:00 HOOK — Four GPUs should be four times faster. Mine weren't, and the write-up explains where every missing percent went.",
+   "0:15 QUESTION — Pretraining and research engineer roles at labs ask one thing about distributed training: can you make a multi-GPU run efficient and explain its numbers? I train a roughly 1B model with FSDP2 plus tensor parallelism on rented GPUs, measure MFU and scaling efficiency, and publish a report in the style of the Ultra-Scale Playbook. This builds on feathertrain, Project P3.",
+   "1:00 INTUITION — Every step on N GPUs is compute plus communication plus waiting. Perfect scaling hides all communication under compute. The report is an accounting exercise: start from ideal time, then attribute every lost millisecond to all-gather, reduce-scatter, TP all-reduce, or idle time, using the profiler. [EXPLAINER plays here]",
+   "2:30 MATH — MFU = (6 N + 12 n_layer d_model seq) * tokens_per_s / (n_gpu * peak), the attention term included as in the PaLM appendix. Scaling efficiency at N GPUs = throughput_N / (N * throughput_1). FSDP communication per step: about 3 * params * bytes for all-gather forward, all-gather backward and reduce-scatter grads, divided by the algorithmic bandwidth. TP all-reduces: 2 per layer in forward and 2 in backward, each of size B * seq * d_model * bytes. Compare predicted comm time to measured.",
+   "4:30 CODE — On RunPod 4x GPU (H100 SXM with NVLink if possible). mesh = init_device_mesh('cuda', (dp, tp), mesh_dim_names=('dp', 'tp')). TP: parallelize_module(block, mesh['tp'], {'attn.wq': ColwiseParallel(), 'attn.wo': RowwiseParallel(), 'mlp.w1': ColwiseParallel(), 'mlp.w2': RowwiseParallel(), ...}). FSDP2: fully_shard(block, mesh=mesh['dp']) per block, then fully_shard(model). torch.compile on blocks. Activation checkpointing where memory needs it. Configs: 1 GPU baseline (smaller batch with grad accumulation for equal global batch), DP=2, DP=4, DP=2 x TP=2. torch.profiler traces for one step of each.",
+   "8:00 RECEIPT — Receipt one: with the same seed and global batch, the 4-GPU run's loss curve matches the 1-GPU run within run-to-run noise for the first 500 steps (overlay and max abs diff of smoothed loss). Receipt two: my MFU formula applied to torchtitan's published Llama 3 8B benchmark numbers reproduces the MFU they report (verify the table in torchtitan's docs). Receipt three: predicted FSDP comm time from the bandwidth formula is within 30 percent of the profiler's measured NCCL kernel time.",
+   "10:00 MEASURE — Scaling chart: tokens/s and efficiency at 1, 2, 4 GPUs for each strategy. Stacked bar per config: compute, exposed comm, idle, from the profiler. MFU per config. Memory per GPU per strategy. Cost per billion tokens.",
+   "11:45 TAKEAWAY — A distributed run is only finished when you can account for every millisecond of the step and show the loss matches single-GPU training. Interview line: I measure MFU including attention FLOPs, verify loss parity against a single-GPU baseline, and attribute scaling losses to specific collectives with the profiler.",
+   "12:30 NEXT — Next: The whole map: what 186 videos taught me"
+  ],
+  "key_math": "MFU = (6N + 12 L d s) * tok/s / (n_gpu * peak); eff_N = thr_N / (N thr_1); FSDP bytes/step ~ 3 * P * b; TP all-reduce per layer fwd: 2 x (B s d b).",
+  "code_task": "train_dist.py with init_device_mesh('cuda', (dp, tp)), parallelize_module(..., ColwiseParallel/RowwiseParallel plan), fully_shard per block, torch.compile; mfu(n_params, n_layer, d_model, seq, tok_s, n_gpu, peak) -> float; comm_model(params, bytes, bw) -> s; profile_step() -> chrome trace; report.md generated from logs.",
+  "receipt": "Smoothed loss of 4-GPU vs 1-GPU runs (same seed, same global batch) within run-to-run noise over 500 steps; mfu() on torchtitan's published Llama 3 8B throughput reproduces its reported MFU (verify); predicted vs measured FSDP comm time within 30%.",
+  "gotchas": "Changing the global batch between configs changes the optimization, not just speed, keep it fixed with grad accumulation; MFU computed with peak FP8 when training in BF16 halves your number, state the precision; TP across PCIe without NVLink is often slower than pure FSDP, check topology first.",
+  "interview_q": "Your 4-GPU run gets 70% scaling efficiency. How do you find the loss? Profile one step per config, separate compute, exposed communication and idle time, compare measured collective times to a bandwidth model, then fix the biggest item: overlap via prefetching, bigger per-GPU batch, fewer TP all-reduces, or better topology.",
+  "explainer": [
+   "Here is one training step on one GPU, a single bar of compute time.",
+   "On four GPUs, compute splits four ways. Ideally the step gets four times shorter.",
+   "But now the GPUs must talk. FSDP gathers weights before each block and scatters gradients after.",
+   "Tensor parallelism adds its own all-reduces inside every layer, shown in orange.",
+   "Some communication hides under compute. What sticks out is lost time.",
+   "The profiler shows exactly which collective sticks out, and our bandwidth math predicts how long it should take.",
+   "And the loss curve on four GPUs lies right on top of the single-GPU curve. Same training, just faster."
+  ],
+  "explainer_visuals": [
+   "Single long blue compute bar labeled 1 GPU.",
+   "Four shorter bars stacked, ideal 4x speedup arrow.",
+   "All-gather and reduce-scatter blocks (purple) between compute segments.",
+   "Orange TP all-reduce slivers inside each layer segment.",
+   "Overlap view: comm partially beneath compute, exposed part highlighted red.",
+   "Profiler trace screenshot style with NCCL kernels labeled; predicted vs measured bars.",
+   "Two loss curves overlapping almost perfectly."
+  ],
+  "short": "The step-time accounting bar. Caption: 'Where my 4th GPU's time went.'",
+  "yt_title": "FSDP2 + Tensor Parallel on 4 GPUs: MFU and Scaling Report",
+  "thumbnail": "WHERE DID 30% GO?",
+  "x_post": "Capstone 3: ~1B model, FSDP2 + TP on 4 rented GPUs. Loss matches the 1-GPU run, MFU includes attention FLOPs, and every ms of lost scaling is attributed to a specific collective with the profiler + a bandwidth model. Code + video:",
+  "linkedin": "I trained a roughly 1B model with FSDP2 and tensor parallelism on four rented GPUs and published a full scaling report: loss parity with a single-GPU baseline, MFU, scaling efficiency, memory per GPU and cost per billion tokens. Profiler traces and a bandwidth model account for where the lost scaling went.",
+  "prereq": "M10E06, M10E09, M10E14, M10E16, M17E01"
+ },
+ {
+  "code": "M17E04",
+  "hook": "Every episode ended with a receipt, a test against the real thing. Today I rerun all of them at once.",
+  "beats": [
+   "0:00 HOOK — Every episode ended with a receipt, a test against the real thing. Today I rerun all of them at once.",
+   "0:15 QUESTION — The series started with a rule: nothing counts until it matches PyTorch, a production engine or a published number. That gave me a repo full of receipts, from softmax to DeepSeek-V4's KV math. This last episode puts the whole map on one page, says what I got wrong, and lays out what I am learning next for Anthropic, OpenAI and the Fellows program.",
+   "1:00 INTUITION — The map has four layers. Math and tensors at the bottom, the transformer in the middle, systems on one side (kernels, distributed training, inference) and behavior on the other (post-training, evals, interpretability, control). Every flagship project sits where two layers meet. [EXPLAINER plays here]",
+   "2:30 MATH — One equation from each layer, on screen, as a recap: softmax and its stability trick (M00); attention softmax(QK^T / sqrt(d)) V (M05); online softmax's running max and sum (M08); 6ND (M06); the GRPO advantage (M11); the MLA cache size d_c + d_R (M09, M15); and the SAE loss (M14). Each one is a line I can now derive on a whiteboard.",
+   "4:30 CODE — make receipts: a pytest run over every episode's receipt test in code/, CPU and MPS ones locally, GPU ones marked and run on a RunPod pod. Count passes per module. map.py renders the one-page diagram from curriculum.json, coloring each episode by receipt status. Then the project ledger: P1 to P9, each with its bar, the result and the link.",
+   "7:00 RECEIPT — The full suite: number of receipts passing out of the total, shown per module. Any failures are shown and explained on camera, not hidden: a changed upstream API, a flaky GPU benchmark, or a real bug. The ledger lists each project's bar from projects.json next to what I actually achieved.",
+   "8:30 MEASURE — The one-page map. Totals: GPU hours and dollars spent across the series, number of public repos, merged upstream PRs (P9's target is 5 or more), papers reproduced. The three mistakes that cost me the most time, with the episode where each one bit.",
+   "10:30 TAKEAWAY — Building every piece and checking it against the real thing is slow, and it is the only way I trust my understanding. Interview line: I can point to a public test that checks each component I claim to understand against the production implementation or a published number.",
+   "11:15 NEXT — Next: what I am learning after this series, and the research questions I am taking into the Anthropic Fellows application. Thanks for watching all of it."
+  ],
+  "key_math": "softmax(x - max x); softmax(QK^T/sqrt(d))V; m_new = max(m, x), l_new = l e^{m - m_new} + e^{x - m_new}; C = 6ND; A_i = (r_i - mean r)/std r; MLA cache = d_c + d_R; L_SAE = ||x - x_hat||^2 + lambda sum f_i ||W_dec,i||.",
+  "code_task": "Makefile target receipts running pytest -m 'not gpu' locally and pytest -m gpu on RunPod, writing receipts.json (episode -> pass/fail); map.py rendering the curriculum as a one-page diagram colored by receipt status; ledger.md generated from projects.json plus results links.",
+  "receipt": "pytest summary: N passed of M receipts, broken down per module, with every failure listed and explained; ledger shows each project's bar from projects.json against the achieved result.",
+  "gotchas": "Old receipts break when upstream libraries change APIs (TransformerLens, vLLM, torchao), pin versions per module in lockfiles; GPU benchmark receipts with tight thresholds are flaky across pods, record the hardware with each result; a recap that only lists wins teaches nothing, show the mistakes.",
+  "interview_q": "What is the most important thing you learned building an LLM stack from scratch? That correctness has to be checked against a reference at every layer: small numerical mismatches compound, and most of my real bugs were found by receipts, not by loss curves.",
+  "explainer": [
+   "Here is the whole series as one map. Tensors and math at the bottom, the transformer above them.",
+   "On the left, systems: GPU kernels, FlashAttention, distributed training, and the inference engine.",
+   "On the right, behavior: post-training, reasoning RL, evals, interpretability, and control.",
+   "At the top, the DeepSeek module and the research frontier, where all of it comes together.",
+   "Each dot is an episode, and each turns green when its receipt still passes today.",
+   "The flagship projects sit where two regions meet, like the inference engine between kernels and serving.",
+   "A few dots are red. Those are the honest part of the map, and the place to keep learning."
+  ],
+  "explainer_visuals": [
+   "Layered map: bottom band 'Math + Tensors', middle 'Transformer'.",
+   "Left region populated with systems episode dots.",
+   "Right region populated with behavior episode dots.",
+   "Top region with DeepSeek and frontier dots.",
+   "Dots flipping from grey to green as a test runner progresses.",
+   "Project badges P1-P9 placed at region boundaries.",
+   "A few red dots highlighted with short failure notes."
+  ],
+  "short": "The receipt test suite turning the map green. Caption: 'Every LLM component I built, retested at once.'",
+  "yt_title": "What Building Every Piece of an LLM Taught Me: The Full Map",
+  "thumbnail": "THE WHOLE MAP",
+  "x_post": "End of the series. Every episode had a receipt: a test against PyTorch, a production engine or a published number. I reran all of them at once. Pass count per module, the failures explained, and the one-page map of the whole stack. Code + video:",
+  "linkedin": "I finished my LLMs from First Principles series and reran every episode's receipt, the test that checks each component against a production implementation or published number. This post has the one-page map, the pass counts, the projects ledger and the three mistakes that cost me the most time. Next: research toward the Anthropic Fellows program.",
+  "prereq": "M17E01, M17E02, M17E03"
+ }
+]
