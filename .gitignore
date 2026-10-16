@@ -12,3 +12,4 @@ edit/**/node_modules/
 explainers/.venv-tts
 explainers/voices
 explainers/explainers.lock
+funding/
