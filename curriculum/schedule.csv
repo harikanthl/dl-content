@@ -1,0 +1,400 @@
+date,dow,slot,kind,code,title
+2026-10-16,Fri,A,episode,M00E02,"Setup: uv, PyTorch, MPS vs CUDA, RunPod in 10 minutes"
+2026-10-16,Fri,B,episode,M01E01,Tensors: what they actually are
+2026-10-17,Sat,A,episode,M01E02,Creating tensors and dtypes
+2026-10-17,Sat,B,episode,M01E03,"Indexing, views and strides"
+2026-10-18,Sun,,review,,"Weekly review, thumbnails batch, read next week's prep"
+2026-10-19,Mon,A,episode,M01E04,Broadcasting: the bug factory
+2026-10-19,Mon,B,episode,M01E05,"Matmul, reductions and einsum"
+2026-10-20,Tue,A,episode,M01E06,Autograd: how PyTorch computes gradients
+2026-10-20,Tue,B,episode,M01E07,Linear regression with raw autograd
+2026-10-21,Wed,A,episode,M01E08,nn.Module and nn.Parameter
+2026-10-21,Wed,B,episode,M01E09,Loss functions and optimizers
+2026-10-22,Thu,A,episode,M01E10,"The training loop, done right"
+2026-10-22,Thu,B,episode,M01E11,Dataset and DataLoader
+2026-10-23,Fri,A,episode,M01E12,MNIST MLP end to end on the M4 GPU
+2026-10-23,Fri,B,episode,M01E13,"Saving, loading and reproducibility"
+2026-10-24,Sat,A,episode,M01E14,Debugging neural nets
+2026-10-24,Sat,B,episode,M00E01,Why I'm learning LLMs by building every piece
+2026-10-25,Sun,,review,,"Weekly review, thumbnails batch, read next week's prep"
+2026-10-26,Mon,A,episode,M02E01,Vectors and dot products
+2026-10-26,Mon,B,episode,M02E02,"Matrix multiplication, three ways"
+2026-10-27,Tue,A,episode,M02E03,Derivatives and the chain rule
+2026-10-27,Tue,B,episode,M02E04,"Gradient descent, geometrically"
+2026-10-28,Wed,A,episode,M02E05,Backprop through a matmul by hand
+2026-10-28,Wed,B,episode,M02E06,Probability for language models
+2026-10-29,Thu,A,episode,M02E07,"Softmax, temperature and log-sum-exp"
+2026-10-29,Thu,B,episode,M02E08,Cross-entropy is negative log-likelihood
+2026-10-30,Fri,A,episode,M02E09,Variance and initialization
+2026-10-30,Fri,B,episode,M02E10,Jacobians and vector-Jacobian products
+2026-10-31,Sat,A,episode,M03E01,"micrograd, part 1: an autograd engine"
+2026-10-31,Sat,B,episode,M03E02,"micrograd, part 2: neurons to an MLP"
+2026-11-01,Sun,,review,,"Weekly review, thumbnails batch, read next week's prep"
+2026-11-02,Mon,A,episode,M03E03,Bigram language model by counting
+2026-11-02,Mon,B,episode,M03E04,The bigram model as a neural net
+2026-11-03,Tue,A,episode,M03E05,Embeddings: lookup tables that learn
+2026-11-03,Tue,B,episode,M03E06,"Train, validation, test and overfitting"
+2026-11-04,Wed,A,episode,M03E07,Activations and dead neurons
+2026-11-04,Wed,B,episode,M03E08,BatchNorm vs LayerNorm from scratch
+2026-11-05,Thu,A,episode,M03E09,Residual connections
+2026-11-05,Thu,B,episode,M03E10,Backprop by hand for a whole MLP LM
+2026-11-06,Fri,A,episode,M04E01,Why tokenization exists
+2026-11-06,Fri,B,episode,M04E02,Byte Pair Encoding by hand
+2026-11-07,Sat,A,episode,M04E03,Train a byte-level BPE tokenizer
+2026-11-07,Sat,B,episode,M04E04,Encode and decode
+2026-11-08,Sun,,review,,"Weekly review, thumbnails batch, read next week's prep"
+2026-11-09,Mon,A,episode,M04E05,Pre-tokenization and special tokens
+2026-11-09,Mon,B,episode,M04E06,tiktoken vs SentencePiece vs HF tokenizers
+2026-11-10,Tue,A,episode,M04E07,Why LLMs can't spell
+2026-11-10,Tue,B,episode,M04E08,Tokenizing a dataset fast
+2026-11-11,Wed,A,episode,M05E01,A GPT forward pass in one picture
+2026-11-11,Wed,B,episode,M05E02,Token embeddings and the residual stream
+2026-11-12,Thu,A,episode,M05E03,Positional information
+2026-11-12,Thu,B,episode,M05E04,Attention intuition: a soft dictionary lookup
+2026-11-13,Fri,A,episode,M05E05,Why divide by sqrt(d_k)
+2026-11-13,Fri,B,episode,M05E06,Single-head self-attention in code
+2026-11-14,Sat,A,episode,M05E07,Causal masking
+2026-11-14,Sat,B,episode,M05E08,Multi-head attention
+2026-11-15,Sun,,review,,"Weekly review, thumbnails batch, read next week's prep"
+2026-11-16,Mon,A,episode,M05E09,The MLP block
+2026-11-16,Mon,B,episode,M05E10,"ReLU, GELU and SwiGLU"
+2026-11-17,Tue,A,episode,M05E11,LayerNorm vs RMSNorm
+2026-11-17,Tue,B,episode,M05E12,Pre-norm vs post-norm: assembling the block
+2026-11-18,Wed,A,episode,M05E13,LM head and weight tying
+2026-11-18,Wed,B,episode,M05E14,A full GPT in 150 lines
+2026-11-19,Thu,A,episode,M05E15,RoPE from first principles
+2026-11-19,Thu,B,episode,M05E16,Counting parameters and FLOPs
+2026-11-20,Fri,A,episode,M05E17,Memory accounting for training
+2026-11-20,Fri,B,episode,M05E18,Multi-query and grouped-query attention
+2026-11-21,Sat,A,episode,M06E01,The data loader for LM pretraining
+2026-11-21,Sat,B,episode,M06E02,Loss and perplexity
+2026-11-22,Sun,,review,,"Weekly review, thumbnails batch, read next week's prep"
+2026-11-23,Mon,A,episode,M06E03,Adam and AdamW from scratch
+2026-11-23,Mon,B,episode,M06E04,Learning-rate schedules
+2026-11-24,Tue,A,episode,M06E05,Gradient clipping and stability
+2026-11-24,Tue,B,episode,M06E06,"Mixed precision: fp32, fp16, bf16"
+2026-11-25,Wed,A,episode,M06E07,Gradient accumulation
+2026-11-25,Wed,B,episode,M06E08,Checkpointing and resumable training
+2026-11-26,Thu,A,episode,M06E09,Train a GPT on TinyStories
+2026-11-26,Thu,B,episode,M06E10,"Sampling: greedy, temperature, top-k, top-p"
+2026-11-27,Fri,A,episode,M06E11,torch.compile and kernel fusion
+2026-11-27,Fri,B,episode,M06E12,Experiment tracking and ablations
+2026-11-28,Sat,A,episode,M06E13,Scaling laws: Kaplan vs Chinchilla
+2026-11-28,Sat,B,episode,M06E14,Fit your own scaling law
+2026-11-29,Sun,,review,,"Weekly review, thumbnails batch, read next week's prep"
+2026-11-30,Mon,A,episode,M06E15,Data quality: filtering and dedup
+2026-11-30,Mon,B,episode,M06E16,Run the NanoGPT speedrun on 8xH100
+2026-12-01,Tue,A,episode,M07E01,How a GPU works
+2026-12-01,Tue,B,project,P5,Pretraining at speedrun quality: build log day 1
+2026-12-02,Wed,A,episode,M07E02,Roofline and arithmetic intensity
+2026-12-02,Wed,B,project,P5,Pretraining at speedrun quality: build log day 2
+2026-12-03,Thu,A,episode,M07E03,Profiling PyTorch
+2026-12-03,Thu,B,project,P5,Pretraining at speedrun quality: build log day 3
+2026-12-04,Fri,A,episode,M07E04,CUDA 101: vector add
+2026-12-04,Fri,B,project,P5,Pretraining at speedrun quality: build log day 4
+2026-12-05,Sat,A,episode,M07E05,The memory hierarchy and coalescing
+2026-12-05,Sat,B,project,P5,Pretraining at speedrun quality: build log day 5
+2026-12-06,Sun,,review,,"Weekly review, thumbnails batch, read next week's prep"
+2026-12-07,Mon,A,episode,M07E06,Naive matmul in CUDA
+2026-12-07,Mon,B,project,P5,Pretraining at speedrun quality: build log day 6
+2026-12-08,Tue,A,episode,M07E07,Tiled matmul with shared memory
+2026-12-08,Tue,B,project,P5,Pretraining at speedrun quality: build log day 7
+2026-12-09,Wed,A,episode,M07E08,The matmul optimization ladder
+2026-12-09,Wed,B,project,P5,Pretraining at speedrun quality: build log day 8
+2026-12-10,Thu,A,episode,M07E09,Parallel reduction and warp shuffles
+2026-12-10,Thu,B,project,P5,Pretraining at speedrun quality: build log day 9
+2026-12-11,Fri,A,episode,M07E10,A softmax kernel in CUDA
+2026-12-11,Fri,B,project,P5,Pretraining at speedrun quality: build log day 10
+2026-12-12,Sat,A,episode,M07E11,Calling CUDA from PyTorch
+2026-12-12,Sat,B,project,P5,Pretraining at speedrun quality: build log day 11
+2026-12-13,Sun,,review,,"Weekly review, thumbnails batch, read next week's prep"
+2026-12-14,Mon,A,episode,M07E12,Triton 101: vector add
+2026-12-14,Mon,B,project,P5,Pretraining at speedrun quality: build log day 12
+2026-12-15,Tue,A,episode,M07E13,Fused softmax in Triton
+2026-12-15,Tue,B,episode,M07E14,Matmul in Triton with autotuning
+2026-12-16,Wed,A,episode,M07E15,"RMSNorm in Triton, forward and backward"
+2026-12-16,Wed,B,episode,M07E16,Tensor cores and low precision
+2026-12-17,Thu,A,episode,M07E17,Inside torch.compile: Inductor writes Triton
+2026-12-17,Thu,B,episode,M07E18,Benchmarking GPU code correctly
+2026-12-18,Fri,A,episode,M08E01,Why standard attention is memory-bound
+2026-12-18,Fri,B,episode,M08E02,Online softmax
+2026-12-19,Sat,A,episode,M08E03,FlashAttention forward on paper
+2026-12-19,Sat,B,episode,M08E04,FlashAttention forward in PyTorch
+2026-12-20,Sun,,review,,"Weekly review, thumbnails batch, read next week's prep"
+2026-12-21,Mon,A,episode,M08E05,FlashAttention forward in Triton
+2026-12-21,Mon,B,episode,M08E06,The backward pass and recomputation
+2026-12-22,Tue,A,episode,M08E07,FlashAttention 2 and 3
+2026-12-22,Tue,B,project,P1,feather-attn: FlashAttention forward + backward in Triton: build log day 1
+2026-12-23,Wed,A,episode,M08E08,"Benchmark: naive vs yours vs SDPA, plus Flash-Decoding"
+2026-12-23,Wed,B,project,P1,feather-attn: FlashAttention forward + backward in Triton: build log day 2
+2026-12-24,Thu,A,episode,M09E01,Inside Llama 3 and Qwen 3
+2026-12-24,Thu,B,project,P1,feather-attn: FlashAttention forward + backward in Triton: build log day 3
+2026-12-25,Fri,A,episode,M09E02,Context extension: RoPE scaling and YaRN
+2026-12-25,Fri,B,project,P1,feather-attn: FlashAttention forward + backward in Triton: build log day 4
+2026-12-26,Sat,A,episode,M09E03,KV cache math: MHA vs GQA vs MLA
+2026-12-26,Sat,B,project,P1,feather-attn: FlashAttention forward + backward in Triton: build log day 5
+2026-12-27,Sun,,review,,"Weekly review, thumbnails batch, read next week's prep"
+2026-12-28,Mon,A,episode,M09E04,"Multi-head latent attention, derived"
+2026-12-28,Mon,B,project,P1,feather-attn: FlashAttention forward + backward in Triton: build log day 6
+2026-12-29,Tue,A,episode,M09E05,MLA weight absorption and decoupled RoPE
+2026-12-29,Tue,B,project,P1,feather-attn: FlashAttention forward + backward in Triton: build log day 7
+2026-12-30,Wed,A,episode,M09E06,Mixture of Experts: routing
+2026-12-30,Wed,B,project,P1,feather-attn: FlashAttention forward + backward in Triton: build log day 8
+2026-12-31,Thu,A,episode,M09E07,MoE load balancing
+2026-12-31,Thu,B,project,P1,feather-attn: FlashAttention forward + backward in Triton: build log day 9
+2027-01-01,Fri,A,episode,M09E08,Sliding-window attention and attention sinks
+2027-01-01,Fri,B,project,P1,feather-attn: FlashAttention forward + backward in Triton: build log day 10
+2027-01-02,Sat,A,episode,M09E09,Beyond attention: SSMs and linear attention
+2027-01-02,Sat,B,project,P1,feather-attn: FlashAttention forward + backward in Triton: build log day 11
+2027-01-03,Sun,,review,,"Weekly review, thumbnails batch, read next week's prep"
+2027-01-04,Mon,A,episode,M09E10,"Stability at scale: QK-norm, z-loss, Muon"
+2027-01-04,Mon,B,project,P1,feather-attn: FlashAttention forward + backward in Triton: build log day 12
+2027-01-05,Tue,A,episode,M10E01,Why distribute: the memory wall
+2027-01-05,Tue,B,episode,M10E02,Collectives: all-reduce and friends
+2027-01-06,Wed,A,episode,M10E03,torch.distributed on your laptop
+2027-01-06,Wed,B,episode,M10E04,Data parallelism from scratch
+2027-01-07,Thu,A,episode,M10E05,"ZeRO stages 1, 2 and 3"
+2027-01-07,Thu,B,episode,M10E06,FSDP from scratch
+2027-01-08,Fri,A,episode,M10E07,Activation checkpointing
+2027-01-08,Fri,B,episode,M10E08,Tensor parallelism: column and row parallel
+2027-01-09,Sat,A,episode,M10E09,Tensor-parallel attention and MLP
+2027-01-09,Sat,B,episode,M10E10,Pipeline parallelism and the bubble
+2027-01-10,Sun,,review,,"Weekly review, thumbnails batch, read next week's prep"
+2027-01-11,Mon,A,episode,M10E11,1F1B and zero-bubble schedules
+2027-01-11,Mon,B,episode,M10E12,Context parallelism and ring attention
+2027-01-12,Tue,A,episode,M10E13,Expert parallelism and all-to-all
+2027-01-12,Tue,B,episode,M10E14,Device meshes: combining 3D/4D parallelism
+2027-01-13,Wed,A,episode,M10E15,Scaling for real on 4 GPUs
+2027-01-13,Wed,B,project,P3,feathertrain: 4D-parallel training framework: build log day 1
+2027-01-14,Thu,A,episode,M10E16,"MFU, checkpoints and failures at scale"
+2027-01-14,Thu,B,project,P3,feathertrain: 4D-parallel training framework: build log day 2
+2027-01-15,Fri,A,episode,M11E01,Base model vs chat model
+2027-01-15,Fri,B,project,P3,feathertrain: 4D-parallel training framework: build log day 3
+2027-01-16,Sat,A,episode,M11E02,Chat templates and loss masking
+2027-01-16,Sat,B,project,P3,feathertrain: 4D-parallel training framework: build log day 4
+2027-01-17,Sun,,review,,"Weekly review, thumbnails batch, read next week's prep"
+2027-01-18,Mon,A,episode,M11E03,SFT from scratch
+2027-01-18,Mon,B,project,P3,feathertrain: 4D-parallel training framework: build log day 5
+2027-01-19,Tue,A,episode,M11E04,LoRA from scratch
+2027-01-19,Tue,B,project,P3,feathertrain: 4D-parallel training framework: build log day 6
+2027-01-20,Wed,A,episode,M11E05,QLoRA
+2027-01-20,Wed,B,project,P3,feathertrain: 4D-parallel training framework: build log day 7
+2027-01-21,Thu,A,episode,M11E06,Reward models
+2027-01-21,Thu,B,project,P3,feathertrain: 4D-parallel training framework: build log day 8
+2027-01-22,Fri,A,episode,M11E07,Policy gradients for LLMs
+2027-01-22,Fri,B,project,P3,feathertrain: 4D-parallel training framework: build log day 9
+2027-01-23,Sat,A,episode,M11E08,PPO
+2027-01-23,Sat,B,project,P3,feathertrain: 4D-parallel training framework: build log day 10
+2027-01-24,Sun,,review,,"Weekly review, thumbnails batch, read next week's prep"
+2027-01-25,Mon,A,episode,M11E09,"DPO, derived"
+2027-01-25,Mon,B,project,P3,feathertrain: 4D-parallel training framework: build log day 11
+2027-01-26,Tue,A,episode,M11E10,DPO in code
+2027-01-26,Tue,B,project,P3,feathertrain: 4D-parallel training framework: build log day 12
+2027-01-27,Wed,A,episode,M11E11,"GRPO, derived"
+2027-01-27,Wed,B,project,P3,feathertrain: 4D-parallel training framework: build log day 13
+2027-01-28,Thu,A,episode,M11E12,GRPO from scratch on GSM8K
+2027-01-28,Thu,B,project,P3,feathertrain: 4D-parallel training framework: build log day 14
+2027-01-29,Fri,A,episode,M11E13,GRPO fixes: Dr. GRPO and DAPO
+2027-01-29,Fri,B,project,P3,feathertrain: 4D-parallel training framework: build log day 15
+2027-01-30,Sat,A,episode,M11E14,Reasoning models and test-time compute
+2027-01-30,Sat,B,project,P3,feathertrain: 4D-parallel training framework: build log day 16
+2027-01-31,Sun,,review,,"Weekly review, thumbnails batch, read next week's prep"
+2027-02-01,Mon,A,episode,M11E15,Reward hacking and the KL leash
+2027-02-01,Mon,B,project,P3,feathertrain: 4D-parallel training framework: build log day 17
+2027-02-02,Tue,A,episode,M11E16,Distillation and synthetic data
+2027-02-02,Tue,B,project,P3,feathertrain: 4D-parallel training framework: build log day 18
+2027-02-03,Wed,A,episode,M12E01,Number formats
+2027-02-03,Wed,B,project,P4,Reasoning RL: reproduce and extend an R1-Zero style result: build log day 1
+2027-02-04,Thu,A,episode,M12E02,Absmax and zero-point quantization
+2027-02-04,Thu,B,project,P4,Reasoning RL: reproduce and extend an R1-Zero style result: build log day 2
+2027-02-05,Fri,A,episode,M12E03,"Granularity: per-tensor, per-channel, per-group"
+2027-02-05,Fri,B,project,P4,Reasoning RL: reproduce and extend an R1-Zero style result: build log day 3
+2027-02-06,Sat,A,episode,M12E04,LLM.int8() and outlier features
+2027-02-06,Sat,B,project,P4,Reasoning RL: reproduce and extend an R1-Zero style result: build log day 4
+2027-02-07,Sun,,review,,"Weekly review, thumbnails batch, read next week's prep"
+2027-02-08,Mon,A,episode,M12E05,"Weight-only vs W8A8, and SmoothQuant"
+2027-02-08,Mon,B,project,P4,Reasoning RL: reproduce and extend an R1-Zero style result: build log day 5
+2027-02-09,Tue,A,episode,M12E06,"GPTQ, derived"
+2027-02-09,Tue,B,project,P4,Reasoning RL: reproduce and extend an R1-Zero style result: build log day 6
+2027-02-10,Wed,A,episode,M12E07,AWQ
+2027-02-10,Wed,B,project,P4,Reasoning RL: reproduce and extend an R1-Zero style result: build log day 7
+2027-02-11,Thu,A,episode,M12E08,Quantize a model: perplexity vs speed
+2027-02-11,Thu,B,project,P4,Reasoning RL: reproduce and extend an R1-Zero style result: build log day 8
+2027-02-12,Fri,A,episode,M12E09,KV cache quantization and FP8 inference
+2027-02-12,Fri,B,project,P4,Reasoning RL: reproduce and extend an R1-Zero style result: build log day 9
+2027-02-13,Sat,A,episode,M12E10,Quantization-aware training and FP8 training
+2027-02-13,Sat,B,project,P4,Reasoning RL: reproduce and extend an R1-Zero style result: build log day 10
+2027-02-14,Sun,,review,,"Weekly review, thumbnails batch, read next week's prep"
+2027-02-15,Mon,A,episode,M13E01,Prefill vs decode
+2027-02-15,Mon,B,project,P4,Reasoning RL: reproduce and extend an R1-Zero style result: build log day 11
+2027-02-16,Tue,A,episode,M13E02,The KV cache from scratch
+2027-02-16,Tue,B,project,P4,Reasoning RL: reproduce and extend an R1-Zero style result: build log day 12
+2027-02-17,Wed,A,episode,M13E03,Why decode is memory-bound
+2027-02-17,Wed,B,project,P4,Reasoning RL: reproduce and extend an R1-Zero style result: build log day 13
+2027-02-18,Thu,A,episode,M13E04,Inference metrics
+2027-02-18,Thu,B,project,P4,Reasoning RL: reproduce and extend an R1-Zero style result: build log day 14
+2027-02-19,Fri,A,episode,M13E05,Static vs continuous batching
+2027-02-19,Fri,B,project,P4,Reasoning RL: reproduce and extend an R1-Zero style result: build log day 15
+2027-02-20,Sat,A,episode,M13E06,PagedAttention
+2027-02-20,Sat,B,project,P4,Reasoning RL: reproduce and extend an R1-Zero style result: build log day 16
+2027-02-21,Sun,,review,,"Weekly review, thumbnails batch, read next week's prep"
+2027-02-22,Mon,A,episode,M13E07,Prefix caching and RadixAttention
+2027-02-22,Mon,B,project,P4,Reasoning RL: reproduce and extend an R1-Zero style result: build log day 17
+2027-02-23,Tue,A,episode,M13E08,Chunked prefill and scheduling policies
+2027-02-23,Tue,B,project,P4,Reasoning RL: reproduce and extend an R1-Zero style result: build log day 18
+2027-02-24,Wed,A,episode,M13E09,Speculative decoding
+2027-02-24,Wed,B,project,P8,Low-precision: int4/fp8 quantization with kernels: build log day 1
+2027-02-25,Thu,A,episode,M13E10,"EAGLE, Medusa and friends"
+2027-02-25,Thu,B,project,P8,Low-precision: int4/fp8 quantization with kernels: build log day 2
+2027-02-26,Fri,A,episode,M13E11,Structured outputs and constrained decoding
+2027-02-26,Fri,B,project,P8,Low-precision: int4/fp8 quantization with kernels: build log day 3
+2027-02-27,Sat,A,episode,M13E12,CUDA graphs for decode
+2027-02-27,Sat,B,project,P8,Low-precision: int4/fp8 quantization with kernels: build log day 4
+2027-02-28,Sun,,review,,"Weekly review, thumbnails batch, read next week's prep"
+2027-03-01,Mon,A,episode,M13E13,Hands-on vLLM
+2027-03-01,Mon,B,project,P8,Low-precision: int4/fp8 quantization with kernels: build log day 5
+2027-03-02,Tue,A,episode,M13E14,Hands-on SGLang
+2027-03-02,Tue,B,project,P8,Low-precision: int4/fp8 quantization with kernels: build log day 6
+2027-03-03,Wed,A,episode,M13E15,Build a mini inference engine
+2027-03-03,Wed,B,project,P8,Low-precision: int4/fp8 quantization with kernels: build log day 7
+2027-03-04,Thu,A,episode,M13E16,Disaggregated prefill/decode and TP serving
+2027-03-04,Thu,B,project,P8,Low-precision: int4/fp8 quantization with kernels: build log day 8
+2027-03-05,Fri,A,episode,M14E01,Evals 101
+2027-03-05,Fri,B,project,P8,Low-precision: int4/fp8 quantization with kernels: build log day 9
+2027-03-06,Sat,A,episode,M14E02,lm-evaluation-harness on your model
+2027-03-06,Sat,B,project,P8,Low-precision: int4/fp8 quantization with kernels: build log day 10
+2027-03-07,Sun,,review,,"Weekly review, thumbnails batch, read next week's prep"
+2027-03-08,Mon,A,episode,M14E03,Build your own eval with Inspect
+2027-03-08,Mon,B,project,P8,Low-precision: int4/fp8 quantization with kernels: build log day 11
+2027-03-09,Tue,A,episode,M14E04,"Contamination, variance and error bars"
+2027-03-09,Tue,B,project,P8,Low-precision: int4/fp8 quantization with kernels: build log day 12
+2027-03-10,Wed,A,episode,M14E05,Evaluating agents
+2027-03-10,Wed,B,project,P2,featherserve: an LLM inference engine from scratch: build log day 1
+2027-03-11,Thu,A,episode,M14E06,The residual stream and the logit lens
+2027-03-11,Thu,B,project,P2,featherserve: an LLM inference engine from scratch: build log day 2
+2027-03-12,Fri,A,episode,M14E07,Activation patching
+2027-03-12,Fri,B,project,P2,featherserve: an LLM inference engine from scratch: build log day 3
+2027-03-13,Sat,A,episode,M14E08,Linear probes
+2027-03-13,Sat,B,project,P2,featherserve: an LLM inference engine from scratch: build log day 4
+2027-03-14,Sun,,review,,"Weekly review, thumbnails batch, read next week's prep"
+2027-03-15,Mon,A,episode,M14E09,Sparse autoencoders
+2027-03-15,Mon,B,project,P2,featherserve: an LLM inference engine from scratch: build log day 5
+2027-03-16,Tue,A,episode,M14E10,Steering vectors
+2027-03-16,Tue,B,project,P2,featherserve: an LLM inference engine from scratch: build log day 6
+2027-03-17,Wed,A,episode,M15E01,How DeepSeek works: the efficiency playbook
+2027-03-17,Wed,B,project,P2,featherserve: an LLM inference engine from scratch: build log day 7
+2027-03-18,Thu,A,episode,M15E02,DeepSeek LLM: hyperparameter scaling laws
+2027-03-18,Thu,B,project,P2,featherserve: an LLM inference engine from scratch: build log day 8
+2027-03-19,Fri,A,episode,M15E03,DeepSeekMoE: fine-grained and shared experts
+2027-03-19,Fri,B,project,P2,featherserve: an LLM inference engine from scratch: build log day 9
+2027-03-20,Sat,A,episode,M15E04,Building a DeepSeek-V2-Lite style block
+2027-03-20,Sat,B,project,P2,featherserve: an LLM inference engine from scratch: build log day 10
+2027-03-21,Sun,,review,,"Weekly review, thumbnails batch, read next week's prep"
+2027-03-22,Mon,A,episode,M15E05,Multi-token prediction (DeepSeek-V3)
+2027-03-22,Mon,B,project,P2,featherserve: an LLM inference engine from scratch: build log day 11
+2027-03-23,Tue,A,episode,M15E06,FP8 training the DeepSeek-V3 way
+2027-03-23,Tue,B,project,P2,featherserve: an LLM inference engine from scratch: build log day 12
+2027-03-24,Wed,A,episode,M15E07,DualPipe: overlapping compute and communication
+2027-03-24,Wed,B,project,P2,featherserve: an LLM inference engine from scratch: build log day 13
+2027-03-25,Thu,A,episode,M15E08,DeepEP and EPLB: expert parallelism at scale
+2027-03-25,Thu,B,project,P2,featherserve: an LLM inference engine from scratch: build log day 14
+2027-03-26,Fri,A,episode,M15E09,FlashMLA and DeepGEMM: reading DeepSeek's kernels
+2027-03-26,Fri,B,project,P2,featherserve: an LLM inference engine from scratch: build log day 15
+2027-03-27,Sat,A,episode,M15E10,The full R1 recipe
+2027-03-27,Sat,B,project,P2,featherserve: an LLM inference engine from scratch: build log day 16
+2027-03-28,Sun,,review,,"Weekly review, thumbnails batch, read next week's prep"
+2027-03-29,Mon,A,episode,M15E11,DeepSeek Sparse Attention: the lightning indexer
+2027-03-29,Mon,B,project,P2,featherserve: an LLM inference engine from scratch: build log day 17
+2027-03-30,Tue,A,episode,M15E12,mHC: manifold-constrained hyper-connections
+2027-03-30,Tue,B,project,P2,featherserve: an LLM inference engine from scratch: build log day 18
+2027-03-31,Wed,A,episode,M15E13,Engram: conditional memory as a new sparsity axis
+2027-03-31,Wed,B,project,P6,"DeepSeek-V3 in miniature, with the 2026 ideas ablated: build log day 1"
+2027-04-01,Thu,A,episode,M15E14,DeepSeek-V4: million-token context
+2027-04-01,Thu,B,project,P6,"DeepSeek-V3 in miniature, with the 2026 ideas ablated: build log day 2"
+2027-04-02,Fri,A,episode,M15E15,DeepSeek-OCR and the infra papers
+2027-04-02,Fri,B,project,P6,"DeepSeek-V3 in miniature, with the 2026 ideas ablated: build log day 3"
+2027-04-03,Sat,A,episode,M15E16,DeepSeek in miniature: putting it together
+2027-04-03,Sat,B,project,P6,"DeepSeek-V3 in miniature, with the 2026 ideas ablated: build log day 4"
+2027-04-04,Sun,,review,,"Weekly review, thumbnails batch, read next week's prep"
+2027-04-05,Mon,A,episode,M16E01,How to read a paper in one hour
+2027-04-05,Mon,B,project,P6,"DeepSeek-V3 in miniature, with the 2026 ideas ablated: build log day 5"
+2027-04-06,Tue,A,episode,M16E02,How to reproduce a paper
+2027-04-06,Tue,B,project,P6,"DeepSeek-V3 in miniature, with the 2026 ideas ablated: build log day 6"
+2027-04-07,Wed,A,episode,M16E03,"Experiment design: seeds, baselines and error bars"
+2027-04-07,Wed,B,project,P6,"DeepSeek-V3 in miniature, with the 2026 ideas ablated: build log day 7"
+2027-04-08,Thu,A,episode,M16E04,Reproduce: Muon at scale
+2027-04-08,Thu,B,project,P6,"DeepSeek-V3 in miniature, with the 2026 ideas ablated: build log day 8"
+2027-04-09,Fri,A,episode,M16E05,Reproduce: Native Sparse Attention
+2027-04-09,Fri,B,project,P6,"DeepSeek-V3 in miniature, with the 2026 ideas ablated: build log day 9"
+2027-04-10,Sat,A,episode,M16E06,Reproduce: test-time compute scaling
+2027-04-10,Sat,B,project,P6,"DeepSeek-V3 in miniature, with the 2026 ideas ablated: build log day 10"
+2027-04-11,Sun,,review,,"Weekly review, thumbnails batch, read next week's prep"
+2027-04-12,Mon,A,episode,M16E07,Reproduce: an R1-Zero style RL result
+2027-04-12,Mon,B,project,P6,"DeepSeek-V3 in miniature, with the 2026 ideas ablated: build log day 11"
+2027-04-13,Tue,A,episode,M16E08,Frontier MoE: Kimi K2 and DeepSeek-V3 systems
+2027-04-13,Tue,B,project,P6,"DeepSeek-V3 in miniature, with the 2026 ideas ablated: build log day 12"
+2027-04-14,Wed,A,episode,M16E09,Multimodal basics: ViT and CLIP
+2027-04-14,Wed,B,project,P6,"DeepSeek-V3 in miniature, with the 2026 ideas ablated: build log day 13"
+2027-04-15,Thu,A,episode,M16E10,Interpretability at scale: SAE features
+2027-04-15,Thu,B,project,P6,"DeepSeek-V3 in miniature, with the 2026 ideas ablated: build log day 14"
+2027-04-16,Fri,A,episode,M16E11,AI control: monitoring untrusted agents
+2027-04-16,Fri,B,project,P6,"DeepSeek-V3 in miniature, with the 2026 ideas ablated: build log day 15"
+2027-04-17,Sat,A,episode,M16E12,Model organisms: sleeper agents
+2027-04-17,Sat,B,project,P6,"DeepSeek-V3 in miniature, with the 2026 ideas ablated: build log day 16"
+2027-04-18,Sun,,review,,"Weekly review, thumbnails batch, read next week's prep"
+2027-04-19,Mon,A,episode,M16E13,"Your original research project, part 1"
+2027-04-19,Mon,B,project,P6,"DeepSeek-V3 in miniature, with the 2026 ideas ablated: build log day 17"
+2027-04-20,Tue,A,episode,M16E14,"Your original research project, part 2"
+2027-04-20,Tue,B,project,P6,"DeepSeek-V3 in miniature, with the 2026 ideas ablated: build log day 18"
+2027-04-21,Wed,A,episode,M17E01,"Capstone 1: pretrain, SFT, GRPO a tiny model"
+2027-04-21,Wed,B,project,P7,Safety research: agent monitoring + interpretability: build log day 1
+2027-04-22,Thu,A,episode,M17E02,Capstone 2: quantize and serve it
+2027-04-22,Thu,B,project,P7,Safety research: agent monitoring + interpretability: build log day 2
+2027-04-23,Fri,A,episode,M17E03,Capstone 3: a distributed run with full numbers
+2027-04-23,Fri,B,project,P7,Safety research: agent monitoring + interpretability: build log day 3
+2027-04-24,Sat,A,episode,M17E04,The whole map: what 186 videos taught me
+2027-04-24,Sat,B,project,P7,Safety research: agent monitoring + interpretability: build log day 4
+2027-04-25,Sun,,review,,"Weekly review, thumbnails batch, read next week's prep"
+2027-04-26,Mon,A,project,P7,Safety research: agent monitoring + interpretability: build log day 5
+2027-04-26,Mon,B,project,P7,Safety research: agent monitoring + interpretability: build log day 6
+2027-04-27,Tue,A,project,P7,Safety research: agent monitoring + interpretability: build log day 7
+2027-04-27,Tue,B,project,P7,Safety research: agent monitoring + interpretability: build log day 8
+2027-04-28,Wed,A,project,P7,Safety research: agent monitoring + interpretability: build log day 9
+2027-04-28,Wed,B,project,P7,Safety research: agent monitoring + interpretability: build log day 10
+2027-04-29,Thu,A,project,P7,Safety research: agent monitoring + interpretability: build log day 11
+2027-04-29,Thu,B,project,P7,Safety research: agent monitoring + interpretability: build log day 12
+2027-04-30,Fri,A,project,P7,Safety research: agent monitoring + interpretability: build log day 13
+2027-04-30,Fri,B,project,P7,Safety research: agent monitoring + interpretability: build log day 14
+2027-05-01,Sat,A,project,P7,Safety research: agent monitoring + interpretability: build log day 15
+2027-05-01,Sat,B,project,P7,Safety research: agent monitoring + interpretability: build log day 16
+2027-05-02,Sun,,review,,"Weekly review, thumbnails batch, read next week's prep"
+2027-05-03,Mon,A,project,P7,Safety research: agent monitoring + interpretability: build log day 17
+2027-05-03,Mon,B,project,P7,Safety research: agent monitoring + interpretability: build log day 18
+2027-05-04,Tue,A,project,P7,Safety research: agent monitoring + interpretability: build log day 19
+2027-05-04,Tue,B,project,P7,Safety research: agent monitoring + interpretability: build log day 20
+2027-05-05,Wed,A,project,P7,Safety research: agent monitoring + interpretability: build log day 21
+2027-05-05,Wed,B,project,P7,Safety research: agent monitoring + interpretability: build log day 22
+2027-05-06,Thu,A,project,P7,Safety research: agent monitoring + interpretability: build log day 23
+2027-05-06,Thu,B,project,P7,Safety research: agent monitoring + interpretability: build log day 24
+2027-05-07,Fri,A,project,P7,Safety research: agent monitoring + interpretability: build log day 25
+2027-05-07,Fri,B,project,P7,Safety research: agent monitoring + interpretability: build log day 26
+2027-05-08,Sat,A,project,P7,Safety research: agent monitoring + interpretability: build log day 27
+2027-05-08,Sat,B,project,P7,Safety research: agent monitoring + interpretability: build log day 28
+2027-05-09,Sun,,review,,"Weekly review, thumbnails batch, read next week's prep"
+2027-05-10,Mon,A,project,P7,Safety research: agent monitoring + interpretability: build log day 29
+2027-05-10,Mon,B,project,P7,Safety research: agent monitoring + interpretability: build log day 30
+2027-05-11,Tue,A,project,P7,Safety research: agent monitoring + interpretability: build log day 31
+2027-05-11,Tue,B,project,P7,Safety research: agent monitoring + interpretability: build log day 32
+2027-05-12,Wed,A,project,P7,Safety research: agent monitoring + interpretability: build log day 33
+2027-05-12,Wed,B,project,P7,Safety research: agent monitoring + interpretability: build log day 34
+2027-05-13,Thu,A,project,P7,Safety research: agent monitoring + interpretability: build log day 35
+2027-05-13,Thu,B,project,P7,Safety research: agent monitoring + interpretability: build log day 36
+2027-05-14,Fri,A,project,P7,Safety research: agent monitoring + interpretability: build log day 37
+2027-05-14,Fri,B,project,P7,Safety research: agent monitoring + interpretability: build log day 38
+2027-05-15,Sat,A,project,P7,Safety research: agent monitoring + interpretability: build log day 39
+2027-05-15,Sat,B,project,P7,Safety research: agent monitoring + interpretability: build log day 40
+2027-05-16,Sun,,review,,"Weekly review, thumbnails batch, read next week's prep"
+2027-05-17,Mon,A,project,P7,Safety research: agent monitoring + interpretability: build log day 41
+2027-05-17,Mon,B,project,P7,Safety research: agent monitoring + interpretability: build log day 42
+2027-05-18,Tue,A,project,P7,Safety research: agent monitoring + interpretability: build log day 43
+2027-05-18,Tue,B,project,P7,Safety research: agent monitoring + interpretability: build log day 44

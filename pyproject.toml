@@ -1,0 +1,17 @@
+[project]
+name = "dl-content"
+version = "0.1.0"
+description = "LLMs from First Principles: 200-episode build-everything video series"
+requires-python = ">=3.12"
+dependencies = [
+  "torch>=2.8",
+  "numpy",
+  "einops",
+  "matplotlib",
+  "pytest",
+  "tiktoken",
+  "openpyxl",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["code"]

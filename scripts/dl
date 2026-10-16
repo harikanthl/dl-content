@@ -1,0 +1,179 @@
+#!/usr/bin/env python3
+"""
+dl — the driver for "LLMs from First Principles" (216 episodes + flagship projects).
+
+  dl today                 today's two slots (episode or project build log) + tomorrow's
+  dl next                  the next unrecorded episode
+  dl start [CODE]          open the recording workspace (nvim code | pytest watcher | prep sheet)
+  dl prep  [CODE]          render the prep sheet in the terminal
+  dl script [CODE]         print the timed script beats from the outline
+  dl test  [CODE]          run the episode's receipt tests
+  dl explainer [CODE]      build the Manim explainer (smoke first with --smoke)
+  dl done  CODE [url]      mark recorded (+ uploaded with a YouTube url), stage the edit folder
+  dl stats                 progress by module
+  dl sheet                 rebuild sheets/LLM-Roadmap.xlsx
+  dl index                 rebuild CURRICULUM.md, schedule.csv, progress.csv
+
+CODE is an episode code like M05E06; omit it to use the next unrecorded episode.
+"""
+import csv, datetime as dt, json, os, shutil, subprocess, sys, textwrap
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+CUR, PROG, SCHED = (f"{ROOT}/curriculum/{f}" for f in ("curriculum.json", "progress.csv", "schedule.csv"))
+PY = f"{ROOT}/.venv/bin/python"
+MANIM_PY = os.path.expanduser("~/.local/share/uv/tools/manim/bin/python")
+C = dict(r="\033[31m", g="\033[32m", y="\033[33m", c="\033[36m", d="\033[2m", B="\033[1m", x="\033[0m")
+
+
+def eps(): return json.load(open(CUR))["episodes"]
+def rows():
+    with open(PROG) as f: return list(csv.DictReader(f))
+def save(rs):
+    with open(PROG, "w", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=rs[0].keys()); w.writeheader(); w.writerows(rs)
+def arg(i, default=None): return sys.argv[i] if len(sys.argv) > i else default
+def next_code():
+    for r in sorted(rows(), key=lambda r: r["planned_date"] + r["slot"]):
+        if r["recorded"] != "Y": return r["code"]
+def ep(code=None):
+    code = (code or next_code() or "").upper()
+    for e in eps():
+        if e["code"] == code: return e
+    sys.exit(f"no episode {code}")
+def outline(e):
+    p = f"{ROOT}/curriculum/outlines/{e['module']}.json"
+    if os.path.exists(p):
+        for o in json.load(open(p)):
+            if o["code"] == e["code"]: return o
+    return {}
+
+
+def show(e, label=""):
+    r = next(x for x in rows() if x["code"] == e["code"])
+    o = outline(e)
+    prep = "ready" if os.path.exists(f"{ROOT}/{e['prep']}") else "not written"
+    expl = os.path.exists(f"{ROOT}/explainers/out/{e['code']}.mp4")
+    print(f"""
+{C['B']}{C['c']}  {label}{e['code']} · EP{e['ep']:03d} · {e['module_name']}{C['x']}
+{C['B']}  {e['title']}{C['x']}   {C['d']}{e['hardware']}{C['x']}
+  {C['y']}hook{C['x']}      {o.get('hook', '(outline pending)')}
+  {C['y']}builds{C['x']}    {e['build']}
+  {C['y']}prep{C['x']}      {e['prep']}  {C['d']}[{prep}]{C['x']}
+  {C['y']}explainer{C['x']} {'explainers/out/' + e['code'] + '.mp4' if expl else C['d'] + 'not built (dl explainer ' + e['code'] + ')' + C['x']}
+  {C['y']}status{C['x']}    recorded={r['recorded']} edited={r['edited']} youtube={r['yt_long']}""")
+
+
+def cmd_today():
+    today = dt.date.today()
+    sched = list(csv.DictReader(open(SCHED)))
+    for d, label in ((today, "TODAY"), (today + dt.timedelta(days=1), "TOMORROW (read tonight)")):
+        todays = [s for s in sched if s["date"] == d.isoformat()]
+        print(f"\n{C['B']}{label} · {d:%a %b %d}{C['x']}")
+        if not todays: print(f"  {C['d']}nothing scheduled{C['x']}")
+        for s in todays:
+            if s["kind"] == "episode": show(ep(s["code"]), f"slot {s['slot']} · ")
+            else: print(f"  {C['y']}{s['slot'] or '—'}{C['x']}  {s['title']}")
+    behind = [r for r in rows() if r["planned_date"] < today.isoformat() and r["recorded"] != "Y"]
+    if behind:
+        print(f"\n{C['r']}  {len(behind)} planned episode(s) not recorded yet: "
+              f"{', '.join(r['code'] for r in behind[:6])}{'…' if len(behind) > 6 else ''}{C['x']}")
+    print()
+
+
+def cmd_next(): show(ep())
+
+
+def cmd_script():
+    e = ep(arg(2)); o = outline(e)
+    if not o: return print(f"{C['r']}no outline yet for {e['code']}{C['x']}")
+    print(f"\n{C['B']}{e['code']} · {e['title']}{C['x']}\n")
+    for b in o.get("beats", []): print("  " + b + "\n")
+    print(f"{C['y']}receipt{C['x']}  {o.get('receipt', '')}\n")
+
+
+def cmd_prep():
+    p = f"{ROOT}/{ep(arg(2))['prep']}"
+    if not os.path.exists(p): return print(f"{C['r']}no prep sheet yet: {p}{C['x']}  (try: dl script)")
+    for c in (["glow", "-p", p], ["bat", "--style=plain", p], ["less", p]):
+        if shutil.which(c[0]): return subprocess.run(c)
+
+
+def cmd_test():
+    e = ep(arg(2)); f = f"{ROOT}/{e['code_file']}"
+    if not os.path.exists(f): return print(f"{C['r']}no code file yet: {e['code_file']}{C['x']}")
+    subprocess.run([PY, "-m", "pytest", f, "-q"])
+
+
+def cmd_start():
+    e = ep(arg(2)); f = f"{ROOT}/{e['code_file']}"
+    os.makedirs(os.path.dirname(f), exist_ok=True)
+    if not os.path.exists(f):
+        open(f, "w").write(f'"""{e["code"]} · {e["title"]}\n\nBuilds: {e["build"]}\nPrep:   {e["prep"]}\n"""\n'
+                           "import torch\n\n\ndef test_receipt():\n    pass\n")
+    sess = e["code"].lower()
+    if not shutil.which("tmux"): return subprocess.run(["nvim", f])
+    if subprocess.run(["tmux", "has-session", "-t", sess], capture_output=True).returncode != 0:
+        run = lambda *a: subprocess.run(["tmux", *a])
+        run("new-session", "-d", "-s", sess, "-c", ROOT, "-n", "code")
+        run("send-keys", "-t", f"{sess}:code", f"nvim '{f}'", "Enter")
+        run("split-window", "-h", "-p", "38", "-t", f"{sess}:code", "-c", ROOT)
+        watcher = f"ls '{f}' | entr -c {PY} -m pytest '{f}' -q" if shutil.which("entr") else f"{PY} -m pytest '{f}' -q"
+        run("send-keys", "-t", f"{sess}:code.1", watcher, "Enter")
+        run("new-window", "-d", "-t", sess, "-n", "prep", "-c", ROOT)
+        prep = f"{ROOT}/{e['prep']}"
+        pager = f"glow -p '{prep}'" if shutil.which("glow") and os.path.exists(prep) else f"{sys.argv[0]} script {e['code']} | less -R"
+        run("send-keys", "-t", f"{sess}:prep", pager, "Enter")
+        run("select-window", "-t", f"{sess}:code"); run("select-pane", "-t", f"{sess}:code.0")
+    os.execvp("tmux", ["tmux", "switch-client" if os.environ.get("TMUX") else "attach", "-t", sess])
+
+
+def cmd_explainer():
+    e = ep(arg(2) if arg(2, "").upper().startswith("M") else None)
+    scene = os.path.splitext(os.path.basename(e["explainer"]))[0]
+    if not os.path.exists(f"{ROOT}/{e['explainer']}"):
+        return print(f"{C['r']}no scene yet: {e['explainer']}{C['x']}  (ask Claude: 'write the explainer for {e['code']}')")
+    tool = "smoke.py" if "--smoke" in sys.argv else "build.py"
+    subprocess.run([MANIM_PY, tool, scene], cwd=f"{ROOT}/explainers")
+
+
+def cmd_done():
+    code = (arg(2) or sys.exit("usage: dl done CODE [youtube_url]")).upper(); url = arg(3, "")
+    rs = rows()
+    for r in rs:
+        if r["code"] == code:
+            r["recorded"] = "Y"
+            if url: r["yt_long"], r["youtube_url"] = "Y", url
+    save(rs)
+    os.makedirs(f"{ROOT}/edit/{code}", exist_ok=True)
+    print(f"{C['g']}{code} marked recorded{' + uploaded' if url else ''}.{C['x']}")
+    print(f"  Next: move the Meld recording into edit/{code}/raw.mp4, then ask Claude: "
+          f"{C['B']}'edit {code}'{C['x']} (captions + overlays + explainer insert + Short).")
+    print(f"  Then tick Recorded on the sheet.\n")
+
+
+def cmd_stats():
+    rs = rows(); tot = len(rs)
+    n = lambda k: sum(1 for r in rs if r[k] == "Y")
+    bar = lambda v: ("█" * round(30 * v / tot)).ljust(30, "·")
+    print(f"\n{C['B']}  LLMs FROM FIRST PRINCIPLES{C['x']}  {C['d']}{tot} episodes{C['x']}\n")
+    for k, label in (("prep_ready", "prep sheet"), ("explainer", "explainer"), ("recorded", "recorded"),
+                     ("edited", "edited"), ("yt_long", "on YouTube")):
+        v = n(k); print(f"  {label:11s} {C['c']}{bar(v)}{C['x']} {v:3d}/{tot}")
+    mods = {}
+    for r in rs: mods.setdefault(r["module"], [0, 0]); mods[r["module"]][1] += 1; mods[r["module"]][0] += r["recorded"] == "Y"
+    print()
+    names = {m["code"]: m["name"] for m in json.load(open(CUR))["modules"]}
+    for m, (d, t) in mods.items():
+        mark = C["g"] + "●" if d == t else (C["y"] + "◐" if d else C["d"] + "○")
+        print(f"  {mark}{C['x']} {m} {names[m]:42s} {d:2d}/{t:2d}")
+    print()
+
+
+CMDS = dict(today=cmd_today, next=cmd_next, start=cmd_start, prep=cmd_prep, script=cmd_script, test=cmd_test,
+            explainer=cmd_explainer, done=cmd_done, stats=cmd_stats,
+            sheet=lambda: subprocess.run([PY, f"{ROOT}/scripts/build_sheet.py"]),
+            index=lambda: subprocess.run([PY, f"{ROOT}/scripts/build_index.py"]))
+if __name__ == "__main__":
+    c = arg(1, "today")
+    if c in ("-h", "--help", "help"): sys.exit(print(textwrap.dedent(__doc__)))
+    CMDS.get(c, lambda: sys.exit(f"unknown: {c}\n{__doc__}"))()

@@ -1,0 +1,91 @@
+[
+  {
+    "code": "M00E01",
+    "hook": "I'm rebuilding every piece of a modern LLM by hand, and nothing counts until it matches PyTorch to the last decimal.",
+    "beats": [
+      "0:00 HOOK — I'm rebuilding every piece of a modern LLM by hand, and nothing counts until it matches PyTorch to the last decimal.",
+      "0:15 QUESTION — Using GPT or Claude is easy. Explaining why Llama 3 uses RMSNorm, or why FlashAttention is exact and still faster, is what frontier lab interviews actually test. I'm an EE and Army veteran, and the only way I trust my understanding is to build it and check it.",
+      "1:00 INTUITION — Show the map: 18 modules, 216 episodes, from tensors to an inference engine that serves Qwen3. Mac for the first 5 modules, rented GPUs after that. [EXPLAINER plays here: the curriculum as a subway map, with nine flagship projects as the stations.]",
+      "2:45 MATH — One equation, because it is the whole series in miniature. softmax(x)_i = exp(x_i) / sum_j exp(x_j). Then the identity softmax(x) = softmax(x - c) for any constant c, because exp(-c) cancels top and bottom. Remember this. It comes back in the FlashAttention module.",
+      "4:00 CODE — Repo tour on screen: curriculum/curriculum.json (every episode, its build, its sources), code/<module>/eNN_*.py (one runnable file per episode, tests at the bottom), prep/ (my notes), explainers/ (the Manim scenes). Run print_map() and read the 18 modules out loud with their hardware.",
+      "6:00 CODE — The receipt rule, live. Type softmax_naive(x, dim=-1): e = torch.exp(x); return e / e.sum(dim, keepdim=True). Type receipt(mine, ref, name) that wraps torch.testing.assert_close and prints PASS or FAIL. Test on randn(4, 8) logits: PASS. It looks done.",
+      "7:30 RECEIPT — Multiply the logits by 100 and run the same receipt. FAIL, because exp(800) is inf in float32 and inf / inf is nan. Add softmax_stable: subtract x.amax(dim, keepdim=True) first. Receipt: torch.testing.assert_close(softmax_stable(big), torch.softmax(big, -1)) passes at scales 1, 100 and 1e4.",
+      "9:00 MEASURE — Show torch.isnan(softmax_naive(big)).any() is True, and the largest safe float32 input to exp is about 88.7. A test that only uses small inputs would have shipped this bug.",
+      "10:00 TAKEAWAY — Every from-scratch piece in this series ends with a check against the production implementation. Interview line: I don't say I understand attention, I say my implementation matches SDPA within float32 tolerance, and here is the test.",
+      "10:45 NEXT — The projects: FlashAttention in Triton, an inference engine, a 4D parallel trainer, a reasoning RL reproduction. All built on this habit. Next: Setup: uv, PyTorch, MPS vs CUDA, RunPod in 10 minutes."
+    ],
+    "key_math": "softmax(x)_i = exp(x_i) / sum_j exp(x_j); softmax(x - c) = softmax(x) for any scalar c; stable form uses c = max_j x_j so the largest exponent is exp(0) = 1.",
+    "code_task": "print_map() reads curriculum/curriculum.json and prints each module code, episode count, name, hardware, and the 216 total. softmax_naive(x, dim=-1) and softmax_stable(x, dim=-1) on x of shape (4, 8). receipt(mine, ref, name) wraps torch.testing.assert_close and prints PASS/FAIL.",
+    "receipt": "torch.testing.assert_close(softmax_stable(x * s), torch.softmax(x * s, -1)) for s in (1, 100, 1e4) passes; softmax_naive(x * 100) fails with nan; pytest asserts 18 modules and 216 episodes.",
+    "gotchas": "assert_close default tolerances depend on dtype (float32 is rtol 1.3e-6, atol 1e-5), so compare in the same dtype; forgetting keepdim=True in the sum broadcasts (4,) against (4, 8) and errors or silently divides the wrong axis; testing only on small random inputs hides overflow bugs.",
+    "interview_q": "How do you know your reimplementation is correct? I test it against the reference implementation on adversarial inputs, large magnitudes, odd shapes, low precision, using assert_close with dtype-appropriate tolerances, and I gradcheck the backward in float64.",
+    "explainer": [
+      "Here is the whole series as one map, eighteen modules running from a single tensor to a serving engine for a real model.",
+      "The first five stops run on a Mac. After the transformer module, the line switches to rented GPUs by the hour.",
+      "Along the line sit nine flagship projects. Each one is unlocked by the modules right before it, like FlashAttention after the GPU module.",
+      "Every station has the same rule. We build the piece from scratch, then we compare it to PyTorch's own version, number by number.",
+      "Here is the rule catching a real bug. Our naive softmax matches PyTorch on small logits, so the check turns green.",
+      "Scale the logits by one hundred and the exponential overflows to infinity. Infinity over infinity is not a number, and the check turns red.",
+      "Subtract the max first and the biggest exponent becomes one. Same answer, no overflow, and the receipt passes at every scale."
+    ],
+    "explainer_visuals": [
+      "Subway-style map with 18 colored stations labeled M00 to M17, a dot traveling from 'tensor' to 'SGLang'.",
+      "The map splits into two segments: a laptop icon over M00-M05 and a GPU rack icon over M06-M17.",
+      "Nine star markers P1-P9 pop onto the line at their unlock points, with short labels like 'feather-attn' and 'featherserve'.",
+      "Two side-by-side boxes 'mine' and 'torch' feeding into an equals sign with a receipt slip printing out.",
+      "A 4x8 heatmap of softmax outputs, two copies, identical colors, a green PASS stamp.",
+      "The same heatmap after x100: cells flash to 'inf' then 'nan' in red, a red FAIL stamp.",
+      "A bar chart of logits shifting down so the tallest bar sits at zero, the heatmap returns, green PASS for scales 1, 100, 1e4."
+    ],
+    "short": "The 7:30 RECEIPT beat: naive softmax passes, multiply by 100, it returns nan, one line fixes it. Caption: 'This softmax passes every test. Until it doesn't.'",
+    "yt_title": "LLMs from First Principles: build every piece, check it vs PyTorch",
+    "thumbnail": "BUILD IT. CHECK IT.",
+    "x_post": "Starting a 216-episode series: rebuild every piece of a modern LLM, from tensors to an inference engine. One rule: nothing counts until it matches PyTorch. Episode 1 catches a softmax bug that passes every small test. Code + video:",
+    "linkedin": "I started a public series rebuilding the LLM stack from first principles: 18 modules, from tensors to serving Qwen3 with my own inference engine. The rule is that every from-scratch component must match the production implementation, checked with assert_close. In episode 1 that rule caught a naive softmax that silently returns nan once logits pass about 88.",
+    "prereq": ""
+  },
+  {
+    "code": "M00E02",
+    "hook": "Same script, my laptop GPU and a rented RTX 4090. The gap is bigger than you think, and we measure it exactly.",
+    "beats": [
+      "0:00 HOOK — Same script, my laptop GPU and a rented RTX 4090. The gap is bigger than you think, and we measure it exactly.",
+      "0:15 QUESTION — Half of ML bugs are environment bugs: the wrong torch build, a GPU you are not actually using, a timer that measures nothing. Before we touch a tensor we need one environment that works the same on an M4 Mac and on a CUDA box, and a way to rent an H100 without waking up to a surprise bill.",
+      "1:00 INTUITION — The GPU is a separate machine you send work to. Calls return before the work is done. [EXPLAINER plays here: CPU queues kernels, GPU drains them, the timer only means something after a sync.]",
+      "2:30 MATH — Matmul cost: C = A B with A (n, n) and B (n, n) has n^2 outputs, each needing n multiplies and n adds, so FLOPs = 2 n^3. At n = 4096 that is 1.37e11 FLOPs. TFLOP/s = 2 n^3 / seconds / 1e12. This one formula is how we will judge every kernel in the series.",
+      "3:30 CODE — Terminal: uv init, uv add torch pytest, uv run python -c 'import torch; print(torch.__version__, torch.backends.mps.is_available())'. Commit uv.lock so the RunPod box gets the same versions.",
+      "4:30 CODE — env_check.py: pick_device() prefers cuda, then mps, then cpu. sync(device) calls torch.cuda.synchronize() or torch.mps.synchronize(). dtype_works(dtype, device) tries an 8x8 matmul inside try/except. matmul_tflops(n, dtype, device, iters=20): randn A and B, 3 warmup matmuls, sync, time 20 matmuls, sync, return 2 n^3 / secs / 1e12.",
+      "7:00 CODE — RunPod in 3 minutes: put a small prepaid credit on the account so the balance is the hard spend cap, launch a 1x RTX 4090 pod with a PyTorch template, git clone, uv sync, uv run env_check.py. Stop the pod from the console the moment the run ends, and say out loud what an idle pod costs per hour.",
+      "8:30 RECEIPT — Speed means nothing if the answer is wrong. test_matmul_is_correct_on_device: compute a @ b in float64 on CPU as the reference, the same matmul in float32 on the device, and torch.testing.assert_close(got.double(), ref, rtol=1e-4, atol=1e-3). Passes on MPS and CUDA. Also show float64 fails on MPS in dtype_works.",
+      "9:30 MEASURE — The table: float32, bfloat16, float16 TFLOP/s at n = 4096 on M4 MPS, M4 CPU, and RTX 4090. Compare each to the vendor's quoted peak and say the percentage. Then remove the sync calls and rerun: the numbers become absurd, which proves the timer was lying.",
+      "11:00 TAKEAWAY — One lockfile, one env_check, and every benchmark synchronizes before it stops the clock. Interview line: GPU work is asynchronous, so a benchmark without a device sync measures launch overhead, not compute.",
+      "11:30 NEXT — This env_check and spend-cap habit is what lets us run the 8xH100 pretraining speedrun project later for the price of lunch. Next: Tensors: what they actually are."
+    ],
+    "key_math": "FLOPs(matmul n x n x n) = 2 n^3; TFLOP/s = 2 n^3 / t / 1e12; percent of peak = measured / vendor peak.",
+    "code_task": "env_check.py with pick_device() -> torch.device, sync(device), dtype_works(dtype, device) -> bool via an (8, 8) matmul, matmul_tflops(n=4096, dtype, device, iters=20) -> float, report() printing python/torch versions, device name, and a dtype x TFLOP/s table for float32, bfloat16, float16 plus a CPU float32 baseline at n=2048.",
+    "receipt": "torch.testing.assert_close((a.float().to(dev) @ b.float().to(dev)).cpu().double(), a @ b, rtol=1e-4, atol=1e-3) with a, b float64 (256, 256) on CPU; assert dtype_works(torch.bfloat16, 'mps') on macOS 14+.",
+    "gotchas": "Timing without torch.mps.synchronize()/torch.cuda.synchronize() gives impossible TFLOP/s; float64 is not supported on MPS, so code that calls .double() on device crashes; on CUDA, float32 matmul uses full FP32 unless you call torch.set_float32_matmul_precision('high') to allow TF32, which changes your benchmark by several x; an idle RunPod pod keeps billing until it is stopped.",
+    "interview_q": "Your benchmark says your kernel hits 2000 TFLOP/s on an H100. What went wrong? Almost certainly a missing device synchronize, so the timer measured how fast Python queued launches. Warm up, sync before and after, average many iterations, and sanity check against the hardware peak.",
+    "explainer": [
+      "On the left is the CPU running our Python. On the right is the GPU, a separate machine with its own memory and its own queue.",
+      "When we call a matmul, the CPU drops a kernel into the GPU's queue and returns immediately, before any multiplying has happened.",
+      "If we stop the timer now, we have measured how fast Python can drop boxes into a queue. The GPU has not started.",
+      "A synchronize call makes the CPU wait at the door until the queue is empty. Only now does the timer measure real compute.",
+      "The work itself is easy to count. Every one of the n squared outputs needs n multiplies and n adds, so two n cubed operations.",
+      "Divide that count by the synced time and we get TFLOP slash s, one honest number we can compare against the chip's spec sheet."
+    ],
+    "explainer_visuals": [
+      "Two boxes: 'CPU / Python' left, 'GPU' right, with a horizontal queue (conveyor belt) between them.",
+      "A 'matmul' block slides onto the conveyor; the Python cursor immediately moves to the next line.",
+      "A stopwatch freezes at 0.01 ms while the block is still sitting at the start of the conveyor, a red question mark.",
+      "A 'sync' gate closes on the CPU side; blocks drain through the GPU; stopwatch resumes and stops when the belt is empty.",
+      "An n x n output grid, one cell highlighted, its row of A and column of B lighting up with n multiply and n add ticks; formula 2n^3 appears.",
+      "A bar chart: measured TFLOP/s for M4 MPS, CPU, RTX 4090 beside dashed vendor peak lines."
+    ],
+    "short": "The 9:30 MEASURE beat: run the benchmark with and without synchronize, watch the fake number appear. Caption: 'Your GPU benchmark is probably lying to you.'",
+    "yt_title": "PyTorch setup with uv: MPS vs CUDA vs RunPod, and honest TFLOPs",
+    "thumbnail": "YOUR BENCHMARK LIES",
+    "x_post": "GPU calls are async. Time a matmul without torch.mps.synchronize() and you measure Python queueing, not compute. Built one env_check.py that runs on an M4 Mac and a rented 4090, with real TFLOP/s for fp32/bf16/fp16. Code + video:",
+    "linkedin": "Set up a reproducible PyTorch environment with uv that runs unchanged on an M4 Mac (MPS) and a rented RTX 4090. I wrote an env check that measures matmul TFLOP/s per dtype and verifies the device result against a float64 CPU reference. The lesson: without a device synchronize, a benchmark reports numbers the hardware physically cannot reach.",
+    "prereq": "M00E01"
+  }
+]

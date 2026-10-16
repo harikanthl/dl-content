@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+*.pyc
+data/
+*.bin
+*.pt
+explainers/work/
+explainers/out/
+edit/**/renders/
+edit/**/node_modules/
+.DS_Store
+explainers/.venv-tts
+explainers/voices
+explainers/explainers.lock

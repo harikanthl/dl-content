@@ -1,0 +1,5138 @@
+{
+ "series": "LLMs from First Principles",
+ "modules": [
+  {
+   "code": "M00",
+   "name": "Start Here",
+   "short": "start",
+   "hardware": "Mac",
+   "color": "#6B7280",
+   "resume": "",
+   "episodes": 2
+  },
+  {
+   "code": "M01",
+   "name": "PyTorch from Zero",
+   "short": "pytorch",
+   "hardware": "Mac (MPS)",
+   "color": "#EE4C2C",
+   "resume": "Fluent PyTorch: tensors, autograd, nn.Module, training loops (14-part series + 1-hour cut)",
+   "episodes": 14
+  },
+  {
+   "code": "M02",
+   "name": "The Math You Actually Need",
+   "short": "math",
+   "hardware": "Mac",
+   "color": "#7C3AED",
+   "resume": "Derived backprop, softmax/cross-entropy gradients and init variance by hand, verified against autograd",
+   "episodes": 10
+  },
+  {
+   "code": "M03",
+   "name": "Neural Nets from Scratch",
+   "short": "nn",
+   "hardware": "Mac",
+   "color": "#2563EB",
+   "resume": "Built an autograd engine and character-level LMs from scratch (micrograd/makemore lineage)",
+   "episodes": 10
+  },
+  {
+   "code": "M04",
+   "name": "Tokenization",
+   "short": "tokenizer",
+   "hardware": "Mac",
+   "color": "#0D9488",
+   "resume": "Implemented a byte-level BPE tokenizer from scratch; N MB/s on TinyStories",
+   "episodes": 8
+  },
+  {
+   "code": "M05",
+   "name": "The Transformer, Layer by Layer",
+   "short": "transformer",
+   "hardware": "Mac",
+   "color": "#D97706",
+   "resume": "Implemented GPT from scratch (RoPE, RMSNorm, SwiGLU, GQA) and verified it loads GPT-2 weights",
+   "episodes": 18
+  },
+  {
+   "code": "M06",
+   "name": "Training an LLM",
+   "short": "training",
+   "hardware": "Mac + RunPod 8xH100 (15 min)",
+   "color": "#DC2626",
+   "resume": "Trained a GPT on TinyStories (val loss X); fit a scaling law; ran the NanoGPT speedrun on 8xH100",
+   "episodes": 16
+  },
+  {
+   "code": "M07",
+   "name": "GPUs, CUDA and Triton",
+   "short": "kernels",
+   "hardware": "RunPod 1x RTX 4090",
+   "color": "#16A34A",
+   "resume": "Wrote CUDA and Triton kernels (tiled matmul, softmax, RMSNorm) benchmarked against cuBLAS/PyTorch",
+   "episodes": 18
+  },
+  {
+   "code": "M08",
+   "name": "FlashAttention",
+   "short": "flash",
+   "hardware": "RunPod 1x RTX 4090",
+   "color": "#059669",
+   "resume": "Implemented FlashAttention forward+backward in Triton; X% of SDPA throughput",
+   "episodes": 8
+  },
+  {
+   "code": "M09",
+   "name": "Modern Architectures",
+   "short": "arch",
+   "hardware": "Mac + RunPod",
+   "color": "#B45309",
+   "resume": "Implemented MLA, MoE routing and YaRN context extension from the DeepSeek/Llama papers",
+   "episodes": 10
+  },
+  {
+   "code": "M10",
+   "name": "Distributed Training",
+   "short": "distributed",
+   "hardware": "Mac (gloo) + RunPod 4x GPU",
+   "color": "#0EA5E9",
+   "resume": "Built DP, FSDP, TP, PP, CP and EP from scratch (torchfeather); measured scaling on 4 GPUs",
+   "episodes": 16
+  },
+  {
+   "code": "M11",
+   "name": "Post-Training: SFT, LoRA, RLHF, DPO, GRPO",
+   "short": "posttrain",
+   "hardware": "RunPod 1x A100/H100",
+   "color": "#DB2777",
+   "resume": "Implemented SFT, LoRA, DPO and GRPO from scratch; GRPO lifted GSM8K accuracy from X to Y",
+   "episodes": 16
+  },
+  {
+   "code": "M12",
+   "name": "Quantization",
+   "short": "quant",
+   "hardware": "RunPod 1x RTX 4090",
+   "color": "#4F46E5",
+   "resume": "Implemented absmax/zero-point, GPTQ and AWQ; measured perplexity vs speed at 8/4 bits",
+   "episodes": 10
+  },
+  {
+   "code": "M13",
+   "name": "Inference Engines: KV Cache to SGLang",
+   "short": "inference",
+   "hardware": "RunPod 1x RTX 4090",
+   "color": "#9333EA",
+   "resume": "Built a mini inference engine (KV cache, continuous batching, paged KV); benchmarked vs vLLM/SGLang",
+   "episodes": 16
+  },
+  {
+   "code": "M14",
+   "name": "Evals and Interpretability",
+   "short": "evals",
+   "hardware": "Mac + RunPod",
+   "color": "#475569",
+   "resume": "Built evals with lm-eval-harness and Inspect; activation patching, probes and SAEs with TransformerLens",
+   "episodes": 10
+  },
+  {
+   "code": "M15",
+   "name": "The DeepSeek Playbook",
+   "short": "deepseek",
+   "hardware": "Mac + RunPod 1-8x H100",
+   "color": "#1D4ED8",
+   "resume": "Rebuilt DeepSeek's key ideas (DeepSeekMoE, MTP, FP8 training, DSA, mHC, Engram) and ablated them against a dense baseline",
+   "episodes": 16
+  },
+  {
+   "code": "M16",
+   "name": "Research Frontier",
+   "short": "frontier",
+   "hardware": "RunPod",
+   "color": "#BE123C",
+   "resume": "Reproduced N recent papers with public code and write-ups; one original result published",
+   "episodes": 14
+  },
+  {
+   "code": "M17",
+   "name": "Capstones",
+   "short": "capstone",
+   "hardware": "RunPod",
+   "color": "#111827",
+   "resume": "End to end: pretrain, post-train, quantize and serve a small LLM, with every number published",
+   "episodes": 4
+  }
+ ],
+ "sources": {
+  "PT_BASICS": {
+   "name": "PyTorch: Learn the Basics",
+   "kind": "docs",
+   "url": "https://docs.pytorch.org/tutorials/beginner/basics/intro.html"
+  },
+  "PT_DOCS": {
+   "name": "PyTorch documentation",
+   "kind": "docs",
+   "url": "https://docs.pytorch.org/docs/stable/index.html"
+  },
+  "ZERO_HERO": {
+   "name": "Karpathy: Neural Networks, Zero to Hero",
+   "kind": "video course",
+   "url": "https://karpathy.ai/zero-to-hero.html"
+  },
+  "D2L": {
+   "name": "Dive into Deep Learning (d2l.ai)",
+   "kind": "book",
+   "url": "https://d2l.ai"
+  },
+  "3B1B": {
+   "name": "3Blue1Brown: Neural networks series",
+   "kind": "video",
+   "url": "https://www.3blue1brown.com/topics/neural-networks"
+  },
+  "MML": {
+   "name": "Mathematics for Machine Learning (Deisenroth et al.)",
+   "kind": "book",
+   "url": "https://mml-book.github.io"
+  },
+  "CS336": {
+   "name": "Stanford CS336: Language Modeling from Scratch",
+   "kind": "course",
+   "url": "https://cs336.stanford.edu"
+  },
+  "RASCHKA_LLM": {
+   "name": "Raschka: Build a Large Language Model (From Scratch)",
+   "kind": "book + code",
+   "url": "https://github.com/rasbt/LLMs-from-scratch"
+  },
+  "RASCHKA_REASON": {
+   "name": "Raschka: Build a Reasoning Model (From Scratch)",
+   "kind": "book + code",
+   "url": "https://github.com/rasbt/reasoning-from-scratch"
+  },
+  "NANOGPT": {
+   "name": "karpathy/nanoGPT",
+   "kind": "code",
+   "url": "https://github.com/karpathy/nanoGPT"
+  },
+  "NANOCHAT": {
+   "name": "karpathy/nanochat",
+   "kind": "code",
+   "url": "https://github.com/karpathy/nanochat"
+  },
+  "MODDED": {
+   "name": "KellerJordan/modded-nanogpt (the speedrun)",
+   "kind": "code",
+   "url": "https://github.com/KellerJordan/modded-nanogpt"
+  },
+  "MICROGRAD": {
+   "name": "karpathy/micrograd",
+   "kind": "code",
+   "url": "https://github.com/karpathy/micrograd"
+  },
+  "MAKEMORE": {
+   "name": "karpathy/makemore",
+   "kind": "code",
+   "url": "https://github.com/karpathy/makemore"
+  },
+  "MINBPE": {
+   "name": "karpathy/minbpe",
+   "kind": "code",
+   "url": "https://github.com/karpathy/minbpe"
+  },
+  "EINOPS": {
+   "name": "einops",
+   "kind": "docs",
+   "url": "https://einops.rocks"
+  },
+  "ATTN": {
+   "name": "Vaswani et al. 2017, Attention Is All You Need",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/1706.03762"
+  },
+  "ILLUSTRATED": {
+   "name": "Jay Alammar: The Illustrated Transformer",
+   "kind": "blog",
+   "url": "https://jalammar.github.io/illustrated-transformer/"
+  },
+  "ANNOTATED": {
+   "name": "Harvard NLP: The Annotated Transformer",
+   "kind": "blog + code",
+   "url": "https://nlp.seas.harvard.edu/annotated-transformer/"
+  },
+  "GPT2": {
+   "name": "Radford et al. 2019, GPT-2 paper",
+   "kind": "paper",
+   "url": "https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf"
+  },
+  "BENGIO2003": {
+   "name": "Bengio et al. 2003, A Neural Probabilistic Language Model",
+   "kind": "paper",
+   "url": "https://www.jmlr.org/papers/volume3/bengio03a/bengio03a.pdf"
+  },
+  "BATCHNORM": {
+   "name": "Ioffe & Szegedy 2015, Batch Normalization",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/1502.03167"
+  },
+  "LAYERNORM": {
+   "name": "Ba et al. 2016, Layer Normalization",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/1607.06450"
+  },
+  "RMSNORM": {
+   "name": "Zhang & Sennrich 2019, RMSNorm",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/1910.07467"
+  },
+  "RESNET": {
+   "name": "He et al. 2015, Deep Residual Learning",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/1512.03385"
+  },
+  "KAIMING": {
+   "name": "He et al. 2015, Delving Deep into Rectifiers (Kaiming init)",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/1502.01852"
+  },
+  "SWIGLU": {
+   "name": "Shazeer 2020, GLU Variants Improve Transformer",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2002.05202"
+  },
+  "ROPE": {
+   "name": "Su et al. 2021, RoFormer (RoPE)",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2104.09864"
+  },
+  "YARN": {
+   "name": "Peng et al. 2023, YaRN",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2309.00071"
+  },
+  "GQA": {
+   "name": "Ainslie et al. 2023, GQA",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2305.13245"
+  },
+  "DSV2": {
+   "name": "DeepSeek-V2 (Multi-head Latent Attention)",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2405.04434"
+  },
+  "DSV3": {
+   "name": "DeepSeek-V3 Technical Report",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2412.19437"
+  },
+  "BPE": {
+   "name": "Sennrich et al. 2015, Subword units (BPE)",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/1508.07909"
+  },
+  "TIKTOKEN": {
+   "name": "openai/tiktoken",
+   "kind": "code",
+   "url": "https://github.com/openai/tiktoken"
+  },
+  "SENTENCEPIECE": {
+   "name": "google/sentencepiece",
+   "kind": "code",
+   "url": "https://github.com/google/sentencepiece"
+  },
+  "KARPATHY_TOK": {
+   "name": "Karpathy: Let's build the GPT Tokenizer",
+   "kind": "video",
+   "url": "https://www.youtube.com/watch?v=zduSFxRajkE"
+  },
+  "KARPATHY_GPT": {
+   "name": "Karpathy: Let's build GPT from scratch",
+   "kind": "video",
+   "url": "https://www.youtube.com/watch?v=kCc8FmEb1nY"
+  },
+  "KARPATHY_GPT2": {
+   "name": "Karpathy: Let's reproduce GPT-2 (124M)",
+   "kind": "video",
+   "url": "https://www.youtube.com/watch?v=l8pRSuU81PU"
+  },
+  "ADAM": {
+   "name": "Kingma & Ba 2014, Adam",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/1412.6980"
+  },
+  "ADAMW": {
+   "name": "Loshchilov & Hutter 2017, Decoupled Weight Decay (AdamW)",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/1711.05101"
+  },
+  "MUON": {
+   "name": "Keller Jordan: Muon optimizer",
+   "kind": "blog",
+   "url": "https://kellerjordan.github.io/posts/muon/"
+  },
+  "MIXEDPREC": {
+   "name": "Micikevicius et al. 2017, Mixed Precision Training",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/1710.03740"
+  },
+  "KAPLAN": {
+   "name": "Kaplan et al. 2020, Scaling Laws for Neural LMs",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2001.08361"
+  },
+  "CHINCHILLA": {
+   "name": "Hoffmann et al. 2022, Chinchilla",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2203.15556"
+  },
+  "TINYSTORIES": {
+   "name": "Eldan & Li 2023, TinyStories",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2305.07759"
+  },
+  "FINEWEB": {
+   "name": "HF: FineWeb, decanting the web",
+   "kind": "blog",
+   "url": "https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1"
+  },
+  "NUCLEUS": {
+   "name": "Holtzman et al. 2019, Nucleus sampling",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/1904.09751"
+  },
+  "COMPILE": {
+   "name": "PyTorch: torch.compile tutorial",
+   "kind": "docs",
+   "url": "https://docs.pytorch.org/tutorials/intermediate/torch_compile_tutorial.html"
+  },
+  "PROFILER": {
+   "name": "PyTorch: Profiler recipe",
+   "kind": "docs",
+   "url": "https://docs.pytorch.org/tutorials/recipes/recipes/profiler_recipe.html"
+  },
+  "MUP": {
+   "name": "Yang et al. 2022, muP / Tensor Programs V",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2203.03466"
+  },
+  "SCALINGBOOK": {
+   "name": "Google DeepMind: How to Scale Your Model",
+   "kind": "book",
+   "url": "https://jax-ml.github.io/scaling-book/"
+  },
+  "ULTRASCALE": {
+   "name": "Hugging Face: The Ultra-Scale Playbook",
+   "kind": "book",
+   "url": "https://huggingface.co/spaces/nanotron/ultrascale-playbook"
+  },
+  "STAS": {
+   "name": "Stas Bekman: Machine Learning Engineering",
+   "kind": "book",
+   "url": "https://github.com/stas00/ml-engineering"
+  },
+  "PMPP": {
+   "name": "Hwu, Kirk, El Hajj: Programming Massively Parallel Processors, 5e",
+   "kind": "book",
+   "url": "https://shop.elsevier.com/books/programming-massively-parallel-processors/hwu/978-0-443-43900-1"
+  },
+  "GPUMODE": {
+   "name": "GPU MODE lectures",
+   "kind": "video + code",
+   "url": "https://github.com/gpu-mode/lectures"
+  },
+  "MODALGPU": {
+   "name": "Modal: GPU Glossary",
+   "kind": "reference",
+   "url": "https://modal.com/gpu-glossary"
+  },
+  "BRRR": {
+   "name": "Horace He: Making Deep Learning Go Brrrr",
+   "kind": "blog",
+   "url": "https://horace.io/brrr_intro.html"
+  },
+  "SIBOEHM": {
+   "name": "Simon Boehm: How to Optimize a CUDA Matmul Kernel",
+   "kind": "blog",
+   "url": "https://siboehm.com/articles/22/CUDA-MMM"
+  },
+  "CUDAGUIDE": {
+   "name": "NVIDIA CUDA C++ Programming Guide",
+   "kind": "docs",
+   "url": "https://docs.nvidia.com/cuda/cuda-c-programming-guide/"
+  },
+  "TRITON": {
+   "name": "Triton tutorials",
+   "kind": "docs",
+   "url": "https://triton-lang.org/main/getting-started/tutorials/index.html"
+  },
+  "ONLINESOFTMAX": {
+   "name": "Milakov & Gimelshein 2018, Online normalizer for softmax",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/1805.02867"
+  },
+  "FA1": {
+   "name": "Dao et al. 2022, FlashAttention",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2205.14135"
+  },
+  "FA2": {
+   "name": "Dao 2023, FlashAttention-2",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2307.08691"
+  },
+  "FA3": {
+   "name": "Shah et al. 2024, FlashAttention-3",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2407.08608"
+  },
+  "FLASHDECODING": {
+   "name": "Stanford CRFM: Flash-Decoding",
+   "kind": "blog",
+   "url": "https://crfm.stanford.edu/2023/10/12/flashdecoding.html"
+  },
+  "UMAR": {
+   "name": "Umar Jamil (YouTube)",
+   "kind": "video",
+   "url": "https://www.youtube.com/@umarjamilai"
+  },
+  "TORCHFEATHER": {
+   "name": "hkproj/torchfeather (distributed training from first principles)",
+   "kind": "code + video",
+   "url": "https://github.com/hkproj/torchfeather"
+  },
+  "DISTTUT": {
+   "name": "PyTorch: Distributed overview",
+   "kind": "docs",
+   "url": "https://docs.pytorch.org/tutorials/beginner/dist_overview.html"
+  },
+  "FSDPTUT": {
+   "name": "PyTorch: FSDP tutorial",
+   "kind": "docs",
+   "url": "https://docs.pytorch.org/tutorials/intermediate/FSDP_tutorial.html"
+  },
+  "ZERO": {
+   "name": "Rajbhandari et al. 2019, ZeRO",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/1910.02054"
+  },
+  "MEGATRON": {
+   "name": "Shoeybi et al. 2019, Megatron-LM",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/1909.08053"
+  },
+  "GPIPE": {
+   "name": "Huang et al. 2018, GPipe",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/1811.06965"
+  },
+  "RINGATTN": {
+   "name": "Liu et al. 2023, Ring Attention",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2310.01889"
+  },
+  "SWITCH": {
+   "name": "Fedus et al. 2021, Switch Transformers",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2101.03961"
+  },
+  "MIXTRAL": {
+   "name": "Jiang et al. 2024, Mixtral of Experts",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2401.04088"
+  },
+  "MAMBA": {
+   "name": "Gu & Dao 2023, Mamba",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2312.00752"
+  },
+  "INSTRUCTGPT": {
+   "name": "Ouyang et al. 2022, InstructGPT",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2203.02155"
+  },
+  "PPO": {
+   "name": "Schulman et al. 2017, PPO",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/1707.06347"
+  },
+  "SPINNINGUP": {
+   "name": "OpenAI Spinning Up in Deep RL",
+   "kind": "docs",
+   "url": "https://spinningup.openai.com"
+  },
+  "DPO": {
+   "name": "Rafailov et al. 2023, Direct Preference Optimization",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2305.18290"
+  },
+  "GRPO": {
+   "name": "Shao et al. 2024, DeepSeekMath (GRPO)",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2402.03300"
+  },
+  "R1": {
+   "name": "DeepSeek-R1",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2501.12948"
+  },
+  "DAPO": {
+   "name": "Yu et al. 2025, DAPO",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2503.14476"
+  },
+  "DRGRPO": {
+   "name": "Liu et al. 2025, Understanding R1-Zero-like training (Dr. GRPO)",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2503.20783"
+  },
+  "LORA": {
+   "name": "Hu et al. 2021, LoRA",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2106.09685"
+  },
+  "QLORA": {
+   "name": "Dettmers et al. 2023, QLoRA",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2305.14314"
+  },
+  "RLHFBOOK": {
+   "name": "Nathan Lambert: The RLHF Book",
+   "kind": "book",
+   "url": "https://rlhfbook.com"
+  },
+  "TRL": {
+   "name": "Hugging Face TRL docs",
+   "kind": "docs",
+   "url": "https://huggingface.co/docs/trl"
+  },
+  "GSM8K": {
+   "name": "Cobbe et al. 2021, GSM8K",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2110.14168"
+  },
+  "QUANTVISUAL": {
+   "name": "Maarten Grootendorst: A Visual Guide to Quantization",
+   "kind": "blog",
+   "url": "https://newsletter.maartengrootendorst.com/p/a-visual-guide-to-quantization"
+  },
+  "LLMINT8": {
+   "name": "Dettmers et al. 2022, LLM.int8()",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2208.07339"
+  },
+  "SMOOTHQUANT": {
+   "name": "Xiao et al. 2022, SmoothQuant",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2211.10438"
+  },
+  "GPTQ": {
+   "name": "Frantar et al. 2022, GPTQ",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2210.17323"
+  },
+  "AWQ": {
+   "name": "Lin et al. 2023, AWQ",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2306.00978"
+  },
+  "FP8": {
+   "name": "Micikevicius et al. 2022, FP8 Formats for Deep Learning",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2209.05433"
+  },
+  "TORCHAO": {
+   "name": "pytorch/ao (quantization + low precision)",
+   "kind": "code",
+   "url": "https://github.com/pytorch/ao"
+  },
+  "ORCA": {
+   "name": "Yu et al. 2022, Orca (continuous batching)",
+   "kind": "paper",
+   "url": "https://www.usenix.org/conference/osdi22/presentation/yu"
+  },
+  "PAGED": {
+   "name": "Kwon et al. 2023, vLLM / PagedAttention",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2309.06180"
+  },
+  "SGLANG": {
+   "name": "Zheng et al. 2023, SGLang (RadixAttention)",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2312.07104"
+  },
+  "SGLANGDOCS": {
+   "name": "SGLang documentation",
+   "kind": "docs",
+   "url": "https://docs.sglang.ai"
+  },
+  "VLLMDOCS": {
+   "name": "vLLM documentation",
+   "kind": "docs",
+   "url": "https://docs.vllm.ai"
+  },
+  "MINISGL": {
+   "name": "sgl-project/mini-sglang",
+   "kind": "code",
+   "url": "https://github.com/sgl-project/mini-sglang"
+  },
+  "NANOVLLM": {
+   "name": "GeeeekExplorer/nano-vllm",
+   "kind": "code",
+   "url": "https://github.com/GeeeekExplorer/nano-vllm"
+  },
+  "SPECDEC": {
+   "name": "Leviathan et al. 2022, Speculative Decoding",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2211.17192"
+  },
+  "EAGLE": {
+   "name": "Li et al. 2024, EAGLE",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2401.15077"
+  },
+  "XGRAMMAR": {
+   "name": "Dong et al. 2024, XGrammar",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2411.15100"
+  },
+  "DISTSERVE": {
+   "name": "Zhong et al. 2024, DistServe",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2401.09670"
+  },
+  "INFHANDBOOK": {
+   "name": "BentoML: LLM Inference Handbook",
+   "kind": "book",
+   "url": "https://bentoml.com/llm/"
+  },
+  "LMEVAL": {
+   "name": "EleutherAI lm-evaluation-harness",
+   "kind": "code",
+   "url": "https://github.com/EleutherAI/lm-evaluation-harness"
+  },
+  "INSPECT": {
+   "name": "UK AISI Inspect (eval framework)",
+   "kind": "docs",
+   "url": "https://inspect.aisi.org.uk"
+  },
+  "TLENS": {
+   "name": "TransformerLens",
+   "kind": "code",
+   "url": "https://github.com/TransformerLensOrg/TransformerLens"
+  },
+  "ARENA": {
+   "name": "ARENA (alignment research engineering curriculum)",
+   "kind": "course",
+   "url": "https://www.arena.education"
+  },
+  "CIRCUITS": {
+   "name": "Anthropic: Transformer Circuits thread",
+   "kind": "research",
+   "url": "https://transformer-circuits.pub"
+  },
+  "MONOSEMANTIC": {
+   "name": "Anthropic 2023, Towards Monosemanticity",
+   "kind": "research",
+   "url": "https://transformer-circuits.pub/2023/monosemantic-features"
+  },
+  "LILIAN": {
+   "name": "Lilian Weng's blog",
+   "kind": "blog",
+   "url": "https://lilianweng.github.io"
+  },
+  "RUNPOD": {
+   "name": "RunPod docs",
+   "kind": "docs",
+   "url": "https://docs.runpod.io"
+  },
+  "DS_LLM": {
+   "name": "DeepSeek LLM: scaling open-source LMs with longtermism",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2401.02954"
+  },
+  "DS_MOE": {
+   "name": "DeepSeekMoE: fine-grained + shared experts",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2401.06066"
+  },
+  "DS_V32": {
+   "name": "DeepSeek-V3.2 (DeepSeek Sparse Attention)",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2512.02556"
+  },
+  "DS_MHC": {
+   "name": "DeepSeek 2026, Manifold-Constrained Hyper-Connections (mHC)",
+   "kind": "paper",
+   "url": "https://arxiv.org/search/?searchtype=all&query=Manifold-Constrained+Hyper-Connections"
+  },
+  "HYPERCONN": {
+   "name": "Zhu et al. 2024, Hyper-Connections",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2409.19606"
+  },
+  "DS_ENGRAM": {
+   "name": "DeepSeek 2026, Conditional Memory via Scalable Lookup (Engram)",
+   "kind": "paper",
+   "url": "https://arxiv.org/search/?searchtype=all&query=Conditional+Memory+via+Scalable+Lookup"
+  },
+  "DS_V4": {
+   "name": "DeepSeek-V4: Towards Highly Efficient Million-Token Context Intelligence",
+   "kind": "paper",
+   "url": "https://arxiv.org/search/?searchtype=all&query=DeepSeek-V4+Million-Token+Context"
+  },
+  "DS_OCR": {
+   "name": "DeepSeek-OCR: Contexts Optical Compression",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2510.18234"
+  },
+  "DS_FIREFLYER": {
+   "name": "Fire-Flyer AI-HPC (DeepSeek's cluster co-design)",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2408.14158"
+  },
+  "DS_DUALPIPE": {
+   "name": "deepseek-ai/DualPipe",
+   "kind": "code",
+   "url": "https://github.com/deepseek-ai/DualPipe"
+  },
+  "DS_EPLB": {
+   "name": "deepseek-ai/EPLB",
+   "kind": "code",
+   "url": "https://github.com/deepseek-ai/EPLB"
+  },
+  "DS_FLASHMLA": {
+   "name": "deepseek-ai/FlashMLA",
+   "kind": "code",
+   "url": "https://github.com/deepseek-ai/FlashMLA"
+  },
+  "DS_DEEPGEMM": {
+   "name": "deepseek-ai/DeepGEMM",
+   "kind": "code",
+   "url": "https://github.com/deepseek-ai/DeepGEMM"
+  },
+  "DS_3FS": {
+   "name": "deepseek-ai/3FS",
+   "kind": "code",
+   "url": "https://github.com/deepseek-ai/3FS"
+  },
+  "NSA": {
+   "name": "DeepSeek 2025, Native Sparse Attention",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2502.11089"
+  },
+  "MUONSCALE": {
+   "name": "Moonshot 2025, Muon is Scalable for LLM Training",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2502.16982"
+  },
+  "KIMIK2": {
+   "name": "Kimi K2 technical report",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2507.20534"
+  },
+  "DEEPEP": {
+   "name": "deepseek-ai/DeepEP (MoE all-to-all kernels)",
+   "kind": "code",
+   "url": "https://github.com/deepseek-ai/DeepEP"
+  },
+  "TESTTIME": {
+   "name": "Snell et al. 2024, Scaling test-time compute optimally",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2408.03314"
+  },
+  "VIT": {
+   "name": "Dosovitskiy et al. 2020, ViT",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2010.11929"
+  },
+  "CLIP": {
+   "name": "Radford et al. 2021, CLIP",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2103.00020"
+  },
+  "SAEBENCH": {
+   "name": "Anthropic 2024, Scaling Monosemanticity",
+   "kind": "research",
+   "url": "https://transformer-circuits.pub/2024/scaling-monosemanticity/"
+  },
+  "AICONTROL": {
+   "name": "Greenblatt et al. 2023, AI Control",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2312.06942"
+  },
+  "SLEEPER": {
+   "name": "Hubinger et al. 2024, Sleeper Agents",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2401.05566"
+  },
+  "KARPATHY_RECIPE": {
+   "name": "Karpathy: A Recipe for Training Neural Networks",
+   "kind": "blog",
+   "url": "https://karpathy.github.io/2019/04/25/recipe/"
+  },
+  "SCHULMAN_NUTS": {
+   "name": "John Schulman: Nuts and Bolts of Deep RL Research",
+   "kind": "talk",
+   "url": "http://joschu.net/docs/nuts-and-bolts.pdf"
+  },
+  "ARXIVSANITY": {
+   "name": "alphaXiv (discuss arXiv papers)",
+   "kind": "tool",
+   "url": "https://www.alphaxiv.org"
+  }
+ },
+ "episodes": [
+  {
+   "ep": 1,
+   "code": "M00E01",
+   "module": "M00",
+   "module_name": "Start Here",
+   "mod_ep": 1,
+   "title": "Why I'm learning LLMs by building every piece",
+   "slug": "why-i-m-learning-llms-by-building-every-piece",
+   "learn": "The map: 186 videos from tensors to SGLang, and how to follow along",
+   "build": "Repo tour + the 'receipt' rule: every from-scratch piece is checked against PyTorch",
+   "hardware": "Mac",
+   "sources": [
+    "CS336",
+    "ZERO_HERO"
+   ],
+   "folder": "M00-start",
+   "prep": "prep/M00-start/E01-why-i-m-learning-llms-by-building-every-piece.md",
+   "code_file": "code/M00-start/e01_why_i_m_learning_llms_by_building_every_piece.py",
+   "explainer": "explainers/scenes/m00e01_why_i_m_learning_llms_by_buildin.py"
+  },
+  {
+   "ep": 2,
+   "code": "M00E02",
+   "module": "M00",
+   "module_name": "Start Here",
+   "mod_ep": 2,
+   "title": "Setup: uv, PyTorch, MPS vs CUDA, RunPod in 10 minutes",
+   "slug": "setup-uv-pytorch-mps-vs-cuda-runpod-in-10-minute",
+   "learn": "A reproducible env on a Mac and on a rented GPU, with a spend cap",
+   "build": "env_check.py prints device, dtype support, matmul TFLOPs on MPS and CUDA",
+   "hardware": "Mac",
+   "sources": [
+    "PT_BASICS",
+    "RUNPOD"
+   ],
+   "folder": "M00-start",
+   "prep": "prep/M00-start/E02-setup-uv-pytorch-mps-vs-cuda-runpod-in-10-minute.md",
+   "code_file": "code/M00-start/e02_setup_uv_pytorch_mps_vs_cuda_runpod_in_10_minute.py",
+   "explainer": "explainers/scenes/m00e02_setup_uv_pytorch_mps_vs_cuda_run.py"
+  },
+  {
+   "ep": 3,
+   "code": "M01E01",
+   "module": "M01",
+   "module_name": "PyTorch from Zero",
+   "mod_ep": 1,
+   "title": "Tensors: what they actually are",
+   "slug": "tensors-what-they-actually-are",
+   "learn": "A tensor is storage + shape + stride + dtype + device",
+   "build": "Inspect .storage(), .stride(), .data_ptr(); build a 2x3 tensor by hand from a flat list",
+   "hardware": "Mac",
+   "sources": [
+    "PT_BASICS",
+    "PT_DOCS"
+   ],
+   "folder": "M01-pytorch",
+   "prep": "prep/M01-pytorch/E01-tensors-what-they-actually-are.md",
+   "code_file": "code/M01-pytorch/e01_tensors_what_they_actually_are.py",
+   "explainer": "explainers/scenes/m01e01_tensors_what_they_actually_are.py"
+  },
+  {
+   "ep": 4,
+   "code": "M01E02",
+   "module": "M01",
+   "module_name": "PyTorch from Zero",
+   "mod_ep": 2,
+   "title": "Creating tensors and dtypes",
+   "slug": "creating-tensors-and-dtypes",
+   "learn": "zeros/ones/arange/randn; float32 vs bfloat16 vs int64; why 0.1+0.2 bites",
+   "build": "Show bf16 vs fp16 range/precision with torch.finfo; overflow demo",
+   "hardware": "Mac",
+   "sources": [
+    "PT_DOCS"
+   ],
+   "folder": "M01-pytorch",
+   "prep": "prep/M01-pytorch/E02-creating-tensors-and-dtypes.md",
+   "code_file": "code/M01-pytorch/e02_creating_tensors_and_dtypes.py",
+   "explainer": "explainers/scenes/m01e02_creating_tensors_and_dtypes.py"
+  },
+  {
+   "ep": 5,
+   "code": "M01E03",
+   "module": "M01",
+   "module_name": "PyTorch from Zero",
+   "mod_ep": 3,
+   "title": "Indexing, views and strides",
+   "slug": "indexing-views-and-strides",
+   "learn": "Slicing returns views; transpose changes strides; when .contiguous() copies",
+   "build": "Prove view vs copy with data_ptr; reshape vs view failure case",
+   "hardware": "Mac",
+   "sources": [
+    "PT_DOCS"
+   ],
+   "folder": "M01-pytorch",
+   "prep": "prep/M01-pytorch/E03-indexing-views-and-strides.md",
+   "code_file": "code/M01-pytorch/e03_indexing_views_and_strides.py",
+   "explainer": "explainers/scenes/m01e03_indexing_views_and_strides.py"
+  },
+  {
+   "ep": 6,
+   "code": "M01E04",
+   "module": "M01",
+   "module_name": "PyTorch from Zero",
+   "mod_ep": 4,
+   "title": "Broadcasting: the bug factory",
+   "slug": "broadcasting-the-bug-factory",
+   "learn": "The 2 broadcasting rules, and the silent (N,) vs (N,1) bug",
+   "build": "Pairwise distance matrix with broadcasting; reproduce and fix the (N,)+(N,1) bug",
+   "hardware": "Mac",
+   "sources": [
+    "PT_DOCS"
+   ],
+   "folder": "M01-pytorch",
+   "prep": "prep/M01-pytorch/E04-broadcasting-the-bug-factory.md",
+   "code_file": "code/M01-pytorch/e04_broadcasting_the_bug_factory.py",
+   "explainer": "explainers/scenes/m01e04_broadcasting_the_bug_factory.py"
+  },
+  {
+   "ep": 7,
+   "code": "M01E05",
+   "module": "M01",
+   "module_name": "PyTorch from Zero",
+   "mod_ep": 5,
+   "title": "Matmul, reductions and einsum",
+   "slug": "matmul-reductions-and-einsum",
+   "learn": "@ vs * vs mm vs bmm; the dim argument; einsum/einops as shape documentation",
+   "build": "Batched attention scores 3 ways (bmm, einsum, einops) all allclose",
+   "hardware": "Mac",
+   "sources": [
+    "PT_DOCS",
+    "EINOPS"
+   ],
+   "folder": "M01-pytorch",
+   "prep": "prep/M01-pytorch/E05-matmul-reductions-and-einsum.md",
+   "code_file": "code/M01-pytorch/e05_matmul_reductions_and_einsum.py",
+   "explainer": "explainers/scenes/m01e05_matmul_reductions_and_einsum.py"
+  },
+  {
+   "ep": 8,
+   "code": "M01E06",
+   "module": "M01",
+   "module_name": "PyTorch from Zero",
+   "mod_ep": 6,
+   "title": "Autograd: how PyTorch computes gradients",
+   "slug": "autograd-how-pytorch-computes-gradients",
+   "learn": "requires_grad, the graph, backward, grad accumulation, no_grad, detach",
+   "build": "Gradient of a small function checked against a hand derivative and finite differences",
+   "hardware": "Mac",
+   "sources": [
+    "PT_BASICS",
+    "ZERO_HERO"
+   ],
+   "folder": "M01-pytorch",
+   "prep": "prep/M01-pytorch/E06-autograd-how-pytorch-computes-gradients.md",
+   "code_file": "code/M01-pytorch/e06_autograd_how_pytorch_computes_gradients.py",
+   "explainer": "explainers/scenes/m01e06_autograd_how_pytorch_computes_gr.py"
+  },
+  {
+   "ep": 9,
+   "code": "M01E07",
+   "module": "M01",
+   "module_name": "PyTorch from Zero",
+   "mod_ep": 7,
+   "title": "Linear regression with raw autograd",
+   "slug": "linear-regression-with-raw-autograd",
+   "learn": "Gradient descent loop with no nn, no optim",
+   "build": "Recover w=3, b=2 from noisy data; plot loss",
+   "hardware": "Mac",
+   "sources": [
+    "PT_BASICS"
+   ],
+   "folder": "M01-pytorch",
+   "prep": "prep/M01-pytorch/E07-linear-regression-with-raw-autograd.md",
+   "code_file": "code/M01-pytorch/e07_linear_regression_with_raw_autograd.py",
+   "explainer": "explainers/scenes/m01e07_linear_regression_with_raw_autog.py"
+  },
+  {
+   "ep": 10,
+   "code": "M01E08",
+   "module": "M01",
+   "module_name": "PyTorch from Zero",
+   "mod_ep": 8,
+   "title": "nn.Module and nn.Parameter",
+   "slug": "nn-module-and-nn-parameter",
+   "learn": "What Module gives you: parameters(), state_dict, train/eval, hooks",
+   "build": "Write MyLinear from scratch; matches nn.Linear output given same weights",
+   "hardware": "Mac",
+   "sources": [
+    "PT_DOCS"
+   ],
+   "folder": "M01-pytorch",
+   "prep": "prep/M01-pytorch/E08-nn-module-and-nn-parameter.md",
+   "code_file": "code/M01-pytorch/e08_nn_module_and_nn_parameter.py",
+   "explainer": "explainers/scenes/m01e08_nn_module_and_nn_parameter.py"
+  },
+  {
+   "ep": 11,
+   "code": "M01E09",
+   "module": "M01",
+   "module_name": "PyTorch from Zero",
+   "mod_ep": 9,
+   "title": "Loss functions and optimizers",
+   "slug": "loss-functions-and-optimizers",
+   "learn": "MSE vs cross-entropy; torch.optim; the zero_grad/backward/step order",
+   "build": "Write SGD-with-momentum by hand; matches torch.optim.SGD step for step",
+   "hardware": "Mac",
+   "sources": [
+    "PT_DOCS"
+   ],
+   "folder": "M01-pytorch",
+   "prep": "prep/M01-pytorch/E09-loss-functions-and-optimizers.md",
+   "code_file": "code/M01-pytorch/e09_loss_functions_and_optimizers.py",
+   "explainer": "explainers/scenes/m01e09_loss_functions_and_optimizers.py"
+  },
+  {
+   "ep": 12,
+   "code": "M01E10",
+   "module": "M01",
+   "module_name": "PyTorch from Zero",
+   "mod_ep": 10,
+   "title": "The training loop, done right",
+   "slug": "the-training-loop-done-right",
+   "learn": "train/eval mode, no_grad eval, logging, the canonical loop",
+   "build": "A reusable train() function with a validation pass",
+   "hardware": "Mac",
+   "sources": [
+    "PT_BASICS"
+   ],
+   "folder": "M01-pytorch",
+   "prep": "prep/M01-pytorch/E10-the-training-loop-done-right.md",
+   "code_file": "code/M01-pytorch/e10_the_training_loop_done_right.py",
+   "explainer": "explainers/scenes/m01e10_the_training_loop_done_right.py"
+  },
+  {
+   "ep": 13,
+   "code": "M01E11",
+   "module": "M01",
+   "module_name": "PyTorch from Zero",
+   "mod_ep": 11,
+   "title": "Dataset and DataLoader",
+   "slug": "dataset-and-dataloader",
+   "learn": "__len__/__getitem__, batching, shuffling, workers, collate_fn",
+   "build": "Custom Dataset over a text file + padding collate_fn",
+   "hardware": "Mac",
+   "sources": [
+    "PT_BASICS"
+   ],
+   "folder": "M01-pytorch",
+   "prep": "prep/M01-pytorch/E11-dataset-and-dataloader.md",
+   "code_file": "code/M01-pytorch/e11_dataset_and_dataloader.py",
+   "explainer": "explainers/scenes/m01e11_dataset_and_dataloader.py"
+  },
+  {
+   "ep": 14,
+   "code": "M01E12",
+   "module": "M01",
+   "module_name": "PyTorch from Zero",
+   "mod_ep": 12,
+   "title": "MNIST MLP end to end on the M4 GPU",
+   "slug": "mnist-mlp-end-to-end-on-the-m4-gpu",
+   "learn": "Putting it together on MPS; device placement; accuracy",
+   "build": "MLP hits >97% test accuracy; time per epoch CPU vs MPS",
+   "hardware": "Mac",
+   "sources": [
+    "PT_BASICS"
+   ],
+   "folder": "M01-pytorch",
+   "prep": "prep/M01-pytorch/E12-mnist-mlp-end-to-end-on-the-m4-gpu.md",
+   "code_file": "code/M01-pytorch/e12_mnist_mlp_end_to_end_on_the_m4_gpu.py",
+   "explainer": "explainers/scenes/m01e12_mnist_mlp_end_to_end_on_the_m4_g.py"
+  },
+  {
+   "ep": 15,
+   "code": "M01E13",
+   "module": "M01",
+   "module_name": "PyTorch from Zero",
+   "mod_ep": 13,
+   "title": "Saving, loading and reproducibility",
+   "slug": "saving-loading-and-reproducibility",
+   "learn": "state_dict checkpoints incl. optimizer; seeds; determinism limits",
+   "build": "Kill training mid-run, resume, get the same curve",
+   "hardware": "Mac",
+   "sources": [
+    "PT_DOCS"
+   ],
+   "folder": "M01-pytorch",
+   "prep": "prep/M01-pytorch/E13-saving-loading-and-reproducibility.md",
+   "code_file": "code/M01-pytorch/e13_saving_loading_and_reproducibility.py",
+   "explainer": "explainers/scenes/m01e13_saving_loading_and_reproducibili.py"
+  },
+  {
+   "ep": 16,
+   "code": "M01E14",
+   "module": "M01",
+   "module_name": "PyTorch from Zero",
+   "mod_ep": 14,
+   "title": "Debugging neural nets",
+   "slug": "debugging-neural-nets",
+   "learn": "Shape asserts, NaN hunting, overfit-one-batch, forward hooks, grad norms",
+   "build": "Break a model 4 ways and find each bug on camera",
+   "hardware": "Mac",
+   "sources": [
+    "ZERO_HERO",
+    "PT_DOCS"
+   ],
+   "folder": "M01-pytorch",
+   "prep": "prep/M01-pytorch/E14-debugging-neural-nets.md",
+   "code_file": "code/M01-pytorch/e14_debugging_neural_nets.py",
+   "explainer": "explainers/scenes/m01e14_debugging_neural_nets.py"
+  },
+  {
+   "ep": 17,
+   "code": "M02E01",
+   "module": "M02",
+   "module_name": "The Math You Actually Need",
+   "mod_ep": 1,
+   "title": "Vectors and dot products",
+   "slug": "vectors-and-dot-products",
+   "learn": "Dot product as similarity; cosine; why attention is a dot product",
+   "build": "Cosine similarity of word vectors; dot product 3 ways",
+   "hardware": "Mac",
+   "sources": [
+    "MML",
+    "3B1B"
+   ],
+   "folder": "M02-math",
+   "prep": "prep/M02-math/E01-vectors-and-dot-products.md",
+   "code_file": "code/M02-math/e01_vectors_and_dot_products.py",
+   "explainer": "explainers/scenes/m02e01_vectors_and_dot_products.py"
+  },
+  {
+   "ep": 18,
+   "code": "M02E02",
+   "module": "M02",
+   "module_name": "The Math You Actually Need",
+   "mod_ep": 2,
+   "title": "Matrix multiplication, three ways",
+   "slug": "matrix-multiplication-three-ways",
+   "learn": "Row-by-column, column combinations, sum of outer products; shape rules",
+   "build": "Implement matmul with loops, then outer products; allclose to @",
+   "hardware": "Mac",
+   "sources": [
+    "MML"
+   ],
+   "folder": "M02-math",
+   "prep": "prep/M02-math/E02-matrix-multiplication-three-ways.md",
+   "code_file": "code/M02-math/e02_matrix_multiplication_three_ways.py",
+   "explainer": "explainers/scenes/m02e02_matrix_multiplication_three_ways.py"
+  },
+  {
+   "ep": 19,
+   "code": "M02E03",
+   "module": "M02",
+   "module_name": "The Math You Actually Need",
+   "mod_ep": 3,
+   "title": "Derivatives and the chain rule",
+   "slug": "derivatives-and-the-chain-rule",
+   "learn": "Local derivatives multiplied along a computation graph",
+   "build": "Draw and evaluate a graph by hand; check with autograd",
+   "hardware": "Mac",
+   "sources": [
+    "3B1B",
+    "MML"
+   ],
+   "folder": "M02-math",
+   "prep": "prep/M02-math/E03-derivatives-and-the-chain-rule.md",
+   "code_file": "code/M02-math/e03_derivatives_and_the_chain_rule.py",
+   "explainer": "explainers/scenes/m02e03_derivatives_and_the_chain_rule.py"
+  },
+  {
+   "ep": 20,
+   "code": "M02E04",
+   "module": "M02",
+   "module_name": "The Math You Actually Need",
+   "mod_ep": 4,
+   "title": "Gradient descent, geometrically",
+   "slug": "gradient-descent-geometrically",
+   "learn": "Why minus the gradient; learning rate too big/small; loss landscapes",
+   "build": "Animate GD on a 2D bowl and a ravine; show divergence",
+   "hardware": "Mac",
+   "sources": [
+    "D2L"
+   ],
+   "folder": "M02-math",
+   "prep": "prep/M02-math/E04-gradient-descent-geometrically.md",
+   "code_file": "code/M02-math/e04_gradient_descent_geometrically.py",
+   "explainer": "explainers/scenes/m02e04_gradient_descent_geometrically.py"
+  },
+  {
+   "ep": 21,
+   "code": "M02E05",
+   "module": "M02",
+   "module_name": "The Math You Actually Need",
+   "mod_ep": 5,
+   "title": "Backprop through a matmul by hand",
+   "slug": "backprop-through-a-matmul-by-hand",
+   "learn": "dL/dW = X^T dY and dL/dX = dY W^T, from shapes alone",
+   "build": "Manual backward for Linear; allclose to autograd",
+   "hardware": "Mac",
+   "sources": [
+    "CS336",
+    "ZERO_HERO"
+   ],
+   "folder": "M02-math",
+   "prep": "prep/M02-math/E05-backprop-through-a-matmul-by-hand.md",
+   "code_file": "code/M02-math/e05_backprop_through_a_matmul_by_hand.py",
+   "explainer": "explainers/scenes/m02e05_backprop_through_a_matmul_by_han.py"
+  },
+  {
+   "ep": 22,
+   "code": "M02E06",
+   "module": "M02",
+   "module_name": "The Math You Actually Need",
+   "mod_ep": 6,
+   "title": "Probability for language models",
+   "slug": "probability-for-language-models",
+   "learn": "Distributions, likelihood, log-likelihood; why logs",
+   "build": "Score sentences with a unigram model; log-prob sums",
+   "hardware": "Mac",
+   "sources": [
+    "MML",
+    "D2L"
+   ],
+   "folder": "M02-math",
+   "prep": "prep/M02-math/E06-probability-for-language-models.md",
+   "code_file": "code/M02-math/e06_probability_for_language_models.py",
+   "explainer": "explainers/scenes/m02e06_probability_for_language_models.py"
+  },
+  {
+   "ep": 23,
+   "code": "M02E07",
+   "module": "M02",
+   "module_name": "The Math You Actually Need",
+   "mod_ep": 7,
+   "title": "Softmax, temperature and log-sum-exp",
+   "slug": "softmax-temperature-and-log-sum-exp",
+   "learn": "Softmax derivation, temperature, overflow, the max-subtraction trick",
+   "build": "Naive softmax overflows at 1000; stable version matches torch",
+   "hardware": "Mac",
+   "sources": [
+    "D2L"
+   ],
+   "folder": "M02-math",
+   "prep": "prep/M02-math/E07-softmax-temperature-and-log-sum-exp.md",
+   "code_file": "code/M02-math/e07_softmax_temperature_and_log_sum_exp.py",
+   "explainer": "explainers/scenes/m02e07_softmax_temperature_and_log_sum_.py"
+  },
+  {
+   "ep": 24,
+   "code": "M02E08",
+   "module": "M02",
+   "module_name": "The Math You Actually Need",
+   "mod_ep": 8,
+   "title": "Cross-entropy is negative log-likelihood",
+   "slug": "cross-entropy-is-negative-log-likelihood",
+   "learn": "CE = -log p(target); its gradient is softmax - onehot",
+   "build": "Derive on paper; manual gradient allclose to autograd",
+   "hardware": "Mac",
+   "sources": [
+    "D2L",
+    "ZERO_HERO"
+   ],
+   "folder": "M02-math",
+   "prep": "prep/M02-math/E08-cross-entropy-is-negative-log-likelihood.md",
+   "code_file": "code/M02-math/e08_cross_entropy_is_negative_log_likelihood.py",
+   "explainer": "explainers/scenes/m02e08_cross_entropy_is_negative_log_li.py"
+  },
+  {
+   "ep": 25,
+   "code": "M02E09",
+   "module": "M02",
+   "module_name": "The Math You Actually Need",
+   "mod_ep": 9,
+   "title": "Variance and initialization",
+   "slug": "variance-and-initialization",
+   "learn": "Why activations explode/vanish; Xavier and Kaiming derived",
+   "build": "Stack 50 layers, plot activation std for 3 inits",
+   "hardware": "Mac",
+   "sources": [
+    "KAIMING",
+    "ZERO_HERO"
+   ],
+   "folder": "M02-math",
+   "prep": "prep/M02-math/E09-variance-and-initialization.md",
+   "code_file": "code/M02-math/e09_variance_and_initialization.py",
+   "explainer": "explainers/scenes/m02e09_variance_and_initialization.py"
+  },
+  {
+   "ep": 26,
+   "code": "M02E10",
+   "module": "M02",
+   "module_name": "The Math You Actually Need",
+   "mod_ep": 10,
+   "title": "Jacobians and vector-Jacobian products",
+   "slug": "jacobians-and-vector-jacobian-products",
+   "learn": "What autograd really computes and why it never builds the Jacobian",
+   "build": "torch.autograd.functional.jacobian vs vjp; cost comparison",
+   "hardware": "Mac",
+   "sources": [
+    "PT_DOCS",
+    "MML"
+   ],
+   "folder": "M02-math",
+   "prep": "prep/M02-math/E10-jacobians-and-vector-jacobian-products.md",
+   "code_file": "code/M02-math/e10_jacobians_and_vector_jacobian_products.py",
+   "explainer": "explainers/scenes/m02e10_jacobians_and_vector_jacobian_pr.py"
+  },
+  {
+   "ep": 27,
+   "code": "M03E01",
+   "module": "M03",
+   "module_name": "Neural Nets from Scratch",
+   "mod_ep": 1,
+   "title": "micrograd, part 1: an autograd engine",
+   "slug": "micrograd-part-1-an-autograd-engine",
+   "learn": "A Value class that records ops and backprops",
+   "build": "Value with +,*,tanh,backward; matches PyTorch on a test expression",
+   "hardware": "Mac",
+   "sources": [
+    "MICROGRAD",
+    "ZERO_HERO"
+   ],
+   "folder": "M03-nn",
+   "prep": "prep/M03-nn/E01-micrograd-part-1-an-autograd-engine.md",
+   "code_file": "code/M03-nn/e01_micrograd_part_1_an_autograd_engine.py",
+   "explainer": "explainers/scenes/m03e01_micrograd_part_1_an_autograd_eng.py"
+  },
+  {
+   "ep": 28,
+   "code": "M03E02",
+   "module": "M03",
+   "module_name": "Neural Nets from Scratch",
+   "mod_ep": 2,
+   "title": "micrograd, part 2: neurons to an MLP",
+   "slug": "micrograd-part-2-neurons-to-an-mlp",
+   "learn": "Neuron, Layer, MLP on top of your engine",
+   "build": "Train a tiny MLP on a toy dataset with your own autograd",
+   "hardware": "Mac",
+   "sources": [
+    "MICROGRAD"
+   ],
+   "folder": "M03-nn",
+   "prep": "prep/M03-nn/E02-micrograd-part-2-neurons-to-an-mlp.md",
+   "code_file": "code/M03-nn/e02_micrograd_part_2_neurons_to_an_mlp.py",
+   "explainer": "explainers/scenes/m03e02_micrograd_part_2_neurons_to_an_m.py"
+  },
+  {
+   "ep": 29,
+   "code": "M03E03",
+   "module": "M03",
+   "module_name": "Neural Nets from Scratch",
+   "mod_ep": 3,
+   "title": "Bigram language model by counting",
+   "slug": "bigram-language-model-by-counting",
+   "learn": "The simplest LM: count pairs, normalize, sample",
+   "build": "Names dataset bigram counts; sample names; NLL",
+   "hardware": "Mac",
+   "sources": [
+    "MAKEMORE",
+    "ZERO_HERO"
+   ],
+   "folder": "M03-nn",
+   "prep": "prep/M03-nn/E03-bigram-language-model-by-counting.md",
+   "code_file": "code/M03-nn/e03_bigram_language_model_by_counting.py",
+   "explainer": "explainers/scenes/m03e03_bigram_language_model_by_countin.py"
+  },
+  {
+   "ep": 30,
+   "code": "M03E04",
+   "module": "M03",
+   "module_name": "Neural Nets from Scratch",
+   "mod_ep": 4,
+   "title": "The bigram model as a neural net",
+   "slug": "the-bigram-model-as-a-neural-net",
+   "learn": "One-hot -> logits -> softmax learns the same table",
+   "build": "Gradient-trained bigram reaches the counting model's loss",
+   "hardware": "Mac",
+   "sources": [
+    "MAKEMORE"
+   ],
+   "folder": "M03-nn",
+   "prep": "prep/M03-nn/E04-the-bigram-model-as-a-neural-net.md",
+   "code_file": "code/M03-nn/e04_the_bigram_model_as_a_neural_net.py",
+   "explainer": "explainers/scenes/m03e04_the_bigram_model_as_a_neural_net.py"
+  },
+  {
+   "ep": 31,
+   "code": "M03E05",
+   "module": "M03",
+   "module_name": "Neural Nets from Scratch",
+   "mod_ep": 5,
+   "title": "Embeddings: lookup tables that learn",
+   "slug": "embeddings-lookup-tables-that-learn",
+   "learn": "Bengio's MLP LM; embedding = one-hot matmul",
+   "build": "MLP LM with context 3; visualize 2D embeddings",
+   "hardware": "Mac",
+   "sources": [
+    "BENGIO2003",
+    "MAKEMORE"
+   ],
+   "folder": "M03-nn",
+   "prep": "prep/M03-nn/E05-embeddings-lookup-tables-that-learn.md",
+   "code_file": "code/M03-nn/e05_embeddings_lookup_tables_that_learn.py",
+   "explainer": "explainers/scenes/m03e05_embeddings_lookup_tables_that_le.py"
+  },
+  {
+   "ep": 32,
+   "code": "M03E06",
+   "module": "M03",
+   "module_name": "Neural Nets from Scratch",
+   "mod_ep": 6,
+   "title": "Train, validation, test and overfitting",
+   "slug": "train-validation-test-and-overfitting",
+   "learn": "Splits, capacity, early stopping, LR sweeps",
+   "build": "LR finder plot; overfit a small model on purpose",
+   "hardware": "Mac",
+   "sources": [
+    "ZERO_HERO"
+   ],
+   "folder": "M03-nn",
+   "prep": "prep/M03-nn/E06-train-validation-test-and-overfitting.md",
+   "code_file": "code/M03-nn/e06_train_validation_test_and_overfitting.py",
+   "explainer": "explainers/scenes/m03e06_train_validation_test_and_overfi.py"
+  },
+  {
+   "ep": 33,
+   "code": "M03E07",
+   "module": "M03",
+   "module_name": "Neural Nets from Scratch",
+   "mod_ep": 7,
+   "title": "Activations and dead neurons",
+   "slug": "activations-and-dead-neurons",
+   "learn": "tanh saturation, ReLU death, GELU; activation histograms",
+   "build": "Histogram diagnostics before/after fixing init",
+   "hardware": "Mac",
+   "sources": [
+    "ZERO_HERO"
+   ],
+   "folder": "M03-nn",
+   "prep": "prep/M03-nn/E07-activations-and-dead-neurons.md",
+   "code_file": "code/M03-nn/e07_activations_and_dead_neurons.py",
+   "explainer": "explainers/scenes/m03e07_activations_and_dead_neurons.py"
+  },
+  {
+   "ep": 34,
+   "code": "M03E08",
+   "module": "M03",
+   "module_name": "Neural Nets from Scratch",
+   "mod_ep": 8,
+   "title": "BatchNorm vs LayerNorm from scratch",
+   "slug": "batchnorm-vs-layernorm-from-scratch",
+   "learn": "Normalize over batch vs features; why transformers use LayerNorm",
+   "build": "Both from scratch; allclose to nn.BatchNorm1d/nn.LayerNorm",
+   "hardware": "Mac",
+   "sources": [
+    "BATCHNORM",
+    "LAYERNORM"
+   ],
+   "folder": "M03-nn",
+   "prep": "prep/M03-nn/E08-batchnorm-vs-layernorm-from-scratch.md",
+   "code_file": "code/M03-nn/e08_batchnorm_vs_layernorm_from_scratch.py",
+   "explainer": "explainers/scenes/m03e08_batchnorm_vs_layernorm_from_scra.py"
+  },
+  {
+   "ep": 35,
+   "code": "M03E09",
+   "module": "M03",
+   "module_name": "Neural Nets from Scratch",
+   "mod_ep": 9,
+   "title": "Residual connections",
+   "slug": "residual-connections",
+   "learn": "The gradient highway; why 100-layer nets train",
+   "build": "Deep MLP with and without residuals; grad norms per layer",
+   "hardware": "Mac",
+   "sources": [
+    "RESNET"
+   ],
+   "folder": "M03-nn",
+   "prep": "prep/M03-nn/E09-residual-connections.md",
+   "code_file": "code/M03-nn/e09_residual_connections.py",
+   "explainer": "explainers/scenes/m03e09_residual_connections.py"
+  },
+  {
+   "ep": 36,
+   "code": "M03E10",
+   "module": "M03",
+   "module_name": "Neural Nets from Scratch",
+   "mod_ep": 10,
+   "title": "Backprop by hand for a whole MLP LM",
+   "slug": "backprop-by-hand-for-a-whole-mlp-lm",
+   "learn": "Manual gradients through embedding, linear, tanh, CE",
+   "build": "Every manual grad allclose to autograd (backprop ninja)",
+   "hardware": "Mac",
+   "sources": [
+    "ZERO_HERO"
+   ],
+   "folder": "M03-nn",
+   "prep": "prep/M03-nn/E10-backprop-by-hand-for-a-whole-mlp-lm.md",
+   "code_file": "code/M03-nn/e10_backprop_by_hand_for_a_whole_mlp_lm.py",
+   "explainer": "explainers/scenes/m03e10_backprop_by_hand_for_a_whole_mlp.py"
+  },
+  {
+   "ep": 37,
+   "code": "M04E01",
+   "module": "M04",
+   "module_name": "Tokenization",
+   "mod_ep": 1,
+   "title": "Why tokenization exists",
+   "slug": "why-tokenization-exists",
+   "learn": "Characters vs words vs bytes; UTF-8; sequence length tradeoffs",
+   "build": "Encode text 3 ways; compare lengths and vocab sizes",
+   "hardware": "Mac",
+   "sources": [
+    "KARPATHY_TOK",
+    "CS336"
+   ],
+   "folder": "M04-tokenizer",
+   "prep": "prep/M04-tokenizer/E01-why-tokenization-exists.md",
+   "code_file": "code/M04-tokenizer/e01_why_tokenization_exists.py",
+   "explainer": "explainers/scenes/m04e01_why_tokenization_exists.py"
+  },
+  {
+   "ep": 38,
+   "code": "M04E02",
+   "module": "M04",
+   "module_name": "Tokenization",
+   "mod_ep": 2,
+   "title": "Byte Pair Encoding by hand",
+   "slug": "byte-pair-encoding-by-hand",
+   "learn": "Merge the most frequent pair, repeat",
+   "build": "Run BPE on a 1-line corpus on the whiteboard and in code",
+   "hardware": "Mac",
+   "sources": [
+    "BPE",
+    "MINBPE"
+   ],
+   "folder": "M04-tokenizer",
+   "prep": "prep/M04-tokenizer/E02-byte-pair-encoding-by-hand.md",
+   "code_file": "code/M04-tokenizer/e02_byte_pair_encoding_by_hand.py",
+   "explainer": "explainers/scenes/m04e02_byte_pair_encoding_by_hand.py"
+  },
+  {
+   "ep": 39,
+   "code": "M04E03",
+   "module": "M04",
+   "module_name": "Tokenization",
+   "mod_ep": 3,
+   "title": "Train a byte-level BPE tokenizer",
+   "slug": "train-a-byte-level-bpe-tokenizer",
+   "learn": "Training loop: count pairs, merge, record merges",
+   "build": "Train a 512-token BPE on TinyStories (CS336 A1)",
+   "hardware": "Mac",
+   "sources": [
+    "CS336",
+    "MINBPE"
+   ],
+   "folder": "M04-tokenizer",
+   "prep": "prep/M04-tokenizer/E03-train-a-byte-level-bpe-tokenizer.md",
+   "code_file": "code/M04-tokenizer/e03_train_a_byte_level_bpe_tokenizer.py",
+   "explainer": "explainers/scenes/m04e03_train_a_byte_level_bpe_tokenizer.py"
+  },
+  {
+   "ep": 40,
+   "code": "M04E04",
+   "module": "M04",
+   "module_name": "Tokenization",
+   "mod_ep": 4,
+   "title": "Encode and decode",
+   "slug": "encode-and-decode",
+   "learn": "Applying merges in order; round-trip guarantees",
+   "build": "encode(decode(x)) == x property test",
+   "hardware": "Mac",
+   "sources": [
+    "MINBPE"
+   ],
+   "folder": "M04-tokenizer",
+   "prep": "prep/M04-tokenizer/E04-encode-and-decode.md",
+   "code_file": "code/M04-tokenizer/e04_encode_and_decode.py",
+   "explainer": "explainers/scenes/m04e04_encode_and_decode.py"
+  },
+  {
+   "ep": 41,
+   "code": "M04E05",
+   "module": "M04",
+   "module_name": "Tokenization",
+   "mod_ep": 5,
+   "title": "Pre-tokenization and special tokens",
+   "slug": "pre-tokenization-and-special-tokens",
+   "learn": "The GPT-2/4 regex split; <|endoftext|>; why split first",
+   "build": "Add regex pre-tokenization; handle special tokens",
+   "hardware": "Mac",
+   "sources": [
+    "TIKTOKEN",
+    "CS336"
+   ],
+   "folder": "M04-tokenizer",
+   "prep": "prep/M04-tokenizer/E05-pre-tokenization-and-special-tokens.md",
+   "code_file": "code/M04-tokenizer/e05_pre_tokenization_and_special_tokens.py",
+   "explainer": "explainers/scenes/m04e05_pre_tokenization_and_special_tok.py"
+  },
+  {
+   "ep": 42,
+   "code": "M04E06",
+   "module": "M04",
+   "module_name": "Tokenization",
+   "mod_ep": 6,
+   "title": "tiktoken vs SentencePiece vs HF tokenizers",
+   "slug": "tiktoken-vs-sentencepiece-vs-hf-tokenizers",
+   "learn": "Byte-level vs unigram; vocab size vs sequence length",
+   "build": "Same text through 3 tokenizers; tokens/char table",
+   "hardware": "Mac",
+   "sources": [
+    "TIKTOKEN",
+    "SENTENCEPIECE"
+   ],
+   "folder": "M04-tokenizer",
+   "prep": "prep/M04-tokenizer/E06-tiktoken-vs-sentencepiece-vs-hf-tokenizers.md",
+   "code_file": "code/M04-tokenizer/e06_tiktoken_vs_sentencepiece_vs_hf_tokenizers.py",
+   "explainer": "explainers/scenes/m04e06_tiktoken_vs_sentencepiece_vs_hf_.py"
+  },
+  {
+   "ep": 43,
+   "code": "M04E07",
+   "module": "M04",
+   "module_name": "Tokenization",
+   "mod_ep": 7,
+   "title": "Why LLMs can't spell",
+   "slug": "why-llms-can-t-spell",
+   "learn": "Token boundaries explain counting letters, arithmetic and glitch tokens",
+   "build": "Show tokenizations behind classic failures",
+   "hardware": "Mac",
+   "sources": [
+    "KARPATHY_TOK"
+   ],
+   "folder": "M04-tokenizer",
+   "prep": "prep/M04-tokenizer/E07-why-llms-can-t-spell.md",
+   "code_file": "code/M04-tokenizer/e07_why_llms_can_t_spell.py",
+   "explainer": "explainers/scenes/m04e07_why_llms_can_t_spell.py"
+  },
+  {
+   "ep": 44,
+   "code": "M04E08",
+   "module": "M04",
+   "module_name": "Tokenization",
+   "mod_ep": 8,
+   "title": "Tokenizing a dataset fast",
+   "slug": "tokenizing-a-dataset-fast",
+   "learn": "Multiprocessing, chunking at special tokens, uint16 memmaps",
+   "build": "Tokenize TinyStories to a .bin; measure MB/s",
+   "hardware": "Mac",
+   "sources": [
+    "CS336"
+   ],
+   "folder": "M04-tokenizer",
+   "prep": "prep/M04-tokenizer/E08-tokenizing-a-dataset-fast.md",
+   "code_file": "code/M04-tokenizer/e08_tokenizing_a_dataset_fast.py",
+   "explainer": "explainers/scenes/m04e08_tokenizing_a_dataset_fast.py"
+  },
+  {
+   "ep": 45,
+   "code": "M05E01",
+   "module": "M05",
+   "module_name": "The Transformer, Layer by Layer",
+   "mod_ep": 1,
+   "title": "A GPT forward pass in one picture",
+   "slug": "a-gpt-forward-pass-in-one-picture",
+   "learn": "Tokens -> embeddings -> N blocks -> logits, with shapes",
+   "build": "Annotated diagram + shape trace printout",
+   "hardware": "Mac",
+   "sources": [
+    "KARPATHY_GPT",
+    "ILLUSTRATED"
+   ],
+   "folder": "M05-transformer",
+   "prep": "prep/M05-transformer/E01-a-gpt-forward-pass-in-one-picture.md",
+   "code_file": "code/M05-transformer/e01_a_gpt_forward_pass_in_one_picture.py",
+   "explainer": "explainers/scenes/m05e01_a_gpt_forward_pass_in_one_pictur.py"
+  },
+  {
+   "ep": 46,
+   "code": "M05E02",
+   "module": "M05",
+   "module_name": "The Transformer, Layer by Layer",
+   "mod_ep": 2,
+   "title": "Token embeddings and the residual stream",
+   "slug": "token-embeddings-and-the-residual-stream",
+   "learn": "Every block reads from and writes to one stream",
+   "build": "Embedding layer; hook the residual stream norms",
+   "hardware": "Mac",
+   "sources": [
+    "CIRCUITS",
+    "KARPATHY_GPT"
+   ],
+   "folder": "M05-transformer",
+   "prep": "prep/M05-transformer/E02-token-embeddings-and-the-residual-stream.md",
+   "code_file": "code/M05-transformer/e02_token_embeddings_and_the_residual_stream.py",
+   "explainer": "explainers/scenes/m05e02_token_embeddings_and_the_residua.py"
+  },
+  {
+   "ep": 47,
+   "code": "M05E03",
+   "module": "M05",
+   "module_name": "The Transformer, Layer by Layer",
+   "mod_ep": 3,
+   "title": "Positional information",
+   "slug": "positional-information",
+   "learn": "Attention is permutation-invariant; sinusoidal vs learned positions",
+   "build": "Prove invariance numerically; add sinusoidal encodings",
+   "hardware": "Mac",
+   "sources": [
+    "ATTN",
+    "ANNOTATED"
+   ],
+   "folder": "M05-transformer",
+   "prep": "prep/M05-transformer/E03-positional-information.md",
+   "code_file": "code/M05-transformer/e03_positional_information.py",
+   "explainer": "explainers/scenes/m05e03_positional_information.py"
+  },
+  {
+   "ep": 48,
+   "code": "M05E04",
+   "module": "M05",
+   "module_name": "The Transformer, Layer by Layer",
+   "mod_ep": 4,
+   "title": "Attention intuition: a soft dictionary lookup",
+   "slug": "attention-intuition-a-soft-dictionary-lookup",
+   "learn": "Queries, keys, values; weighted average of values",
+   "build": "Toy QKV on 4 tokens by hand",
+   "hardware": "Mac",
+   "sources": [
+    "ILLUSTRATED",
+    "3B1B"
+   ],
+   "folder": "M05-transformer",
+   "prep": "prep/M05-transformer/E04-attention-intuition-a-soft-dictionary-lookup.md",
+   "code_file": "code/M05-transformer/e04_attention_intuition_a_soft_dictionary_lookup.py",
+   "explainer": "explainers/scenes/m05e04_attention_intuition_a_soft_dicti.py"
+  },
+  {
+   "ep": 49,
+   "code": "M05E05",
+   "module": "M05",
+   "module_name": "The Transformer, Layer by Layer",
+   "mod_ep": 5,
+   "title": "Why divide by sqrt(d_k)",
+   "slug": "why-divide-by-sqrt-d-k",
+   "learn": "Variance of a dot product grows with d; softmax saturation",
+   "build": "Empirical variance plot; saturation demo",
+   "hardware": "Mac",
+   "sources": [
+    "ATTN"
+   ],
+   "folder": "M05-transformer",
+   "prep": "prep/M05-transformer/E05-why-divide-by-sqrt-d-k.md",
+   "code_file": "code/M05-transformer/e05_why_divide_by_sqrt_d_k.py",
+   "explainer": "explainers/scenes/m05e05_why_divide_by_sqrt_d_k.py"
+  },
+  {
+   "ep": 50,
+   "code": "M05E06",
+   "module": "M05",
+   "module_name": "The Transformer, Layer by Layer",
+   "mod_ep": 6,
+   "title": "Single-head self-attention in code",
+   "slug": "single-head-self-attention-in-code",
+   "learn": "QKV projections, scores, softmax, weighted sum",
+   "build": "From scratch; allclose to F.scaled_dot_product_attention",
+   "hardware": "Mac",
+   "sources": [
+    "KARPATHY_GPT",
+    "CS336"
+   ],
+   "folder": "M05-transformer",
+   "prep": "prep/M05-transformer/E06-single-head-self-attention-in-code.md",
+   "code_file": "code/M05-transformer/e06_single_head_self_attention_in_code.py",
+   "explainer": "explainers/scenes/m05e06_single_head_self_attention_in_co.py"
+  },
+  {
+   "ep": 51,
+   "code": "M05E07",
+   "module": "M05",
+   "module_name": "The Transformer, Layer by Layer",
+   "mod_ep": 7,
+   "title": "Causal masking",
+   "slug": "causal-masking",
+   "learn": "No peeking at the future; the -inf trick; triangular masks",
+   "build": "Masked attention; check future tokens have zero weight",
+   "hardware": "Mac",
+   "sources": [
+    "KARPATHY_GPT"
+   ],
+   "folder": "M05-transformer",
+   "prep": "prep/M05-transformer/E07-causal-masking.md",
+   "code_file": "code/M05-transformer/e07_causal_masking.py",
+   "explainer": "explainers/scenes/m05e07_causal_masking.py"
+  },
+  {
+   "ep": 52,
+   "code": "M05E08",
+   "module": "M05",
+   "module_name": "The Transformer, Layer by Layer",
+   "mod_ep": 8,
+   "title": "Multi-head attention",
+   "slug": "multi-head-attention",
+   "learn": "Split d_model into heads, attend in parallel, concat, project",
+   "build": "MHA with einops; allclose to nn.MultiheadAttention",
+   "hardware": "Mac",
+   "sources": [
+    "ATTN",
+    "EINOPS"
+   ],
+   "folder": "M05-transformer",
+   "prep": "prep/M05-transformer/E08-multi-head-attention.md",
+   "code_file": "code/M05-transformer/e08_multi_head_attention.py",
+   "explainer": "explainers/scenes/m05e08_multi_head_attention.py"
+  },
+  {
+   "ep": 53,
+   "code": "M05E09",
+   "module": "M05",
+   "module_name": "The Transformer, Layer by Layer",
+   "mod_ep": 9,
+   "title": "The MLP block",
+   "slug": "the-mlp-block",
+   "learn": "Why 4x width; MLP as key-value memory",
+   "build": "FFN module; parameter share of MLP vs attention",
+   "hardware": "Mac",
+   "sources": [
+    "ATTN",
+    "CIRCUITS"
+   ],
+   "folder": "M05-transformer",
+   "prep": "prep/M05-transformer/E09-the-mlp-block.md",
+   "code_file": "code/M05-transformer/e09_the_mlp_block.py",
+   "explainer": "explainers/scenes/m05e09_the_mlp_block.py"
+  },
+  {
+   "ep": 54,
+   "code": "M05E10",
+   "module": "M05",
+   "module_name": "The Transformer, Layer by Layer",
+   "mod_ep": 10,
+   "title": "ReLU, GELU and SwiGLU",
+   "slug": "relu-gelu-and-swiglu",
+   "learn": "Gated linear units and why modern LLMs use SwiGLU",
+   "build": "All three; match param counts (the 8/3 trick)",
+   "hardware": "Mac",
+   "sources": [
+    "SWIGLU"
+   ],
+   "folder": "M05-transformer",
+   "prep": "prep/M05-transformer/E10-relu-gelu-and-swiglu.md",
+   "code_file": "code/M05-transformer/e10_relu_gelu_and_swiglu.py",
+   "explainer": "explainers/scenes/m05e10_relu_gelu_and_swiglu.py"
+  },
+  {
+   "ep": 55,
+   "code": "M05E11",
+   "module": "M05",
+   "module_name": "The Transformer, Layer by Layer",
+   "mod_ep": 11,
+   "title": "LayerNorm vs RMSNorm",
+   "slug": "layernorm-vs-rmsnorm",
+   "learn": "Drop the mean, keep the scale; cheaper and as good",
+   "build": "RMSNorm from scratch; allclose to torch.nn.RMSNorm",
+   "hardware": "Mac",
+   "sources": [
+    "RMSNORM",
+    "LAYERNORM"
+   ],
+   "folder": "M05-transformer",
+   "prep": "prep/M05-transformer/E11-layernorm-vs-rmsnorm.md",
+   "code_file": "code/M05-transformer/e11_layernorm_vs_rmsnorm.py",
+   "explainer": "explainers/scenes/m05e11_layernorm_vs_rmsnorm.py"
+  },
+  {
+   "ep": 56,
+   "code": "M05E12",
+   "module": "M05",
+   "module_name": "The Transformer, Layer by Layer",
+   "mod_ep": 12,
+   "title": "Pre-norm vs post-norm: assembling the block",
+   "slug": "pre-norm-vs-post-norm-assembling-the-block",
+   "learn": "Where the norm goes changes trainability",
+   "build": "Transformer block; train both variants briefly",
+   "hardware": "Mac",
+   "sources": [
+    "CS336"
+   ],
+   "folder": "M05-transformer",
+   "prep": "prep/M05-transformer/E12-pre-norm-vs-post-norm-assembling-the-block.md",
+   "code_file": "code/M05-transformer/e12_pre_norm_vs_post_norm_assembling_the_block.py",
+   "explainer": "explainers/scenes/m05e12_pre_norm_vs_post_norm_assembling.py"
+  },
+  {
+   "ep": 57,
+   "code": "M05E13",
+   "module": "M05",
+   "module_name": "The Transformer, Layer by Layer",
+   "mod_ep": 13,
+   "title": "LM head and weight tying",
+   "slug": "lm-head-and-weight-tying",
+   "learn": "Logits = h @ E^T; why tying saves params",
+   "build": "Tie weights; count params before/after",
+   "hardware": "Mac",
+   "sources": [
+    "GPT2",
+    "KARPATHY_GPT2"
+   ],
+   "folder": "M05-transformer",
+   "prep": "prep/M05-transformer/E13-lm-head-and-weight-tying.md",
+   "code_file": "code/M05-transformer/e13_lm_head_and_weight_tying.py",
+   "explainer": "explainers/scenes/m05e13_lm_head_and_weight_tying.py"
+  },
+  {
+   "ep": 58,
+   "code": "M05E14",
+   "module": "M05",
+   "module_name": "The Transformer, Layer by Layer",
+   "mod_ep": 14,
+   "title": "A full GPT in 150 lines",
+   "slug": "a-full-gpt-in-150-lines",
+   "learn": "Everything wired together",
+   "build": "Load GPT-2 124M weights into your model; logits match HF",
+   "hardware": "Mac",
+   "sources": [
+    "NANOGPT",
+    "KARPATHY_GPT2"
+   ],
+   "folder": "M05-transformer",
+   "prep": "prep/M05-transformer/E14-a-full-gpt-in-150-lines.md",
+   "code_file": "code/M05-transformer/e14_a_full_gpt_in_150_lines.py",
+   "explainer": "explainers/scenes/m05e14_a_full_gpt_in_150_lines.py"
+  },
+  {
+   "ep": 59,
+   "code": "M05E15",
+   "module": "M05",
+   "module_name": "The Transformer, Layer by Layer",
+   "mod_ep": 15,
+   "title": "RoPE from first principles",
+   "slug": "rope-from-first-principles",
+   "learn": "Rotations encode relative position; complex-number view",
+   "build": "RoPE from scratch; relative-position property test",
+   "hardware": "Mac",
+   "sources": [
+    "ROPE",
+    "TORCHFEATHER"
+   ],
+   "folder": "M05-transformer",
+   "prep": "prep/M05-transformer/E15-rope-from-first-principles.md",
+   "code_file": "code/M05-transformer/e15_rope_from_first_principles.py",
+   "explainer": "explainers/scenes/m05e15_rope_from_first_principles.py"
+  },
+  {
+   "ep": 60,
+   "code": "M05E16",
+   "module": "M05",
+   "module_name": "The Transformer, Layer by Layer",
+   "mod_ep": 16,
+   "title": "Counting parameters and FLOPs",
+   "slug": "counting-parameters-and-flops",
+   "learn": "12*L*d^2 params; 6ND training FLOPs; attention FLOPs",
+   "build": "flops.py matches a profiler count",
+   "hardware": "Mac",
+   "sources": [
+    "CS336",
+    "KAPLAN"
+   ],
+   "folder": "M05-transformer",
+   "prep": "prep/M05-transformer/E16-counting-parameters-and-flops.md",
+   "code_file": "code/M05-transformer/e16_counting_parameters_and_flops.py",
+   "explainer": "explainers/scenes/m05e16_counting_parameters_and_flops.py"
+  },
+  {
+   "ep": 61,
+   "code": "M05E17",
+   "module": "M05",
+   "module_name": "The Transformer, Layer by Layer",
+   "mod_ep": 17,
+   "title": "Memory accounting for training",
+   "slug": "memory-accounting-for-training",
+   "learn": "Params + grads + Adam states + activations",
+   "build": "Predict peak memory, then measure it",
+   "hardware": "Mac",
+   "sources": [
+    "CS336",
+    "SCALINGBOOK"
+   ],
+   "folder": "M05-transformer",
+   "prep": "prep/M05-transformer/E17-memory-accounting-for-training.md",
+   "code_file": "code/M05-transformer/e17_memory_accounting_for_training.py",
+   "explainer": "explainers/scenes/m05e17_memory_accounting_for_training.py"
+  },
+  {
+   "ep": 62,
+   "code": "M05E18",
+   "module": "M05",
+   "module_name": "The Transformer, Layer by Layer",
+   "mod_ep": 18,
+   "title": "Multi-query and grouped-query attention",
+   "slug": "multi-query-and-grouped-query-attention",
+   "learn": "Fewer KV heads, same quality, much smaller KV cache",
+   "build": "GQA module; KV cache size table",
+   "hardware": "Mac",
+   "sources": [
+    "GQA"
+   ],
+   "folder": "M05-transformer",
+   "prep": "prep/M05-transformer/E18-multi-query-and-grouped-query-attention.md",
+   "code_file": "code/M05-transformer/e18_multi_query_and_grouped_query_attention.py",
+   "explainer": "explainers/scenes/m05e18_multi_query_and_grouped_query_at.py"
+  },
+  {
+   "ep": 63,
+   "code": "M06E01",
+   "module": "M06",
+   "module_name": "Training an LLM",
+   "mod_ep": 1,
+   "title": "The data loader for LM pretraining",
+   "slug": "the-data-loader-for-lm-pretraining",
+   "learn": "Random windows from a token memmap; x/y shift by one",
+   "build": "get_batch() on the TinyStories .bin",
+   "hardware": "Mac",
+   "sources": [
+    "CS336",
+    "NANOGPT"
+   ],
+   "folder": "M06-training",
+   "prep": "prep/M06-training/E01-the-data-loader-for-lm-pretraining.md",
+   "code_file": "code/M06-training/e01_the_data_loader_for_lm_pretraining.py",
+   "explainer": "explainers/scenes/m06e01_the_data_loader_for_lm_pretraini.py"
+  },
+  {
+   "ep": 64,
+   "code": "M06E02",
+   "module": "M06",
+   "module_name": "Training an LLM",
+   "mod_ep": 2,
+   "title": "Loss and perplexity",
+   "slug": "loss-and-perplexity",
+   "learn": "Cross-entropy per token; perplexity = exp(loss); what 'good' looks like",
+   "build": "Untrained model loss ~= ln(vocab) check",
+   "hardware": "Mac",
+   "sources": [
+    "CS336"
+   ],
+   "folder": "M06-training",
+   "prep": "prep/M06-training/E02-loss-and-perplexity.md",
+   "code_file": "code/M06-training/e02_loss_and_perplexity.py",
+   "explainer": "explainers/scenes/m06e02_loss_and_perplexity.py"
+  },
+  {
+   "ep": 65,
+   "code": "M06E03",
+   "module": "M06",
+   "module_name": "Training an LLM",
+   "mod_ep": 3,
+   "title": "Adam and AdamW from scratch",
+   "slug": "adam-and-adamw-from-scratch",
+   "learn": "Moments, bias correction, decoupled weight decay",
+   "build": "AdamW from scratch; matches torch.optim.AdamW step for step",
+   "hardware": "Mac",
+   "sources": [
+    "ADAM",
+    "ADAMW",
+    "CS336"
+   ],
+   "folder": "M06-training",
+   "prep": "prep/M06-training/E03-adam-and-adamw-from-scratch.md",
+   "code_file": "code/M06-training/e03_adam_and_adamw_from_scratch.py",
+   "explainer": "explainers/scenes/m06e03_adam_and_adamw_from_scratch.py"
+  },
+  {
+   "ep": 66,
+   "code": "M06E04",
+   "module": "M06",
+   "module_name": "Training an LLM",
+   "mod_ep": 4,
+   "title": "Learning-rate schedules",
+   "slug": "learning-rate-schedules",
+   "learn": "Warmup + cosine; why warmup",
+   "build": "Schedule function + plot; ablate no-warmup",
+   "hardware": "Mac",
+   "sources": [
+    "CS336"
+   ],
+   "folder": "M06-training",
+   "prep": "prep/M06-training/E04-learning-rate-schedules.md",
+   "code_file": "code/M06-training/e04_learning_rate_schedules.py",
+   "explainer": "explainers/scenes/m06e04_learning_rate_schedules.py"
+  },
+  {
+   "ep": 67,
+   "code": "M06E05",
+   "module": "M06",
+   "module_name": "Training an LLM",
+   "mod_ep": 5,
+   "title": "Gradient clipping and stability",
+   "slug": "gradient-clipping-and-stability",
+   "learn": "Global-norm clipping; loss spikes",
+   "build": "Clip from scratch; allclose to clip_grad_norm_",
+   "hardware": "Mac",
+   "sources": [
+    "CS336"
+   ],
+   "folder": "M06-training",
+   "prep": "prep/M06-training/E05-gradient-clipping-and-stability.md",
+   "code_file": "code/M06-training/e05_gradient_clipping_and_stability.py",
+   "explainer": "explainers/scenes/m06e05_gradient_clipping_and_stability.py"
+  },
+  {
+   "ep": 68,
+   "code": "M06E06",
+   "module": "M06",
+   "module_name": "Training an LLM",
+   "mod_ep": 6,
+   "title": "Mixed precision: fp32, fp16, bf16",
+   "slug": "mixed-precision-fp32-fp16-bf16",
+   "learn": "autocast, loss scaling, master weights",
+   "build": "Train in bf16 autocast; compare speed and loss",
+   "hardware": "Mac",
+   "sources": [
+    "MIXEDPREC"
+   ],
+   "folder": "M06-training",
+   "prep": "prep/M06-training/E06-mixed-precision-fp32-fp16-bf16.md",
+   "code_file": "code/M06-training/e06_mixed_precision_fp32_fp16_bf16.py",
+   "explainer": "explainers/scenes/m06e06_mixed_precision_fp32_fp16_bf16.py"
+  },
+  {
+   "ep": 69,
+   "code": "M06E07",
+   "module": "M06",
+   "module_name": "Training an LLM",
+   "mod_ep": 7,
+   "title": "Gradient accumulation",
+   "slug": "gradient-accumulation",
+   "learn": "Effective batch size without the memory",
+   "build": "Prove accumulated grads == big-batch grads",
+   "hardware": "Mac",
+   "sources": [
+    "NANOGPT"
+   ],
+   "folder": "M06-training",
+   "prep": "prep/M06-training/E07-gradient-accumulation.md",
+   "code_file": "code/M06-training/e07_gradient_accumulation.py",
+   "explainer": "explainers/scenes/m06e07_gradient_accumulation.py"
+  },
+  {
+   "ep": 70,
+   "code": "M06E08",
+   "module": "M06",
+   "module_name": "Training an LLM",
+   "mod_ep": 8,
+   "title": "Checkpointing and resumable training",
+   "slug": "checkpointing-and-resumable-training",
+   "learn": "Model + optimizer + RNG + step",
+   "build": "Kill/resume with identical loss curve",
+   "hardware": "Mac",
+   "sources": [
+    "CS336"
+   ],
+   "folder": "M06-training",
+   "prep": "prep/M06-training/E08-checkpointing-and-resumable-training.md",
+   "code_file": "code/M06-training/e08_checkpointing_and_resumable_training.py",
+   "explainer": "explainers/scenes/m06e08_checkpointing_and_resumable_trai.py"
+  },
+  {
+   "ep": 71,
+   "code": "M06E09",
+   "module": "M06",
+   "module_name": "Training an LLM",
+   "mod_ep": 9,
+   "title": "Train a GPT on TinyStories",
+   "slug": "train-a-gpt-on-tinystories",
+   "learn": "The whole loop on the M4 (CS336 Assignment 1)",
+   "build": "Loss curve + samples; record tokens/s and val loss",
+   "hardware": "Mac",
+   "sources": [
+    "CS336",
+    "TINYSTORIES"
+   ],
+   "folder": "M06-training",
+   "prep": "prep/M06-training/E09-train-a-gpt-on-tinystories.md",
+   "code_file": "code/M06-training/e09_train_a_gpt_on_tinystories.py",
+   "explainer": "explainers/scenes/m06e09_train_a_gpt_on_tinystories.py"
+  },
+  {
+   "ep": 72,
+   "code": "M06E10",
+   "module": "M06",
+   "module_name": "Training an LLM",
+   "mod_ep": 10,
+   "title": "Sampling: greedy, temperature, top-k, top-p",
+   "slug": "sampling-greedy-temperature-top-k-top-p",
+   "learn": "Decoding strategies and their failure modes",
+   "build": "All four from scratch; samples side by side",
+   "hardware": "Mac",
+   "sources": [
+    "NUCLEUS"
+   ],
+   "folder": "M06-training",
+   "prep": "prep/M06-training/E10-sampling-greedy-temperature-top-k-top-p.md",
+   "code_file": "code/M06-training/e10_sampling_greedy_temperature_top_k_top_p.py",
+   "explainer": "explainers/scenes/m06e10_sampling_greedy_temperature_top_.py"
+  },
+  {
+   "ep": 73,
+   "code": "M06E11",
+   "module": "M06",
+   "module_name": "Training an LLM",
+   "mod_ep": 11,
+   "title": "torch.compile and kernel fusion",
+   "slug": "torch-compile-and-kernel-fusion",
+   "learn": "What compile does; graph breaks; measuring speedup",
+   "build": "tokens/s before and after compile",
+   "hardware": "Mac",
+   "sources": [
+    "COMPILE",
+    "BRRR"
+   ],
+   "folder": "M06-training",
+   "prep": "prep/M06-training/E11-torch-compile-and-kernel-fusion.md",
+   "code_file": "code/M06-training/e11_torch_compile_and_kernel_fusion.py",
+   "explainer": "explainers/scenes/m06e11_torch_compile_and_kernel_fusion.py"
+  },
+  {
+   "ep": 74,
+   "code": "M06E12",
+   "module": "M06",
+   "module_name": "Training an LLM",
+   "mod_ep": 12,
+   "title": "Experiment tracking and ablations",
+   "slug": "experiment-tracking-and-ablations",
+   "learn": "wandb, controlled comparisons, what actually moves loss",
+   "build": "Ablation grid: width, depth, LR",
+   "hardware": "Mac",
+   "sources": [
+    "CS336"
+   ],
+   "folder": "M06-training",
+   "prep": "prep/M06-training/E12-experiment-tracking-and-ablations.md",
+   "code_file": "code/M06-training/e12_experiment_tracking_and_ablations.py",
+   "explainer": "explainers/scenes/m06e12_experiment_tracking_and_ablation.py"
+  },
+  {
+   "ep": 75,
+   "code": "M06E13",
+   "module": "M06",
+   "module_name": "Training an LLM",
+   "mod_ep": 13,
+   "title": "Scaling laws: Kaplan vs Chinchilla",
+   "slug": "scaling-laws-kaplan-vs-chinchilla",
+   "learn": "Loss vs N, D, C; compute-optimal ~20 tokens/param",
+   "build": "Reproduce the Chinchilla rule of thumb numerically",
+   "hardware": "Mac",
+   "sources": [
+    "KAPLAN",
+    "CHINCHILLA"
+   ],
+   "folder": "M06-training",
+   "prep": "prep/M06-training/E13-scaling-laws-kaplan-vs-chinchilla.md",
+   "code_file": "code/M06-training/e13_scaling_laws_kaplan_vs_chinchilla.py",
+   "explainer": "explainers/scenes/m06e13_scaling_laws_kaplan_vs_chinchill.py"
+  },
+  {
+   "ep": 76,
+   "code": "M06E14",
+   "module": "M06",
+   "module_name": "Training an LLM",
+   "mod_ep": 14,
+   "title": "Fit your own scaling law",
+   "slug": "fit-your-own-scaling-law",
+   "learn": "Train 6 tiny models; fit a power law",
+   "build": "Log-log plot + fitted exponent",
+   "hardware": "Mac",
+   "sources": [
+    "CS336",
+    "CHINCHILLA"
+   ],
+   "folder": "M06-training",
+   "prep": "prep/M06-training/E14-fit-your-own-scaling-law.md",
+   "code_file": "code/M06-training/e14_fit_your_own_scaling_law.py",
+   "explainer": "explainers/scenes/m06e14_fit_your_own_scaling_law.py"
+  },
+  {
+   "ep": 77,
+   "code": "M06E15",
+   "module": "M06",
+   "module_name": "Training an LLM",
+   "mod_ep": 15,
+   "title": "Data quality: filtering and dedup",
+   "slug": "data-quality-filtering-and-dedup",
+   "learn": "Heuristic filters, MinHash dedup, mixing",
+   "build": "MinHash near-dup finder on a text sample",
+   "hardware": "Mac",
+   "sources": [
+    "FINEWEB",
+    "CS336"
+   ],
+   "folder": "M06-training",
+   "prep": "prep/M06-training/E15-data-quality-filtering-and-dedup.md",
+   "code_file": "code/M06-training/e15_data_quality_filtering_and_dedup.py",
+   "explainer": "explainers/scenes/m06e15_data_quality_filtering_and_dedup.py"
+  },
+  {
+   "ep": 78,
+   "code": "M06E16",
+   "module": "M06",
+   "module_name": "Training an LLM",
+   "mod_ep": 16,
+   "title": "Run the NanoGPT speedrun on 8xH100",
+   "slug": "run-the-nanogpt-speedrun-on-8xh100",
+   "learn": "What the speedrun record holders changed (Muon, etc.) and what it costs",
+   "build": "Run modded-nanogpt; log time-to-3.28 and the bill",
+   "hardware": "RunPod 8x H100",
+   "sources": [
+    "MODDED",
+    "MUON",
+    "NANOCHAT"
+   ],
+   "folder": "M06-training",
+   "prep": "prep/M06-training/E16-run-the-nanogpt-speedrun-on-8xh100.md",
+   "code_file": "code/M06-training/e16_run_the_nanogpt_speedrun_on_8xh100.py",
+   "explainer": "explainers/scenes/m06e16_run_the_nanogpt_speedrun_on_8xh1.py"
+  },
+  {
+   "ep": 79,
+   "code": "M07E01",
+   "module": "M07",
+   "module_name": "GPUs, CUDA and Triton",
+   "mod_ep": 1,
+   "title": "How a GPU works",
+   "slug": "how-a-gpu-works",
+   "learn": "SMs, warps, threads; HBM, L2, shared memory, registers",
+   "build": "Annotated GPU diagram; query device props on RunPod",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "MODALGPU",
+    "PMPP"
+   ],
+   "folder": "M07-kernels",
+   "prep": "prep/M07-kernels/E01-how-a-gpu-works.md",
+   "code_file": "code/M07-kernels/e01_how_a_gpu_works.py",
+   "explainer": "explainers/scenes/m07e01_how_a_gpu_works.py"
+  },
+  {
+   "ep": 80,
+   "code": "M07E02",
+   "module": "M07",
+   "module_name": "GPUs, CUDA and Triton",
+   "mod_ep": 2,
+   "title": "Roofline and arithmetic intensity",
+   "slug": "roofline-and-arithmetic-intensity",
+   "learn": "Compute-bound vs memory-bound; FLOPs per byte",
+   "build": "Measure intensity of elementwise vs matmul; plot on roofline",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "BRRR",
+    "SCALINGBOOK"
+   ],
+   "folder": "M07-kernels",
+   "prep": "prep/M07-kernels/E02-roofline-and-arithmetic-intensity.md",
+   "code_file": "code/M07-kernels/e02_roofline_and_arithmetic_intensity.py",
+   "explainer": "explainers/scenes/m07e02_roofline_and_arithmetic_intensit.py"
+  },
+  {
+   "ep": 81,
+   "code": "M07E03",
+   "module": "M07",
+   "module_name": "GPUs, CUDA and Triton",
+   "mod_ep": 3,
+   "title": "Profiling PyTorch",
+   "slug": "profiling-pytorch",
+   "learn": "torch.profiler, trace viewer, finding the bottleneck",
+   "build": "Profile the GPT step; name the top 3 kernels",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "PROFILER"
+   ],
+   "folder": "M07-kernels",
+   "prep": "prep/M07-kernels/E03-profiling-pytorch.md",
+   "code_file": "code/M07-kernels/e03_profiling_pytorch.py",
+   "explainer": "explainers/scenes/m07e03_profiling_pytorch.py"
+  },
+  {
+   "ep": 82,
+   "code": "M07E04",
+   "module": "M07",
+   "module_name": "GPUs, CUDA and Triton",
+   "mod_ep": 4,
+   "title": "CUDA 101: vector add",
+   "slug": "cuda-101-vector-add",
+   "learn": "Kernels, threads, blocks, grids, indexing (PMPP ch. 2)",
+   "build": "vector_add.cu; correctness + bandwidth number",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "PMPP",
+    "CUDAGUIDE"
+   ],
+   "folder": "M07-kernels",
+   "prep": "prep/M07-kernels/E04-cuda-101-vector-add.md",
+   "code_file": "code/M07-kernels/e04_cuda_101_vector_add.py",
+   "explainer": "explainers/scenes/m07e04_cuda_101_vector_add.py"
+  },
+  {
+   "ep": 83,
+   "code": "M07E05",
+   "module": "M07",
+   "module_name": "GPUs, CUDA and Triton",
+   "mod_ep": 5,
+   "title": "The memory hierarchy and coalescing",
+   "slug": "the-memory-hierarchy-and-coalescing",
+   "learn": "Global vs shared vs registers; coalesced access",
+   "build": "Strided vs coalesced copy kernel benchmark",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "PMPP",
+    "GPUMODE"
+   ],
+   "folder": "M07-kernels",
+   "prep": "prep/M07-kernels/E05-the-memory-hierarchy-and-coalescing.md",
+   "code_file": "code/M07-kernels/e05_the_memory_hierarchy_and_coalescing.py",
+   "explainer": "explainers/scenes/m07e05_the_memory_hierarchy_and_coalesc.py"
+  },
+  {
+   "ep": 84,
+   "code": "M07E06",
+   "module": "M07",
+   "module_name": "GPUs, CUDA and Triton",
+   "mod_ep": 6,
+   "title": "Naive matmul in CUDA",
+   "slug": "naive-matmul-in-cuda",
+   "learn": "One thread per output element",
+   "build": "Naive kernel; GFLOPs vs cuBLAS",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "PMPP",
+    "SIBOEHM"
+   ],
+   "folder": "M07-kernels",
+   "prep": "prep/M07-kernels/E06-naive-matmul-in-cuda.md",
+   "code_file": "code/M07-kernels/e06_naive_matmul_in_cuda.py",
+   "explainer": "explainers/scenes/m07e06_naive_matmul_in_cuda.py"
+  },
+  {
+   "ep": 85,
+   "code": "M07E07",
+   "module": "M07",
+   "module_name": "GPUs, CUDA and Triton",
+   "mod_ep": 7,
+   "title": "Tiled matmul with shared memory",
+   "slug": "tiled-matmul-with-shared-memory",
+   "learn": "Load tiles once, reuse many times (PMPP ch. 5)",
+   "build": "Tiled kernel; speedup over naive",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "PMPP",
+    "SIBOEHM"
+   ],
+   "folder": "M07-kernels",
+   "prep": "prep/M07-kernels/E07-tiled-matmul-with-shared-memory.md",
+   "code_file": "code/M07-kernels/e07_tiled_matmul_with_shared_memory.py",
+   "explainer": "explainers/scenes/m07e07_tiled_matmul_with_shared_memory.py"
+  },
+  {
+   "ep": 86,
+   "code": "M07E08",
+   "module": "M07",
+   "module_name": "GPUs, CUDA and Triton",
+   "mod_ep": 8,
+   "title": "The matmul optimization ladder",
+   "slug": "the-matmul-optimization-ladder",
+   "learn": "Register blocking, vectorized loads, occupancy",
+   "build": "Climb siboehm's ladder; % of cuBLAS chart",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "SIBOEHM"
+   ],
+   "folder": "M07-kernels",
+   "prep": "prep/M07-kernels/E08-the-matmul-optimization-ladder.md",
+   "code_file": "code/M07-kernels/e08_the_matmul_optimization_ladder.py",
+   "explainer": "explainers/scenes/m07e08_the_matmul_optimization_ladder.py"
+  },
+  {
+   "ep": 87,
+   "code": "M07E09",
+   "module": "M07",
+   "module_name": "GPUs, CUDA and Triton",
+   "mod_ep": 9,
+   "title": "Parallel reduction and warp shuffles",
+   "slug": "parallel-reduction-and-warp-shuffles",
+   "learn": "Tree reduction, divergence, __shfl_down_sync",
+   "build": "Sum kernel versions; bandwidth per version",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "PMPP",
+    "GPUMODE"
+   ],
+   "folder": "M07-kernels",
+   "prep": "prep/M07-kernels/E09-parallel-reduction-and-warp-shuffles.md",
+   "code_file": "code/M07-kernels/e09_parallel_reduction_and_warp_shuffles.py",
+   "explainer": "explainers/scenes/m07e09_parallel_reduction_and_warp_shuf.py"
+  },
+  {
+   "ep": 88,
+   "code": "M07E10",
+   "module": "M07",
+   "module_name": "GPUs, CUDA and Triton",
+   "mod_ep": 10,
+   "title": "A softmax kernel in CUDA",
+   "slug": "a-softmax-kernel-in-cuda",
+   "learn": "Row-wise max, exp, sum; one block per row",
+   "build": "Softmax kernel allclose to torch.softmax",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "PMPP"
+   ],
+   "folder": "M07-kernels",
+   "prep": "prep/M07-kernels/E10-a-softmax-kernel-in-cuda.md",
+   "code_file": "code/M07-kernels/e10_a_softmax_kernel_in_cuda.py",
+   "explainer": "explainers/scenes/m07e10_a_softmax_kernel_in_cuda.py"
+  },
+  {
+   "ep": 89,
+   "code": "M07E11",
+   "module": "M07",
+   "module_name": "GPUs, CUDA and Triton",
+   "mod_ep": 11,
+   "title": "Calling CUDA from PyTorch",
+   "slug": "calling-cuda-from-pytorch",
+   "learn": "load_inline and C++ extensions",
+   "build": "Your matmul as a torch op with autograd passthrough",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "GPUMODE",
+    "PT_DOCS"
+   ],
+   "folder": "M07-kernels",
+   "prep": "prep/M07-kernels/E11-calling-cuda-from-pytorch.md",
+   "code_file": "code/M07-kernels/e11_calling_cuda_from_pytorch.py",
+   "explainer": "explainers/scenes/m07e11_calling_cuda_from_pytorch.py"
+  },
+  {
+   "ep": 90,
+   "code": "M07E12",
+   "module": "M07",
+   "module_name": "GPUs, CUDA and Triton",
+   "mod_ep": 12,
+   "title": "Triton 101: vector add",
+   "slug": "triton-101-vector-add",
+   "learn": "Programs, blocks, masks, pointers",
+   "build": "Triton add; matches CUDA version's bandwidth",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "TRITON"
+   ],
+   "folder": "M07-kernels",
+   "prep": "prep/M07-kernels/E12-triton-101-vector-add.md",
+   "code_file": "code/M07-kernels/e12_triton_101_vector_add.py",
+   "explainer": "explainers/scenes/m07e12_triton_101_vector_add.py"
+  },
+  {
+   "ep": 91,
+   "code": "M07E13",
+   "module": "M07",
+   "module_name": "GPUs, CUDA and Triton",
+   "mod_ep": 13,
+   "title": "Fused softmax in Triton",
+   "slug": "fused-softmax-in-triton",
+   "learn": "Fusion saves memory round trips",
+   "build": "Triton softmax vs torch; bandwidth plot",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "TRITON"
+   ],
+   "folder": "M07-kernels",
+   "prep": "prep/M07-kernels/E13-fused-softmax-in-triton.md",
+   "code_file": "code/M07-kernels/e13_fused_softmax_in_triton.py",
+   "explainer": "explainers/scenes/m07e13_fused_softmax_in_triton.py"
+  },
+  {
+   "ep": 92,
+   "code": "M07E14",
+   "module": "M07",
+   "module_name": "GPUs, CUDA and Triton",
+   "mod_ep": 14,
+   "title": "Matmul in Triton with autotuning",
+   "slug": "matmul-in-triton-with-autotuning",
+   "learn": "Block sizes, grouping for L2, autotune",
+   "build": "Triton matmul vs cuBLAS TFLOPs",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "TRITON"
+   ],
+   "folder": "M07-kernels",
+   "prep": "prep/M07-kernels/E14-matmul-in-triton-with-autotuning.md",
+   "code_file": "code/M07-kernels/e14_matmul_in_triton_with_autotuning.py",
+   "explainer": "explainers/scenes/m07e14_matmul_in_triton_with_autotuning.py"
+  },
+  {
+   "ep": 93,
+   "code": "M07E15",
+   "module": "M07",
+   "module_name": "GPUs, CUDA and Triton",
+   "mod_ep": 15,
+   "title": "RMSNorm in Triton, forward and backward",
+   "slug": "rmsnorm-in-triton-forward-and-backward",
+   "learn": "Writing a backward kernel (CS336 A2)",
+   "build": "autograd.Function wrapper; gradcheck passes",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "CS336",
+    "TRITON"
+   ],
+   "folder": "M07-kernels",
+   "prep": "prep/M07-kernels/E15-rmsnorm-in-triton-forward-and-backward.md",
+   "code_file": "code/M07-kernels/e15_rmsnorm_in_triton_forward_and_backward.py",
+   "explainer": "explainers/scenes/m07e15_rmsnorm_in_triton_forward_and_ba.py"
+  },
+  {
+   "ep": 94,
+   "code": "M07E16",
+   "module": "M07",
+   "module_name": "GPUs, CUDA and Triton",
+   "mod_ep": 16,
+   "title": "Tensor cores and low precision",
+   "slug": "tensor-cores-and-low-precision",
+   "learn": "MMA instructions, bf16/fp8 throughput",
+   "build": "fp32 vs tf32 vs bf16 matmul TFLOPs",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "MODALGPU",
+    "PMPP"
+   ],
+   "folder": "M07-kernels",
+   "prep": "prep/M07-kernels/E16-tensor-cores-and-low-precision.md",
+   "code_file": "code/M07-kernels/e16_tensor_cores_and_low_precision.py",
+   "explainer": "explainers/scenes/m07e16_tensor_cores_and_low_precision.py"
+  },
+  {
+   "ep": 95,
+   "code": "M07E17",
+   "module": "M07",
+   "module_name": "GPUs, CUDA and Triton",
+   "mod_ep": 17,
+   "title": "Inside torch.compile: Inductor writes Triton",
+   "slug": "inside-torch-compile-inductor-writes-triton",
+   "learn": "Read the generated kernels",
+   "build": "TORCH_LOGS=output_code on a fused op",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "COMPILE"
+   ],
+   "folder": "M07-kernels",
+   "prep": "prep/M07-kernels/E17-inside-torch-compile-inductor-writes-triton.md",
+   "code_file": "code/M07-kernels/e17_inside_torch_compile_inductor_writes_triton.py",
+   "explainer": "explainers/scenes/m07e17_inside_torch_compile_inductor_wr.py"
+  },
+  {
+   "ep": 96,
+   "code": "M07E18",
+   "module": "M07",
+   "module_name": "GPUs, CUDA and Triton",
+   "mod_ep": 18,
+   "title": "Benchmarking GPU code correctly",
+   "slug": "benchmarking-gpu-code-correctly",
+   "learn": "Warmup, synchronize, CUDA events, triton.testing",
+   "build": "A bench() helper reused for the rest of the series",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "TRITON",
+    "GPUMODE"
+   ],
+   "folder": "M07-kernels",
+   "prep": "prep/M07-kernels/E18-benchmarking-gpu-code-correctly.md",
+   "code_file": "code/M07-kernels/e18_benchmarking_gpu_code_correctly.py",
+   "explainer": "explainers/scenes/m07e18_benchmarking_gpu_code_correctly.py"
+  },
+  {
+   "ep": 97,
+   "code": "M08E01",
+   "module": "M08",
+   "module_name": "FlashAttention",
+   "mod_ep": 1,
+   "title": "Why standard attention is memory-bound",
+   "slug": "why-standard-attention-is-memory-bound",
+   "learn": "The N x N score matrix and HBM traffic",
+   "build": "Measure attention memory vs sequence length",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "FA1",
+    "BRRR"
+   ],
+   "folder": "M08-flash",
+   "prep": "prep/M08-flash/E01-why-standard-attention-is-memory-bound.md",
+   "code_file": "code/M08-flash/e01_why_standard_attention_is_memory_bound.py",
+   "explainer": "explainers/scenes/m08e01_why_standard_attention_is_memory.py"
+  },
+  {
+   "ep": 98,
+   "code": "M08E02",
+   "module": "M08",
+   "module_name": "FlashAttention",
+   "mod_ep": 2,
+   "title": "Online softmax",
+   "slug": "online-softmax",
+   "learn": "Softmax in one pass with a running max and sum",
+   "build": "Online softmax allclose to two-pass softmax",
+   "hardware": "Mac",
+   "sources": [
+    "ONLINESOFTMAX"
+   ],
+   "folder": "M08-flash",
+   "prep": "prep/M08-flash/E02-online-softmax.md",
+   "code_file": "code/M08-flash/e02_online_softmax.py",
+   "explainer": "explainers/scenes/m08e02_online_softmax.py"
+  },
+  {
+   "ep": 99,
+   "code": "M08E03",
+   "module": "M08",
+   "module_name": "FlashAttention",
+   "mod_ep": 3,
+   "title": "FlashAttention forward on paper",
+   "slug": "flashattention-forward-on-paper",
+   "learn": "Tiling Q, K, V; rescaling partial outputs",
+   "build": "Whiteboard derivation of the update rule",
+   "hardware": "Mac",
+   "sources": [
+    "FA1",
+    "UMAR"
+   ],
+   "folder": "M08-flash",
+   "prep": "prep/M08-flash/E03-flashattention-forward-on-paper.md",
+   "code_file": "code/M08-flash/e03_flashattention_forward_on_paper.py",
+   "explainer": "explainers/scenes/m08e03_flashattention_forward_on_paper.py"
+  },
+  {
+   "ep": 100,
+   "code": "M08E04",
+   "module": "M08",
+   "module_name": "FlashAttention",
+   "mod_ep": 4,
+   "title": "FlashAttention forward in PyTorch",
+   "slug": "flashattention-forward-in-pytorch",
+   "learn": "A tiled reference you can step through",
+   "build": "Tiled forward allclose to SDPA",
+   "hardware": "Mac",
+   "sources": [
+    "FA1"
+   ],
+   "folder": "M08-flash",
+   "prep": "prep/M08-flash/E04-flashattention-forward-in-pytorch.md",
+   "code_file": "code/M08-flash/e04_flashattention_forward_in_pytorch.py",
+   "explainer": "explainers/scenes/m08e04_flashattention_forward_in_pytorc.py"
+  },
+  {
+   "ep": 101,
+   "code": "M08E05",
+   "module": "M08",
+   "module_name": "FlashAttention",
+   "mod_ep": 5,
+   "title": "FlashAttention forward in Triton",
+   "slug": "flashattention-forward-in-triton",
+   "learn": "The real kernel",
+   "build": "Triton FA forward; correctness + TFLOPs",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "FA1",
+    "TRITON"
+   ],
+   "folder": "M08-flash",
+   "prep": "prep/M08-flash/E05-flashattention-forward-in-triton.md",
+   "code_file": "code/M08-flash/e05_flashattention_forward_in_triton.py",
+   "explainer": "explainers/scenes/m08e05_flashattention_forward_in_triton.py"
+  },
+  {
+   "ep": 102,
+   "code": "M08E06",
+   "module": "M08",
+   "module_name": "FlashAttention",
+   "mod_ep": 6,
+   "title": "The backward pass and recomputation",
+   "slug": "the-backward-pass-and-recomputation",
+   "learn": "dQ, dK, dV derived; recompute instead of store",
+   "build": "Triton backward; gradcheck vs SDPA",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "FA1",
+    "FA2"
+   ],
+   "folder": "M08-flash",
+   "prep": "prep/M08-flash/E06-the-backward-pass-and-recomputation.md",
+   "code_file": "code/M08-flash/e06_the_backward_pass_and_recomputation.py",
+   "explainer": "explainers/scenes/m08e06_the_backward_pass_and_recomputat.py"
+  },
+  {
+   "ep": 103,
+   "code": "M08E07",
+   "module": "M08",
+   "module_name": "FlashAttention",
+   "mod_ep": 7,
+   "title": "FlashAttention 2 and 3",
+   "slug": "flashattention-2-and-3",
+   "learn": "Work partitioning, Hopper async (TMA/WGMMA), FP8",
+   "build": "Diff of FA1 -> FA2 -> FA3 ideas, mapped to code",
+   "hardware": "Mac",
+   "sources": [
+    "FA2",
+    "FA3"
+   ],
+   "folder": "M08-flash",
+   "prep": "prep/M08-flash/E07-flashattention-2-and-3.md",
+   "code_file": "code/M08-flash/e07_flashattention_2_and_3.py",
+   "explainer": "explainers/scenes/m08e07_flashattention_2_and_3.py"
+  },
+  {
+   "ep": 104,
+   "code": "M08E08",
+   "module": "M08",
+   "module_name": "FlashAttention",
+   "mod_ep": 8,
+   "title": "Benchmark: naive vs yours vs SDPA, plus Flash-Decoding",
+   "slug": "benchmark-naive-vs-yours-vs-sdpa-plus-flash-deco",
+   "learn": "Where your kernel lands; split-KV for decode",
+   "build": "Throughput chart across sequence lengths",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "FLASHDECODING",
+    "FA2"
+   ],
+   "folder": "M08-flash",
+   "prep": "prep/M08-flash/E08-benchmark-naive-vs-yours-vs-sdpa-plus-flash-deco.md",
+   "code_file": "code/M08-flash/e08_benchmark_naive_vs_yours_vs_sdpa_plus_flash_deco.py",
+   "explainer": "explainers/scenes/m08e08_benchmark_naive_vs_yours_vs_sdpa.py"
+  },
+  {
+   "ep": 105,
+   "code": "M09E01",
+   "module": "M09",
+   "module_name": "Modern Architectures",
+   "mod_ep": 1,
+   "title": "Inside Llama 3 and Qwen 3",
+   "slug": "inside-llama-3-and-qwen-3",
+   "learn": "Diff against GPT-2: RoPE, RMSNorm, SwiGLU, GQA",
+   "build": "Load a small Qwen3 into your GPT with config changes",
+   "hardware": "Mac",
+   "sources": [
+    "DSV3",
+    "GQA"
+   ],
+   "folder": "M09-arch",
+   "prep": "prep/M09-arch/E01-inside-llama-3-and-qwen-3.md",
+   "code_file": "code/M09-arch/e01_inside_llama_3_and_qwen_3.py",
+   "explainer": "explainers/scenes/m09e01_inside_llama_3_and_qwen_3.py"
+  },
+  {
+   "ep": 106,
+   "code": "M09E02",
+   "module": "M09",
+   "module_name": "Modern Architectures",
+   "mod_ep": 2,
+   "title": "Context extension: RoPE scaling and YaRN",
+   "slug": "context-extension-rope-scaling-and-yarn",
+   "learn": "Position interpolation, NTK-aware scaling, YaRN",
+   "build": "YaRN implementation; long-context perplexity test",
+   "hardware": "Mac",
+   "sources": [
+    "YARN",
+    "TORCHFEATHER"
+   ],
+   "folder": "M09-arch",
+   "prep": "prep/M09-arch/E02-context-extension-rope-scaling-and-yarn.md",
+   "code_file": "code/M09-arch/e02_context_extension_rope_scaling_and_yarn.py",
+   "explainer": "explainers/scenes/m09e02_context_extension_rope_scaling_a.py"
+  },
+  {
+   "ep": 107,
+   "code": "M09E03",
+   "module": "M09",
+   "module_name": "Modern Architectures",
+   "mod_ep": 3,
+   "title": "KV cache math: MHA vs GQA vs MLA",
+   "slug": "kv-cache-math-mha-vs-gqa-vs-mla",
+   "learn": "Bytes per token for each design",
+   "build": "KV cache calculator for real model configs",
+   "hardware": "Mac",
+   "sources": [
+    "DSV2",
+    "GQA"
+   ],
+   "folder": "M09-arch",
+   "prep": "prep/M09-arch/E03-kv-cache-math-mha-vs-gqa-vs-mla.md",
+   "code_file": "code/M09-arch/e03_kv_cache_math_mha_vs_gqa_vs_mla.py",
+   "explainer": "explainers/scenes/m09e03_kv_cache_math_mha_vs_gqa_vs_mla.py"
+  },
+  {
+   "ep": 108,
+   "code": "M09E04",
+   "module": "M09",
+   "module_name": "Modern Architectures",
+   "mod_ep": 4,
+   "title": "Multi-head latent attention, derived",
+   "slug": "multi-head-latent-attention-derived",
+   "learn": "Low-rank KV compression",
+   "build": "MLA forward from scratch",
+   "hardware": "Mac",
+   "sources": [
+    "DSV2",
+    "TORCHFEATHER"
+   ],
+   "folder": "M09-arch",
+   "prep": "prep/M09-arch/E04-multi-head-latent-attention-derived.md",
+   "code_file": "code/M09-arch/e04_multi_head_latent_attention_derived.py",
+   "explainer": "explainers/scenes/m09e04_multi_head_latent_attention_deri.py"
+  },
+  {
+   "ep": 109,
+   "code": "M09E05",
+   "module": "M09",
+   "module_name": "Modern Architectures",
+   "mod_ep": 5,
+   "title": "MLA weight absorption and decoupled RoPE",
+   "slug": "mla-weight-absorption-and-decoupled-rope",
+   "learn": "Why RoPE breaks absorption and the fix",
+   "build": "Absorbed MLA allclose to naive MLA",
+   "hardware": "Mac",
+   "sources": [
+    "DSV2",
+    "TORCHFEATHER"
+   ],
+   "folder": "M09-arch",
+   "prep": "prep/M09-arch/E05-mla-weight-absorption-and-decoupled-rope.md",
+   "code_file": "code/M09-arch/e05_mla_weight_absorption_and_decoupled_rope.py",
+   "explainer": "explainers/scenes/m09e05_mla_weight_absorption_and_decoup.py"
+  },
+  {
+   "ep": 110,
+   "code": "M09E06",
+   "module": "M09",
+   "module_name": "Modern Architectures",
+   "mod_ep": 6,
+   "title": "Mixture of Experts: routing",
+   "slug": "mixture-of-experts-routing",
+   "learn": "Router, top-k gating, capacity factor",
+   "build": "MoE layer from scratch; expert utilization plot",
+   "hardware": "Mac",
+   "sources": [
+    "SWITCH",
+    "MIXTRAL"
+   ],
+   "folder": "M09-arch",
+   "prep": "prep/M09-arch/E06-mixture-of-experts-routing.md",
+   "code_file": "code/M09-arch/e06_mixture_of_experts_routing.py",
+   "explainer": "explainers/scenes/m09e06_mixture_of_experts_routing.py"
+  },
+  {
+   "ep": 111,
+   "code": "M09E07",
+   "module": "M09",
+   "module_name": "Modern Architectures",
+   "mod_ep": 7,
+   "title": "MoE load balancing",
+   "slug": "moe-load-balancing",
+   "learn": "Aux loss vs DeepSeek's aux-loss-free bias",
+   "build": "Both balancing methods; collapse demo without them",
+   "hardware": "Mac",
+   "sources": [
+    "SWITCH",
+    "DSV3"
+   ],
+   "folder": "M09-arch",
+   "prep": "prep/M09-arch/E07-moe-load-balancing.md",
+   "code_file": "code/M09-arch/e07_moe_load_balancing.py",
+   "explainer": "explainers/scenes/m09e07_moe_load_balancing.py"
+  },
+  {
+   "ep": 112,
+   "code": "M09E08",
+   "module": "M09",
+   "module_name": "Modern Architectures",
+   "mod_ep": 8,
+   "title": "Sliding-window attention and attention sinks",
+   "slug": "sliding-window-attention-and-attention-sinks",
+   "learn": "Local attention, sinks, sparse patterns",
+   "build": "Sliding-window mask; memory vs full attention",
+   "hardware": "Mac",
+   "sources": [
+    "MIXTRAL"
+   ],
+   "folder": "M09-arch",
+   "prep": "prep/M09-arch/E08-sliding-window-attention-and-attention-sinks.md",
+   "code_file": "code/M09-arch/e08_sliding_window_attention_and_attention_sinks.py",
+   "explainer": "explainers/scenes/m09e08_sliding_window_attention_and_att.py"
+  },
+  {
+   "ep": 113,
+   "code": "M09E09",
+   "module": "M09",
+   "module_name": "Modern Architectures",
+   "mod_ep": 9,
+   "title": "Beyond attention: SSMs and linear attention",
+   "slug": "beyond-attention-ssms-and-linear-attention",
+   "learn": "Mamba and linear attention in one picture",
+   "build": "Linear attention as an RNN; compare with softmax attention",
+   "hardware": "Mac",
+   "sources": [
+    "MAMBA"
+   ],
+   "folder": "M09-arch",
+   "prep": "prep/M09-arch/E09-beyond-attention-ssms-and-linear-attention.md",
+   "code_file": "code/M09-arch/e09_beyond_attention_ssms_and_linear_attention.py",
+   "explainer": "explainers/scenes/m09e09_beyond_attention_ssms_and_linear.py"
+  },
+  {
+   "ep": 114,
+   "code": "M09E10",
+   "module": "M09",
+   "module_name": "Modern Architectures",
+   "mod_ep": 10,
+   "title": "Stability at scale: QK-norm, z-loss, Muon",
+   "slug": "stability-at-scale-qk-norm-z-loss-muon",
+   "learn": "The tricks big runs rely on",
+   "build": "Ablate QK-norm on a spiky config",
+   "hardware": "Mac",
+   "sources": [
+    "MUON",
+    "MODDED"
+   ],
+   "folder": "M09-arch",
+   "prep": "prep/M09-arch/E10-stability-at-scale-qk-norm-z-loss-muon.md",
+   "code_file": "code/M09-arch/e10_stability_at_scale_qk_norm_z_loss_muon.py",
+   "explainer": "explainers/scenes/m09e10_stability_at_scale_qk_norm_z_los.py"
+  },
+  {
+   "ep": 115,
+   "code": "M10E01",
+   "module": "M10",
+   "module_name": "Distributed Training",
+   "mod_ep": 1,
+   "title": "Why distribute: the memory wall",
+   "slug": "why-distribute-the-memory-wall",
+   "learn": "Memory math for a 7B model; why one GPU is not enough",
+   "build": "Memory calculator: params, grads, Adam, activations",
+   "hardware": "Mac",
+   "sources": [
+    "ULTRASCALE",
+    "SCALINGBOOK"
+   ],
+   "folder": "M10-distributed",
+   "prep": "prep/M10-distributed/E01-why-distribute-the-memory-wall.md",
+   "code_file": "code/M10-distributed/e01_why_distribute_the_memory_wall.py",
+   "explainer": "explainers/scenes/m10e01_why_distribute_the_memory_wall.py"
+  },
+  {
+   "ep": 116,
+   "code": "M10E02",
+   "module": "M10",
+   "module_name": "Distributed Training",
+   "mod_ep": 2,
+   "title": "Collectives: all-reduce and friends",
+   "slug": "collectives-all-reduce-and-friends",
+   "learn": "Broadcast, reduce-scatter, all-gather, all-to-all; ring algorithms",
+   "build": "Animate ring all-reduce; cost formula",
+   "hardware": "Mac",
+   "sources": [
+    "ULTRASCALE",
+    "TORCHFEATHER"
+   ],
+   "folder": "M10-distributed",
+   "prep": "prep/M10-distributed/E02-collectives-all-reduce-and-friends.md",
+   "code_file": "code/M10-distributed/e02_collectives_all_reduce_and_friends.py",
+   "explainer": "explainers/scenes/m10e02_collectives_all_reduce_and_frien.py"
+  },
+  {
+   "ep": 117,
+   "code": "M10E03",
+   "module": "M10",
+   "module_name": "Distributed Training",
+   "mod_ep": 3,
+   "title": "torch.distributed on your laptop",
+   "slug": "torch-distributed-on-your-laptop",
+   "learn": "Process groups, ranks, gloo on CPU",
+   "build": "4-process all_reduce on the Mac",
+   "hardware": "Mac",
+   "sources": [
+    "DISTTUT"
+   ],
+   "folder": "M10-distributed",
+   "prep": "prep/M10-distributed/E03-torch-distributed-on-your-laptop.md",
+   "code_file": "code/M10-distributed/e03_torch_distributed_on_your_laptop.py",
+   "explainer": "explainers/scenes/m10e03_torch_distributed_on_your_laptop.py"
+  },
+  {
+   "ep": 118,
+   "code": "M10E04",
+   "module": "M10",
+   "module_name": "Distributed Training",
+   "mod_ep": 4,
+   "title": "Data parallelism from scratch",
+   "slug": "data-parallelism-from-scratch",
+   "learn": "Replicate, all-reduce grads, bucketing, overlap",
+   "build": "Your DDP matches single-process training",
+   "hardware": "Mac",
+   "sources": [
+    "TORCHFEATHER",
+    "DISTTUT"
+   ],
+   "folder": "M10-distributed",
+   "prep": "prep/M10-distributed/E04-data-parallelism-from-scratch.md",
+   "code_file": "code/M10-distributed/e04_data_parallelism_from_scratch.py",
+   "explainer": "explainers/scenes/m10e04_data_parallelism_from_scratch.py"
+  },
+  {
+   "ep": 119,
+   "code": "M10E05",
+   "module": "M10",
+   "module_name": "Distributed Training",
+   "mod_ep": 5,
+   "title": "ZeRO stages 1, 2 and 3",
+   "slug": "zero-stages-1-2-and-3",
+   "learn": "Shard optimizer state, grads, params",
+   "build": "Memory-per-GPU table for each stage",
+   "hardware": "Mac",
+   "sources": [
+    "ZERO",
+    "ULTRASCALE"
+   ],
+   "folder": "M10-distributed",
+   "prep": "prep/M10-distributed/E05-zero-stages-1-2-and-3.md",
+   "code_file": "code/M10-distributed/e05_zero_stages_1_2_and_3.py",
+   "explainer": "explainers/scenes/m10e05_zero_stages_1_2_and_3.py"
+  },
+  {
+   "ep": 120,
+   "code": "M10E06",
+   "module": "M10",
+   "module_name": "Distributed Training",
+   "mod_ep": 6,
+   "title": "FSDP from scratch",
+   "slug": "fsdp-from-scratch",
+   "learn": "All-gather params on demand, reduce-scatter grads",
+   "build": "Mini-FSDP on gloo; FSDP2 API comparison",
+   "hardware": "Mac",
+   "sources": [
+    "FSDPTUT",
+    "TORCHFEATHER"
+   ],
+   "folder": "M10-distributed",
+   "prep": "prep/M10-distributed/E06-fsdp-from-scratch.md",
+   "code_file": "code/M10-distributed/e06_fsdp_from_scratch.py",
+   "explainer": "explainers/scenes/m10e06_fsdp_from_scratch.py"
+  },
+  {
+   "ep": 121,
+   "code": "M10E07",
+   "module": "M10",
+   "module_name": "Distributed Training",
+   "mod_ep": 7,
+   "title": "Activation checkpointing",
+   "slug": "activation-checkpointing",
+   "learn": "Trade compute for memory",
+   "build": "Peak memory with/without checkpointing",
+   "hardware": "Mac",
+   "sources": [
+    "ULTRASCALE"
+   ],
+   "folder": "M10-distributed",
+   "prep": "prep/M10-distributed/E07-activation-checkpointing.md",
+   "code_file": "code/M10-distributed/e07_activation_checkpointing.py",
+   "explainer": "explainers/scenes/m10e07_activation_checkpointing.py"
+  },
+  {
+   "ep": 122,
+   "code": "M10E08",
+   "module": "M10",
+   "module_name": "Distributed Training",
+   "mod_ep": 8,
+   "title": "Tensor parallelism: column and row parallel",
+   "slug": "tensor-parallelism-column-and-row-parallel",
+   "learn": "Megatron's split of linear layers",
+   "build": "Column/row parallel linear allclose to unsharded",
+   "hardware": "Mac",
+   "sources": [
+    "MEGATRON",
+    "TORCHFEATHER"
+   ],
+   "folder": "M10-distributed",
+   "prep": "prep/M10-distributed/E08-tensor-parallelism-column-and-row-parallel.md",
+   "code_file": "code/M10-distributed/e08_tensor_parallelism_column_and_row_parallel.py",
+   "explainer": "explainers/scenes/m10e08_tensor_parallelism_column_and_ro.py"
+  },
+  {
+   "ep": 123,
+   "code": "M10E09",
+   "module": "M10",
+   "module_name": "Distributed Training",
+   "mod_ep": 9,
+   "title": "Tensor-parallel attention and MLP",
+   "slug": "tensor-parallel-attention-and-mlp",
+   "learn": "Heads across GPUs; one all-reduce per block",
+   "build": "TP transformer block on gloo",
+   "hardware": "Mac",
+   "sources": [
+    "MEGATRON",
+    "TORCHFEATHER"
+   ],
+   "folder": "M10-distributed",
+   "prep": "prep/M10-distributed/E09-tensor-parallel-attention-and-mlp.md",
+   "code_file": "code/M10-distributed/e09_tensor_parallel_attention_and_mlp.py",
+   "explainer": "explainers/scenes/m10e09_tensor_parallel_attention_and_ml.py"
+  },
+  {
+   "ep": 124,
+   "code": "M10E10",
+   "module": "M10",
+   "module_name": "Distributed Training",
+   "mod_ep": 10,
+   "title": "Pipeline parallelism and the bubble",
+   "slug": "pipeline-parallelism-and-the-bubble",
+   "learn": "GPipe, micro-batches, bubble fraction",
+   "build": "Pipeline schedule simulator",
+   "hardware": "Mac",
+   "sources": [
+    "GPIPE",
+    "TORCHFEATHER"
+   ],
+   "folder": "M10-distributed",
+   "prep": "prep/M10-distributed/E10-pipeline-parallelism-and-the-bubble.md",
+   "code_file": "code/M10-distributed/e10_pipeline_parallelism_and_the_bubble.py",
+   "explainer": "explainers/scenes/m10e10_pipeline_parallelism_and_the_bub.py"
+  },
+  {
+   "ep": 125,
+   "code": "M10E11",
+   "module": "M10",
+   "module_name": "Distributed Training",
+   "mod_ep": 11,
+   "title": "1F1B and zero-bubble schedules",
+   "slug": "1f1b-and-zero-bubble-schedules",
+   "learn": "Interleaving forward/backward to shrink the bubble",
+   "build": "Schedule diagrams + bubble math",
+   "hardware": "Mac",
+   "sources": [
+    "TORCHFEATHER",
+    "ULTRASCALE"
+   ],
+   "folder": "M10-distributed",
+   "prep": "prep/M10-distributed/E11-1f1b-and-zero-bubble-schedules.md",
+   "code_file": "code/M10-distributed/e11_1f1b_and_zero_bubble_schedules.py",
+   "explainer": "explainers/scenes/m10e11_1f1b_and_zero_bubble_schedules.py"
+  },
+  {
+   "ep": 126,
+   "code": "M10E12",
+   "module": "M10",
+   "module_name": "Distributed Training",
+   "mod_ep": 12,
+   "title": "Context parallelism and ring attention",
+   "slug": "context-parallelism-and-ring-attention",
+   "learn": "Shard the sequence; pass KV around a ring",
+   "build": "Ring attention allclose to full attention",
+   "hardware": "Mac",
+   "sources": [
+    "RINGATTN",
+    "TORCHFEATHER"
+   ],
+   "folder": "M10-distributed",
+   "prep": "prep/M10-distributed/E12-context-parallelism-and-ring-attention.md",
+   "code_file": "code/M10-distributed/e12_context_parallelism_and_ring_attention.py",
+   "explainer": "explainers/scenes/m10e12_context_parallelism_and_ring_att.py"
+  },
+  {
+   "ep": 127,
+   "code": "M10E13",
+   "module": "M10",
+   "module_name": "Distributed Training",
+   "mod_ep": 13,
+   "title": "Expert parallelism and all-to-all",
+   "slug": "expert-parallelism-and-all-to-all",
+   "learn": "Dispatch tokens to experts across GPUs",
+   "build": "EP dispatch/combine on gloo",
+   "hardware": "Mac",
+   "sources": [
+    "TORCHFEATHER",
+    "DSV3"
+   ],
+   "folder": "M10-distributed",
+   "prep": "prep/M10-distributed/E13-expert-parallelism-and-all-to-all.md",
+   "code_file": "code/M10-distributed/e13_expert_parallelism_and_all_to_all.py",
+   "explainer": "explainers/scenes/m10e13_expert_parallelism_and_all_to_al.py"
+  },
+  {
+   "ep": 128,
+   "code": "M10E14",
+   "module": "M10",
+   "module_name": "Distributed Training",
+   "mod_ep": 14,
+   "title": "Device meshes: combining 3D/4D parallelism",
+   "slug": "device-meshes-combining-3d-4d-parallelism",
+   "learn": "DP x TP x PP x CP layouts",
+   "build": "DeviceMesh layout for 8 ranks; what talks to what",
+   "hardware": "Mac",
+   "sources": [
+    "TORCHFEATHER",
+    "ULTRASCALE"
+   ],
+   "folder": "M10-distributed",
+   "prep": "prep/M10-distributed/E14-device-meshes-combining-3d-4d-parallelism.md",
+   "code_file": "code/M10-distributed/e14_device_meshes_combining_3d_4d_parallelism.py",
+   "explainer": "explainers/scenes/m10e14_device_meshes_combining_3d_4d_pa.py"
+  },
+  {
+   "ep": 129,
+   "code": "M10E15",
+   "module": "M10",
+   "module_name": "Distributed Training",
+   "mod_ep": 15,
+   "title": "Scaling for real on 4 GPUs",
+   "slug": "scaling-for-real-on-4-gpus",
+   "learn": "DDP vs FSDP vs TP on actual hardware",
+   "build": "Tokens/s and scaling efficiency table on RunPod",
+   "hardware": "RunPod 4x GPU",
+   "sources": [
+    "TORCHFEATHER",
+    "STAS"
+   ],
+   "folder": "M10-distributed",
+   "prep": "prep/M10-distributed/E15-scaling-for-real-on-4-gpus.md",
+   "code_file": "code/M10-distributed/e15_scaling_for_real_on_4_gpus.py",
+   "explainer": "explainers/scenes/m10e15_scaling_for_real_on_4_gpus.py"
+  },
+  {
+   "ep": 130,
+   "code": "M10E16",
+   "module": "M10",
+   "module_name": "Distributed Training",
+   "mod_ep": 16,
+   "title": "MFU, checkpoints and failures at scale",
+   "slug": "mfu-checkpoints-and-failures-at-scale",
+   "learn": "Model FLOPs utilization, async checkpoints, restarts",
+   "build": "MFU calculation for your RunPod run",
+   "hardware": "RunPod 4x GPU",
+   "sources": [
+    "STAS",
+    "SCALINGBOOK"
+   ],
+   "folder": "M10-distributed",
+   "prep": "prep/M10-distributed/E16-mfu-checkpoints-and-failures-at-scale.md",
+   "code_file": "code/M10-distributed/e16_mfu_checkpoints_and_failures_at_scale.py",
+   "explainer": "explainers/scenes/m10e16_mfu_checkpoints_and_failures_at_.py"
+  },
+  {
+   "ep": 131,
+   "code": "M11E01",
+   "module": "M11",
+   "module_name": "Post-Training: SFT, LoRA, RLHF, DPO, GRPO",
+   "mod_ep": 1,
+   "title": "Base model vs chat model",
+   "slug": "base-model-vs-chat-model",
+   "learn": "What post-training adds: the InstructGPT pipeline",
+   "build": "Same prompt to a base and an instruct model",
+   "hardware": "Mac",
+   "sources": [
+    "INSTRUCTGPT",
+    "RLHFBOOK"
+   ],
+   "folder": "M11-posttrain",
+   "prep": "prep/M11-posttrain/E01-base-model-vs-chat-model.md",
+   "code_file": "code/M11-posttrain/e01_base_model_vs_chat_model.py",
+   "explainer": "explainers/scenes/m11e01_base_model_vs_chat_model.py"
+  },
+  {
+   "ep": 132,
+   "code": "M11E02",
+   "module": "M11",
+   "module_name": "Post-Training: SFT, LoRA, RLHF, DPO, GRPO",
+   "mod_ep": 2,
+   "title": "Chat templates and loss masking",
+   "slug": "chat-templates-and-loss-masking",
+   "learn": "Roles, special tokens, train only on assistant tokens",
+   "build": "Template + mask; verify masked tokens contribute 0 loss",
+   "hardware": "Mac",
+   "sources": [
+    "TRL",
+    "RLHFBOOK"
+   ],
+   "folder": "M11-posttrain",
+   "prep": "prep/M11-posttrain/E02-chat-templates-and-loss-masking.md",
+   "code_file": "code/M11-posttrain/e02_chat_templates_and_loss_masking.py",
+   "explainer": "explainers/scenes/m11e02_chat_templates_and_loss_masking.py"
+  },
+  {
+   "ep": 133,
+   "code": "M11E03",
+   "module": "M11",
+   "module_name": "Post-Training: SFT, LoRA, RLHF, DPO, GRPO",
+   "mod_ep": 3,
+   "title": "SFT from scratch",
+   "slug": "sft-from-scratch",
+   "learn": "Supervised fine-tuning loop on a small model",
+   "build": "SFT Qwen3-0.6B on a small instruction set",
+   "hardware": "RunPod 1x H100",
+   "sources": [
+    "CS336",
+    "TRL"
+   ],
+   "folder": "M11-posttrain",
+   "prep": "prep/M11-posttrain/E03-sft-from-scratch.md",
+   "code_file": "code/M11-posttrain/e03_sft_from_scratch.py",
+   "explainer": "explainers/scenes/m11e03_sft_from_scratch.py"
+  },
+  {
+   "ep": 134,
+   "code": "M11E04",
+   "module": "M11",
+   "module_name": "Post-Training: SFT, LoRA, RLHF, DPO, GRPO",
+   "mod_ep": 4,
+   "title": "LoRA from scratch",
+   "slug": "lora-from-scratch",
+   "learn": "Low-rank updates; rank, alpha, which layers",
+   "build": "LoRA linear; trainable param count; merge weights",
+   "hardware": "Mac",
+   "sources": [
+    "LORA"
+   ],
+   "folder": "M11-posttrain",
+   "prep": "prep/M11-posttrain/E04-lora-from-scratch.md",
+   "code_file": "code/M11-posttrain/e04_lora_from_scratch.py",
+   "explainer": "explainers/scenes/m11e04_lora_from_scratch.py"
+  },
+  {
+   "ep": 135,
+   "code": "M11E05",
+   "module": "M11",
+   "module_name": "Post-Training: SFT, LoRA, RLHF, DPO, GRPO",
+   "mod_ep": 5,
+   "title": "QLoRA",
+   "slug": "qlora",
+   "learn": "NF4, double quantization, paged optimizers",
+   "build": "QLoRA fine-tune memory vs full fine-tune",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "QLORA"
+   ],
+   "folder": "M11-posttrain",
+   "prep": "prep/M11-posttrain/E05-qlora.md",
+   "code_file": "code/M11-posttrain/e05_qlora.py",
+   "explainer": "explainers/scenes/m11e05_qlora.py"
+  },
+  {
+   "ep": 136,
+   "code": "M11E06",
+   "module": "M11",
+   "module_name": "Post-Training: SFT, LoRA, RLHF, DPO, GRPO",
+   "mod_ep": 6,
+   "title": "Reward models",
+   "slug": "reward-models",
+   "learn": "Bradley-Terry preference loss",
+   "build": "Train a small reward model; accuracy on held-out pairs",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "INSTRUCTGPT",
+    "RLHFBOOK"
+   ],
+   "folder": "M11-posttrain",
+   "prep": "prep/M11-posttrain/E06-reward-models.md",
+   "code_file": "code/M11-posttrain/e06_reward_models.py",
+   "explainer": "explainers/scenes/m11e06_reward_models.py"
+  },
+  {
+   "ep": 137,
+   "code": "M11E07",
+   "module": "M11",
+   "module_name": "Post-Training: SFT, LoRA, RLHF, DPO, GRPO",
+   "mod_ep": 7,
+   "title": "Policy gradients for LLMs",
+   "slug": "policy-gradients-for-llms",
+   "learn": "REINFORCE, baselines, variance",
+   "build": "REINFORCE on a toy bandit, then a tiny LM",
+   "hardware": "Mac",
+   "sources": [
+    "SPINNINGUP",
+    "RLHFBOOK"
+   ],
+   "folder": "M11-posttrain",
+   "prep": "prep/M11-posttrain/E07-policy-gradients-for-llms.md",
+   "code_file": "code/M11-posttrain/e07_policy_gradients_for_llms.py",
+   "explainer": "explainers/scenes/m11e07_policy_gradients_for_llms.py"
+  },
+  {
+   "ep": 138,
+   "code": "M11E08",
+   "module": "M11",
+   "module_name": "Post-Training: SFT, LoRA, RLHF, DPO, GRPO",
+   "mod_ep": 8,
+   "title": "PPO",
+   "slug": "ppo",
+   "learn": "Clipped objective, value head, GAE, KL penalty",
+   "build": "PPO loss from scratch with unit tests",
+   "hardware": "Mac",
+   "sources": [
+    "PPO",
+    "INSTRUCTGPT"
+   ],
+   "folder": "M11-posttrain",
+   "prep": "prep/M11-posttrain/E08-ppo.md",
+   "code_file": "code/M11-posttrain/e08_ppo.py",
+   "explainer": "explainers/scenes/m11e08_ppo.py"
+  },
+  {
+   "ep": 139,
+   "code": "M11E09",
+   "module": "M11",
+   "module_name": "Post-Training: SFT, LoRA, RLHF, DPO, GRPO",
+   "mod_ep": 9,
+   "title": "DPO, derived",
+   "slug": "dpo-derived",
+   "learn": "From the RLHF objective to a classification loss",
+   "build": "Whiteboard derivation, line by line",
+   "hardware": "Mac",
+   "sources": [
+    "DPO"
+   ],
+   "folder": "M11-posttrain",
+   "prep": "prep/M11-posttrain/E09-dpo-derived.md",
+   "code_file": "code/M11-posttrain/e09_dpo_derived.py",
+   "explainer": "explainers/scenes/m11e09_dpo_derived.py"
+  },
+  {
+   "ep": 140,
+   "code": "M11E10",
+   "module": "M11",
+   "module_name": "Post-Training: SFT, LoRA, RLHF, DPO, GRPO",
+   "mod_ep": 10,
+   "title": "DPO in code",
+   "slug": "dpo-in-code",
+   "learn": "DPO from scratch, then with TRL",
+   "build": "Your DPO loss matches TRL's on the same batch",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "DPO",
+    "TRL"
+   ],
+   "folder": "M11-posttrain",
+   "prep": "prep/M11-posttrain/E10-dpo-in-code.md",
+   "code_file": "code/M11-posttrain/e10_dpo_in_code.py",
+   "explainer": "explainers/scenes/m11e10_dpo_in_code.py"
+  },
+  {
+   "ep": 141,
+   "code": "M11E11",
+   "module": "M11",
+   "module_name": "Post-Training: SFT, LoRA, RLHF, DPO, GRPO",
+   "mod_ep": 11,
+   "title": "GRPO, derived",
+   "slug": "grpo-derived",
+   "learn": "Group-relative advantages; no critic",
+   "build": "Whiteboard derivation from PPO to GRPO",
+   "hardware": "Mac",
+   "sources": [
+    "GRPO",
+    "R1"
+   ],
+   "folder": "M11-posttrain",
+   "prep": "prep/M11-posttrain/E11-grpo-derived.md",
+   "code_file": "code/M11-posttrain/e11_grpo_derived.py",
+   "explainer": "explainers/scenes/m11e11_grpo_derived.py"
+  },
+  {
+   "ep": 142,
+   "code": "M11E12",
+   "module": "M11",
+   "module_name": "Post-Training: SFT, LoRA, RLHF, DPO, GRPO",
+   "mod_ep": 12,
+   "title": "GRPO from scratch on GSM8K",
+   "slug": "grpo-from-scratch-on-gsm8k",
+   "learn": "Verifiable rewards on math (CS336 A5)",
+   "build": "GSM8K accuracy before vs after; reward curve",
+   "hardware": "RunPod 1x H100",
+   "sources": [
+    "GRPO",
+    "CS336",
+    "GSM8K"
+   ],
+   "folder": "M11-posttrain",
+   "prep": "prep/M11-posttrain/E12-grpo-from-scratch-on-gsm8k.md",
+   "code_file": "code/M11-posttrain/e12_grpo_from_scratch_on_gsm8k.py",
+   "explainer": "explainers/scenes/m11e12_grpo_from_scratch_on_gsm8k.py"
+  },
+  {
+   "ep": 143,
+   "code": "M11E13",
+   "module": "M11",
+   "module_name": "Post-Training: SFT, LoRA, RLHF, DPO, GRPO",
+   "mod_ep": 13,
+   "title": "GRPO fixes: Dr. GRPO and DAPO",
+   "slug": "grpo-fixes-dr-grpo-and-dapo",
+   "learn": "Length bias, clip-higher, dynamic sampling",
+   "build": "Ablate length normalization",
+   "hardware": "RunPod 1x H100",
+   "sources": [
+    "DRGRPO",
+    "DAPO"
+   ],
+   "folder": "M11-posttrain",
+   "prep": "prep/M11-posttrain/E13-grpo-fixes-dr-grpo-and-dapo.md",
+   "code_file": "code/M11-posttrain/e13_grpo_fixes_dr_grpo_and_dapo.py",
+   "explainer": "explainers/scenes/m11e13_grpo_fixes_dr_grpo_and_dapo.py"
+  },
+  {
+   "ep": 144,
+   "code": "M11E14",
+   "module": "M11",
+   "module_name": "Post-Training: SFT, LoRA, RLHF, DPO, GRPO",
+   "mod_ep": 14,
+   "title": "Reasoning models and test-time compute",
+   "slug": "reasoning-models-and-test-time-compute",
+   "learn": "R1-Zero recipe; longer thinking = better answers",
+   "build": "Accuracy vs thinking budget plot",
+   "hardware": "RunPod 1x H100",
+   "sources": [
+    "R1",
+    "RASCHKA_REASON"
+   ],
+   "folder": "M11-posttrain",
+   "prep": "prep/M11-posttrain/E14-reasoning-models-and-test-time-compute.md",
+   "code_file": "code/M11-posttrain/e14_reasoning_models_and_test_time_compute.py",
+   "explainer": "explainers/scenes/m11e14_reasoning_models_and_test_time_c.py"
+  },
+  {
+   "ep": 145,
+   "code": "M11E15",
+   "module": "M11",
+   "module_name": "Post-Training: SFT, LoRA, RLHF, DPO, GRPO",
+   "mod_ep": 15,
+   "title": "Reward hacking and the KL leash",
+   "slug": "reward-hacking-and-the-kl-leash",
+   "learn": "How RL breaks; why the KL term exists",
+   "build": "Train without KL and watch it cheat",
+   "hardware": "RunPod 1x H100",
+   "sources": [
+    "RLHFBOOK",
+    "LILIAN"
+   ],
+   "folder": "M11-posttrain",
+   "prep": "prep/M11-posttrain/E15-reward-hacking-and-the-kl-leash.md",
+   "code_file": "code/M11-posttrain/e15_reward_hacking_and_the_kl_leash.py",
+   "explainer": "explainers/scenes/m11e15_reward_hacking_and_the_kl_leash.py"
+  },
+  {
+   "ep": 146,
+   "code": "M11E16",
+   "module": "M11",
+   "module_name": "Post-Training: SFT, LoRA, RLHF, DPO, GRPO",
+   "mod_ep": 16,
+   "title": "Distillation and synthetic data",
+   "slug": "distillation-and-synthetic-data",
+   "learn": "SFT on a stronger model's traces",
+   "build": "Distill reasoning traces into a small model",
+   "hardware": "RunPod 1x H100",
+   "sources": [
+    "R1",
+    "RLHFBOOK"
+   ],
+   "folder": "M11-posttrain",
+   "prep": "prep/M11-posttrain/E16-distillation-and-synthetic-data.md",
+   "code_file": "code/M11-posttrain/e16_distillation_and_synthetic_data.py",
+   "explainer": "explainers/scenes/m11e16_distillation_and_synthetic_data.py"
+  },
+  {
+   "ep": 147,
+   "code": "M12E01",
+   "module": "M12",
+   "module_name": "Quantization",
+   "mod_ep": 1,
+   "title": "Number formats",
+   "slug": "number-formats",
+   "learn": "fp32, bf16, fp16, fp8 E4M3/E5M2, int8, int4, MXFP4/NVFP4",
+   "build": "Bit-layout visualizer; representable-values plot",
+   "hardware": "Mac",
+   "sources": [
+    "FP8",
+    "QUANTVISUAL"
+   ],
+   "folder": "M12-quant",
+   "prep": "prep/M12-quant/E01-number-formats.md",
+   "code_file": "code/M12-quant/e01_number_formats.py",
+   "explainer": "explainers/scenes/m12e01_number_formats.py"
+  },
+  {
+   "ep": 148,
+   "code": "M12E02",
+   "module": "M12",
+   "module_name": "Quantization",
+   "mod_ep": 2,
+   "title": "Absmax and zero-point quantization",
+   "slug": "absmax-and-zero-point-quantization",
+   "learn": "Symmetric vs asymmetric; scale and zero-point",
+   "build": "Quantize/dequantize from scratch; error metrics",
+   "hardware": "Mac",
+   "sources": [
+    "QUANTVISUAL"
+   ],
+   "folder": "M12-quant",
+   "prep": "prep/M12-quant/E02-absmax-and-zero-point-quantization.md",
+   "code_file": "code/M12-quant/e02_absmax_and_zero_point_quantization.py",
+   "explainer": "explainers/scenes/m12e02_absmax_and_zero_point_quantizati.py"
+  },
+  {
+   "ep": 149,
+   "code": "M12E03",
+   "module": "M12",
+   "module_name": "Quantization",
+   "mod_ep": 3,
+   "title": "Granularity: per-tensor, per-channel, per-group",
+   "slug": "granularity-per-tensor-per-channel-per-group",
+   "learn": "Why group size 128 is everywhere",
+   "build": "Error vs granularity table on real weights",
+   "hardware": "Mac",
+   "sources": [
+    "QUANTVISUAL",
+    "TORCHAO"
+   ],
+   "folder": "M12-quant",
+   "prep": "prep/M12-quant/E03-granularity-per-tensor-per-channel-per-group.md",
+   "code_file": "code/M12-quant/e03_granularity_per_tensor_per_channel_per_group.py",
+   "explainer": "explainers/scenes/m12e03_granularity_per_tensor_per_chann.py"
+  },
+  {
+   "ep": 150,
+   "code": "M12E04",
+   "module": "M12",
+   "module_name": "Quantization",
+   "mod_ep": 4,
+   "title": "LLM.int8() and outlier features",
+   "slug": "llm-int8-and-outlier-features",
+   "learn": "Outlier channels and mixed-precision decomposition",
+   "build": "Find outlier dims in a real model's activations",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "LLMINT8"
+   ],
+   "folder": "M12-quant",
+   "prep": "prep/M12-quant/E04-llm-int8-and-outlier-features.md",
+   "code_file": "code/M12-quant/e04_llm_int8_and_outlier_features.py",
+   "explainer": "explainers/scenes/m12e04_llm_int8_and_outlier_features.py"
+  },
+  {
+   "ep": 151,
+   "code": "M12E05",
+   "module": "M12",
+   "module_name": "Quantization",
+   "mod_ep": 5,
+   "title": "Weight-only vs W8A8, and SmoothQuant",
+   "slug": "weight-only-vs-w8a8-and-smoothquant",
+   "learn": "W4A16 vs W8A8; migrating difficulty to weights",
+   "build": "SmoothQuant scaling from scratch",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "SMOOTHQUANT"
+   ],
+   "folder": "M12-quant",
+   "prep": "prep/M12-quant/E05-weight-only-vs-w8a8-and-smoothquant.md",
+   "code_file": "code/M12-quant/e05_weight_only_vs_w8a8_and_smoothquant.py",
+   "explainer": "explainers/scenes/m12e05_weight_only_vs_w8a8_and_smoothqu.py"
+  },
+  {
+   "ep": 152,
+   "code": "M12E06",
+   "module": "M12",
+   "module_name": "Quantization",
+   "mod_ep": 6,
+   "title": "GPTQ, derived",
+   "slug": "gptq-derived",
+   "learn": "Second-order error compensation, column by column",
+   "build": "GPTQ on one layer; error vs round-to-nearest",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "GPTQ"
+   ],
+   "folder": "M12-quant",
+   "prep": "prep/M12-quant/E06-gptq-derived.md",
+   "code_file": "code/M12-quant/e06_gptq_derived.py",
+   "explainer": "explainers/scenes/m12e06_gptq_derived.py"
+  },
+  {
+   "ep": 153,
+   "code": "M12E07",
+   "module": "M12",
+   "module_name": "Quantization",
+   "mod_ep": 7,
+   "title": "AWQ",
+   "slug": "awq",
+   "learn": "Protect salient weights via activation-aware scales",
+   "build": "AWQ scale search on one layer",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "AWQ"
+   ],
+   "folder": "M12-quant",
+   "prep": "prep/M12-quant/E07-awq.md",
+   "code_file": "code/M12-quant/e07_awq.py",
+   "explainer": "explainers/scenes/m12e07_awq.py"
+  },
+  {
+   "ep": 154,
+   "code": "M12E08",
+   "module": "M12",
+   "module_name": "Quantization",
+   "mod_ep": 8,
+   "title": "Quantize a model: perplexity vs speed",
+   "slug": "quantize-a-model-perplexity-vs-speed",
+   "learn": "bitsandbytes, torchao, GGUF in practice",
+   "build": "Table: bits vs perplexity vs tokens/s vs memory",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "TORCHAO",
+    "QUANTVISUAL"
+   ],
+   "folder": "M12-quant",
+   "prep": "prep/M12-quant/E08-quantize-a-model-perplexity-vs-speed.md",
+   "code_file": "code/M12-quant/e08_quantize_a_model_perplexity_vs_speed.py",
+   "explainer": "explainers/scenes/m12e08_quantize_a_model_perplexity_vs_s.py"
+  },
+  {
+   "ep": 155,
+   "code": "M12E09",
+   "module": "M12",
+   "module_name": "Quantization",
+   "mod_ep": 9,
+   "title": "KV cache quantization and FP8 inference",
+   "slug": "kv-cache-quantization-and-fp8-inference",
+   "learn": "Quantizing the cache, not just weights",
+   "build": "KV cache memory and quality at fp8/int8",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "FP8",
+    "VLLMDOCS"
+   ],
+   "folder": "M12-quant",
+   "prep": "prep/M12-quant/E09-kv-cache-quantization-and-fp8-inference.md",
+   "code_file": "code/M12-quant/e09_kv_cache_quantization_and_fp8_inference.py",
+   "explainer": "explainers/scenes/m12e09_kv_cache_quantization_and_fp8_in.py"
+  },
+  {
+   "ep": 156,
+   "code": "M12E10",
+   "module": "M12",
+   "module_name": "Quantization",
+   "mod_ep": 10,
+   "title": "Quantization-aware training and FP8 training",
+   "slug": "quantization-aware-training-and-fp8-training",
+   "learn": "Fake quant, straight-through estimator, FP8 recipes",
+   "build": "QAT vs PTQ on a small model",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "TORCHAO",
+    "FP8"
+   ],
+   "folder": "M12-quant",
+   "prep": "prep/M12-quant/E10-quantization-aware-training-and-fp8-training.md",
+   "code_file": "code/M12-quant/e10_quantization_aware_training_and_fp8_training.py",
+   "explainer": "explainers/scenes/m12e10_quantization_aware_training_and_.py"
+  },
+  {
+   "ep": 157,
+   "code": "M13E01",
+   "module": "M13",
+   "module_name": "Inference Engines: KV Cache to SGLang",
+   "mod_ep": 1,
+   "title": "Prefill vs decode",
+   "slug": "prefill-vs-decode",
+   "learn": "Two workloads: compute-bound prefill, memory-bound decode",
+   "build": "Time prefill and decode separately",
+   "hardware": "Mac",
+   "sources": [
+    "INFHANDBOOK",
+    "SCALINGBOOK"
+   ],
+   "folder": "M13-inference",
+   "prep": "prep/M13-inference/E01-prefill-vs-decode.md",
+   "code_file": "code/M13-inference/e01_prefill_vs_decode.py",
+   "explainer": "explainers/scenes/m13e01_prefill_vs_decode.py"
+  },
+  {
+   "ep": 158,
+   "code": "M13E02",
+   "module": "M13",
+   "module_name": "Inference Engines: KV Cache to SGLang",
+   "mod_ep": 2,
+   "title": "The KV cache from scratch",
+   "slug": "the-kv-cache-from-scratch",
+   "learn": "Cache K and V; never recompute the past",
+   "build": "KV-cached generation; speedup measured",
+   "hardware": "Mac",
+   "sources": [
+    "INFHANDBOOK",
+    "TORCHFEATHER"
+   ],
+   "folder": "M13-inference",
+   "prep": "prep/M13-inference/E02-the-kv-cache-from-scratch.md",
+   "code_file": "code/M13-inference/e02_the_kv_cache_from_scratch.py",
+   "explainer": "explainers/scenes/m13e02_the_kv_cache_from_scratch.py"
+  },
+  {
+   "ep": 159,
+   "code": "M13E03",
+   "module": "M13",
+   "module_name": "Inference Engines: KV Cache to SGLang",
+   "mod_ep": 3,
+   "title": "Why decode is memory-bound",
+   "slug": "why-decode-is-memory-bound",
+   "learn": "Arithmetic intensity vs batch size",
+   "build": "Throughput vs batch size curve",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "SCALINGBOOK",
+    "BRRR"
+   ],
+   "folder": "M13-inference",
+   "prep": "prep/M13-inference/E03-why-decode-is-memory-bound.md",
+   "code_file": "code/M13-inference/e03_why_decode_is_memory_bound.py",
+   "explainer": "explainers/scenes/m13e03_why_decode_is_memory_bound.py"
+  },
+  {
+   "ep": 160,
+   "code": "M13E04",
+   "module": "M13",
+   "module_name": "Inference Engines: KV Cache to SGLang",
+   "mod_ep": 4,
+   "title": "Inference metrics",
+   "slug": "inference-metrics",
+   "learn": "TTFT, TPOT/ITL, throughput, goodput, SLOs",
+   "build": "A load generator that reports all of them",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "INFHANDBOOK"
+   ],
+   "folder": "M13-inference",
+   "prep": "prep/M13-inference/E04-inference-metrics.md",
+   "code_file": "code/M13-inference/e04_inference_metrics.py",
+   "explainer": "explainers/scenes/m13e04_inference_metrics.py"
+  },
+  {
+   "ep": 161,
+   "code": "M13E05",
+   "module": "M13",
+   "module_name": "Inference Engines: KV Cache to SGLang",
+   "mod_ep": 5,
+   "title": "Static vs continuous batching",
+   "slug": "static-vs-continuous-batching",
+   "learn": "Iteration-level scheduling (Orca)",
+   "build": "Build a continuous-batching scheduler",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "ORCA",
+    "NANOVLLM"
+   ],
+   "folder": "M13-inference",
+   "prep": "prep/M13-inference/E05-static-vs-continuous-batching.md",
+   "code_file": "code/M13-inference/e05_static_vs_continuous_batching.py",
+   "explainer": "explainers/scenes/m13e05_static_vs_continuous_batching.py"
+  },
+  {
+   "ep": 162,
+   "code": "M13E06",
+   "module": "M13",
+   "module_name": "Inference Engines: KV Cache to SGLang",
+   "mod_ep": 6,
+   "title": "PagedAttention",
+   "slug": "pagedattention",
+   "learn": "KV cache as virtual memory: blocks and block tables",
+   "build": "Paged KV allocator + attention over blocks",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "PAGED",
+    "NANOVLLM"
+   ],
+   "folder": "M13-inference",
+   "prep": "prep/M13-inference/E06-pagedattention.md",
+   "code_file": "code/M13-inference/e06_pagedattention.py",
+   "explainer": "explainers/scenes/m13e06_pagedattention.py"
+  },
+  {
+   "ep": 163,
+   "code": "M13E07",
+   "module": "M13",
+   "module_name": "Inference Engines: KV Cache to SGLang",
+   "mod_ep": 7,
+   "title": "Prefix caching and RadixAttention",
+   "slug": "prefix-caching-and-radixattention",
+   "learn": "Reuse KV across requests with a radix tree",
+   "build": "Radix tree cache; hit rate on shared prompts",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "SGLANG",
+    "MINISGL"
+   ],
+   "folder": "M13-inference",
+   "prep": "prep/M13-inference/E07-prefix-caching-and-radixattention.md",
+   "code_file": "code/M13-inference/e07_prefix_caching_and_radixattention.py",
+   "explainer": "explainers/scenes/m13e07_prefix_caching_and_radixattentio.py"
+  },
+  {
+   "ep": 164,
+   "code": "M13E08",
+   "module": "M13",
+   "module_name": "Inference Engines: KV Cache to SGLang",
+   "mod_ep": 8,
+   "title": "Chunked prefill and scheduling policies",
+   "slug": "chunked-prefill-and-scheduling-policies",
+   "learn": "Mixing prefill and decode; fairness vs throughput",
+   "build": "Chunked prefill on your scheduler; ITL effect",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "MINISGL",
+    "SGLANGDOCS"
+   ],
+   "folder": "M13-inference",
+   "prep": "prep/M13-inference/E08-chunked-prefill-and-scheduling-policies.md",
+   "code_file": "code/M13-inference/e08_chunked_prefill_and_scheduling_policies.py",
+   "explainer": "explainers/scenes/m13e08_chunked_prefill_and_scheduling_p.py"
+  },
+  {
+   "ep": 165,
+   "code": "M13E09",
+   "module": "M13",
+   "module_name": "Inference Engines: KV Cache to SGLang",
+   "mod_ep": 9,
+   "title": "Speculative decoding",
+   "slug": "speculative-decoding",
+   "learn": "Draft and verify; the rejection-sampling proof",
+   "build": "Spec decode from scratch; acceptance rate and speedup",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "SPECDEC"
+   ],
+   "folder": "M13-inference",
+   "prep": "prep/M13-inference/E09-speculative-decoding.md",
+   "code_file": "code/M13-inference/e09_speculative_decoding.py",
+   "explainer": "explainers/scenes/m13e09_speculative_decoding.py"
+  },
+  {
+   "ep": 166,
+   "code": "M13E10",
+   "module": "M13",
+   "module_name": "Inference Engines: KV Cache to SGLang",
+   "mod_ep": 10,
+   "title": "EAGLE, Medusa and friends",
+   "slug": "eagle-medusa-and-friends",
+   "learn": "Draft heads instead of draft models",
+   "build": "Compare acceptance rates across methods",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "EAGLE"
+   ],
+   "folder": "M13-inference",
+   "prep": "prep/M13-inference/E10-eagle-medusa-and-friends.md",
+   "code_file": "code/M13-inference/e10_eagle_medusa_and_friends.py",
+   "explainer": "explainers/scenes/m13e10_eagle_medusa_and_friends.py"
+  },
+  {
+   "ep": 167,
+   "code": "M13E11",
+   "module": "M13",
+   "module_name": "Inference Engines: KV Cache to SGLang",
+   "mod_ep": 11,
+   "title": "Structured outputs and constrained decoding",
+   "slug": "structured-outputs-and-constrained-decoding",
+   "learn": "Grammar masks over the vocab",
+   "build": "JSON-constrained sampler from scratch",
+   "hardware": "Mac",
+   "sources": [
+    "XGRAMMAR",
+    "SGLANGDOCS"
+   ],
+   "folder": "M13-inference",
+   "prep": "prep/M13-inference/E11-structured-outputs-and-constrained-decoding.md",
+   "code_file": "code/M13-inference/e11_structured_outputs_and_constrained_decoding.py",
+   "explainer": "explainers/scenes/m13e11_structured_outputs_and_constrain.py"
+  },
+  {
+   "ep": 168,
+   "code": "M13E12",
+   "module": "M13",
+   "module_name": "Inference Engines: KV Cache to SGLang",
+   "mod_ep": 12,
+   "title": "CUDA graphs for decode",
+   "slug": "cuda-graphs-for-decode",
+   "learn": "Killing launch overhead",
+   "build": "Decode step with and without CUDA graphs",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "NANOVLLM",
+    "COMPILE"
+   ],
+   "folder": "M13-inference",
+   "prep": "prep/M13-inference/E12-cuda-graphs-for-decode.md",
+   "code_file": "code/M13-inference/e12_cuda_graphs_for_decode.py",
+   "explainer": "explainers/scenes/m13e12_cuda_graphs_for_decode.py"
+  },
+  {
+   "ep": 169,
+   "code": "M13E13",
+   "module": "M13",
+   "module_name": "Inference Engines: KV Cache to SGLang",
+   "mod_ep": 13,
+   "title": "Hands-on vLLM",
+   "slug": "hands-on-vllm",
+   "learn": "Serve, benchmark, tune a real engine",
+   "build": "vLLM benchmark numbers on a 4090",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "VLLMDOCS",
+    "PAGED"
+   ],
+   "folder": "M13-inference",
+   "prep": "prep/M13-inference/E13-hands-on-vllm.md",
+   "code_file": "code/M13-inference/e13_hands_on_vllm.py",
+   "explainer": "explainers/scenes/m13e13_hands_on_vllm.py"
+  },
+  {
+   "ep": 170,
+   "code": "M13E14",
+   "module": "M13",
+   "module_name": "Inference Engines: KV Cache to SGLang",
+   "mod_ep": 14,
+   "title": "Hands-on SGLang",
+   "slug": "hands-on-sglang",
+   "learn": "Serving, RadixAttention in action, the frontend language",
+   "build": "SGLang vs vLLM on a shared-prefix workload",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "SGLANGDOCS",
+    "SGLANG"
+   ],
+   "folder": "M13-inference",
+   "prep": "prep/M13-inference/E14-hands-on-sglang.md",
+   "code_file": "code/M13-inference/e14_hands_on_sglang.py",
+   "explainer": "explainers/scenes/m13e14_hands_on_sglang.py"
+  },
+  {
+   "ep": 171,
+   "code": "M13E15",
+   "module": "M13",
+   "module_name": "Inference Engines: KV Cache to SGLang",
+   "mod_ep": 15,
+   "title": "Build a mini inference engine",
+   "slug": "build-a-mini-inference-engine",
+   "learn": "Read nano-vllm and mini-sglang, then write your own",
+   "build": "Your engine vs vLLM: tokens/s table",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "NANOVLLM",
+    "MINISGL"
+   ],
+   "folder": "M13-inference",
+   "prep": "prep/M13-inference/E15-build-a-mini-inference-engine.md",
+   "code_file": "code/M13-inference/e15_build_a_mini_inference_engine.py",
+   "explainer": "explainers/scenes/m13e15_build_a_mini_inference_engine.py"
+  },
+  {
+   "ep": 172,
+   "code": "M13E16",
+   "module": "M13",
+   "module_name": "Inference Engines: KV Cache to SGLang",
+   "mod_ep": 16,
+   "title": "Disaggregated prefill/decode and TP serving",
+   "slug": "disaggregated-prefill-decode-and-tp-serving",
+   "learn": "Splitting phases across GPUs",
+   "build": "Diagram + cost model; when it pays off",
+   "hardware": "Mac",
+   "sources": [
+    "DISTSERVE",
+    "SGLANGDOCS"
+   ],
+   "folder": "M13-inference",
+   "prep": "prep/M13-inference/E16-disaggregated-prefill-decode-and-tp-serving.md",
+   "code_file": "code/M13-inference/e16_disaggregated_prefill_decode_and_tp_serving.py",
+   "explainer": "explainers/scenes/m13e16_disaggregated_prefill_decode_and.py"
+  },
+  {
+   "ep": 173,
+   "code": "M14E01",
+   "module": "M14",
+   "module_name": "Evals and Interpretability",
+   "mod_ep": 1,
+   "title": "Evals 101",
+   "slug": "evals-101",
+   "learn": "Perplexity vs benchmarks vs vibes",
+   "build": "Same model scored three ways",
+   "hardware": "Mac",
+   "sources": [
+    "LMEVAL",
+    "CS336"
+   ],
+   "folder": "M14-evals",
+   "prep": "prep/M14-evals/E01-evals-101.md",
+   "code_file": "code/M14-evals/e01_evals_101.py",
+   "explainer": "explainers/scenes/m14e01_evals_101.py"
+  },
+  {
+   "ep": 174,
+   "code": "M14E02",
+   "module": "M14",
+   "module_name": "Evals and Interpretability",
+   "mod_ep": 2,
+   "title": "lm-evaluation-harness on your model",
+   "slug": "lm-evaluation-harness-on-your-model",
+   "learn": "Running standard benchmarks",
+   "build": "Harness results for your TinyStories and SFT models",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "LMEVAL"
+   ],
+   "folder": "M14-evals",
+   "prep": "prep/M14-evals/E02-lm-evaluation-harness-on-your-model.md",
+   "code_file": "code/M14-evals/e02_lm_evaluation_harness_on_your_model.py",
+   "explainer": "explainers/scenes/m14e02_lm_evaluation_harness_on_your_mo.py"
+  },
+  {
+   "ep": 175,
+   "code": "M14E03",
+   "module": "M14",
+   "module_name": "Evals and Interpretability",
+   "mod_ep": 3,
+   "title": "Build your own eval with Inspect",
+   "slug": "build-your-own-eval-with-inspect",
+   "learn": "Tasks, solvers, scorers, LLM-as-judge",
+   "build": "A custom Inspect eval for a narrow skill",
+   "hardware": "Mac",
+   "sources": [
+    "INSPECT"
+   ],
+   "folder": "M14-evals",
+   "prep": "prep/M14-evals/E03-build-your-own-eval-with-inspect.md",
+   "code_file": "code/M14-evals/e03_build_your_own_eval_with_inspect.py",
+   "explainer": "explainers/scenes/m14e03_build_your_own_eval_with_inspect.py"
+  },
+  {
+   "ep": 176,
+   "code": "M14E04",
+   "module": "M14",
+   "module_name": "Evals and Interpretability",
+   "mod_ep": 4,
+   "title": "Contamination, variance and error bars",
+   "slug": "contamination-variance-and-error-bars",
+   "learn": "Why one number lies",
+   "build": "Bootstrap CIs on your eval",
+   "hardware": "Mac",
+   "sources": [
+    "INSPECT",
+    "CS336"
+   ],
+   "folder": "M14-evals",
+   "prep": "prep/M14-evals/E04-contamination-variance-and-error-bars.md",
+   "code_file": "code/M14-evals/e04_contamination_variance_and_error_bars.py",
+   "explainer": "explainers/scenes/m14e04_contamination_variance_and_error.py"
+  },
+  {
+   "ep": 177,
+   "code": "M14E05",
+   "module": "M14",
+   "module_name": "Evals and Interpretability",
+   "mod_ep": 5,
+   "title": "Evaluating agents",
+   "slug": "evaluating-agents",
+   "learn": "Tasks, sandboxes, graders; ties to OperatorOK",
+   "build": "A sandboxed coding-agent eval with a monitor",
+   "hardware": "Mac",
+   "sources": [
+    "INSPECT"
+   ],
+   "folder": "M14-evals",
+   "prep": "prep/M14-evals/E05-evaluating-agents.md",
+   "code_file": "code/M14-evals/e05_evaluating_agents.py",
+   "explainer": "explainers/scenes/m14e05_evaluating_agents.py"
+  },
+  {
+   "ep": 178,
+   "code": "M14E06",
+   "module": "M14",
+   "module_name": "Evals and Interpretability",
+   "mod_ep": 6,
+   "title": "The residual stream and the logit lens",
+   "slug": "the-residual-stream-and-the-logit-lens",
+   "learn": "Reading predictions layer by layer",
+   "build": "Logit lens on GPT-2 with TransformerLens",
+   "hardware": "Mac",
+   "sources": [
+    "TLENS",
+    "CIRCUITS"
+   ],
+   "folder": "M14-evals",
+   "prep": "prep/M14-evals/E06-the-residual-stream-and-the-logit-lens.md",
+   "code_file": "code/M14-evals/e06_the_residual_stream_and_the_logit_lens.py",
+   "explainer": "explainers/scenes/m14e06_the_residual_stream_and_the_logi.py"
+  },
+  {
+   "ep": 179,
+   "code": "M14E07",
+   "module": "M14",
+   "module_name": "Evals and Interpretability",
+   "mod_ep": 7,
+   "title": "Activation patching",
+   "slug": "activation-patching",
+   "learn": "Causal tracing: which components matter",
+   "build": "Patch IOI-style prompts; heatmap of effects",
+   "hardware": "Mac",
+   "sources": [
+    "TLENS",
+    "ARENA"
+   ],
+   "folder": "M14-evals",
+   "prep": "prep/M14-evals/E07-activation-patching.md",
+   "code_file": "code/M14-evals/e07_activation_patching.py",
+   "explainer": "explainers/scenes/m14e07_activation_patching.py"
+  },
+  {
+   "ep": 180,
+   "code": "M14E08",
+   "module": "M14",
+   "module_name": "Evals and Interpretability",
+   "mod_ep": 8,
+   "title": "Linear probes",
+   "slug": "linear-probes",
+   "learn": "What information is linearly decodable",
+   "build": "Probe a model for a simple feature",
+   "hardware": "Mac",
+   "sources": [
+    "ARENA"
+   ],
+   "folder": "M14-evals",
+   "prep": "prep/M14-evals/E08-linear-probes.md",
+   "code_file": "code/M14-evals/e08_linear_probes.py",
+   "explainer": "explainers/scenes/m14e08_linear_probes.py"
+  },
+  {
+   "ep": 181,
+   "code": "M14E09",
+   "module": "M14",
+   "module_name": "Evals and Interpretability",
+   "mod_ep": 9,
+   "title": "Sparse autoencoders",
+   "slug": "sparse-autoencoders",
+   "learn": "Dictionary learning on activations",
+   "build": "Train a small SAE; inspect features",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "MONOSEMANTIC",
+    "ARENA"
+   ],
+   "folder": "M14-evals",
+   "prep": "prep/M14-evals/E09-sparse-autoencoders.md",
+   "code_file": "code/M14-evals/e09_sparse_autoencoders.py",
+   "explainer": "explainers/scenes/m14e09_sparse_autoencoders.py"
+  },
+  {
+   "ep": 182,
+   "code": "M14E10",
+   "module": "M14",
+   "module_name": "Evals and Interpretability",
+   "mod_ep": 10,
+   "title": "Steering vectors",
+   "slug": "steering-vectors",
+   "learn": "Change behavior by adding directions",
+   "build": "Steer a small model; before/after samples",
+   "hardware": "Mac",
+   "sources": [
+    "ARENA",
+    "CIRCUITS"
+   ],
+   "folder": "M14-evals",
+   "prep": "prep/M14-evals/E10-steering-vectors.md",
+   "code_file": "code/M14-evals/e10_steering_vectors.py",
+   "explainer": "explainers/scenes/m14e10_steering_vectors.py"
+  },
+  {
+   "ep": 183,
+   "code": "M15E01",
+   "module": "M15",
+   "module_name": "The DeepSeek Playbook",
+   "mod_ep": 1,
+   "title": "How DeepSeek works: the efficiency playbook",
+   "slug": "how-deepseek-works-the-efficiency-playbook",
+   "learn": "Why one lab keeps shipping frontier results at a fraction of the compute; the map of their papers",
+   "build": "Timeline chart: LLM -> MoE -> V2 -> V3 -> R1 -> V3.2 -> mHC -> Engram -> V4",
+   "hardware": "Mac",
+   "sources": [
+    "DSV3",
+    "DS_LLM"
+   ],
+   "folder": "M15-deepseek",
+   "prep": "prep/M15-deepseek/E01-how-deepseek-works-the-efficiency-playbook.md",
+   "code_file": "code/M15-deepseek/e01_how_deepseek_works_the_efficiency_playbook.py",
+   "explainer": "explainers/scenes/m15e01_how_deepseek_works_the_efficienc.py"
+  },
+  {
+   "ep": 184,
+   "code": "M15E02",
+   "module": "M15",
+   "module_name": "The DeepSeek Playbook",
+   "mod_ep": 2,
+   "title": "DeepSeek LLM: hyperparameter scaling laws",
+   "slug": "deepseek-llm-hyperparameter-scaling-laws",
+   "learn": "Fitting optimal batch size and LR vs compute; non-embedding FLOPs per token",
+   "build": "Fit LR/batch scaling on tiny models, compare to the paper's fit",
+   "hardware": "Mac",
+   "sources": [
+    "DS_LLM"
+   ],
+   "folder": "M15-deepseek",
+   "prep": "prep/M15-deepseek/E02-deepseek-llm-hyperparameter-scaling-laws.md",
+   "code_file": "code/M15-deepseek/e02_deepseek_llm_hyperparameter_scaling_laws.py",
+   "explainer": "explainers/scenes/m15e02_deepseek_llm_hyperparameter_scal.py"
+  },
+  {
+   "ep": 185,
+   "code": "M15E03",
+   "module": "M15",
+   "module_name": "The DeepSeek Playbook",
+   "mod_ep": 3,
+   "title": "DeepSeekMoE: fine-grained and shared experts",
+   "slug": "deepseekmoe-fine-grained-and-shared-experts",
+   "learn": "Many small experts + always-on shared experts",
+   "build": "DeepSeekMoE layer; ablate shared experts vs plain top-2 MoE",
+   "hardware": "Mac",
+   "sources": [
+    "DS_MOE"
+   ],
+   "folder": "M15-deepseek",
+   "prep": "prep/M15-deepseek/E03-deepseekmoe-fine-grained-and-shared-experts.md",
+   "code_file": "code/M15-deepseek/e03_deepseekmoe_fine_grained_and_shared_experts.py",
+   "explainer": "explainers/scenes/m15e03_deepseekmoe_fine_grained_and_sha.py"
+  },
+  {
+   "ep": 186,
+   "code": "M15E04",
+   "module": "M15",
+   "module_name": "The DeepSeek Playbook",
+   "mod_ep": 4,
+   "title": "Building a DeepSeek-V2-Lite style block",
+   "slug": "building-a-deepseek-v2-lite-style-block",
+   "learn": "MLA + DeepSeekMoE in one transformer block",
+   "build": "Mini V2 block; param and KV-cache table vs Llama block",
+   "hardware": "Mac",
+   "sources": [
+    "DSV2",
+    "DS_MOE"
+   ],
+   "folder": "M15-deepseek",
+   "prep": "prep/M15-deepseek/E04-building-a-deepseek-v2-lite-style-block.md",
+   "code_file": "code/M15-deepseek/e04_building_a_deepseek_v2_lite_style_block.py",
+   "explainer": "explainers/scenes/m15e04_building_a_deepseek_v2_lite_styl.py"
+  },
+  {
+   "ep": 187,
+   "code": "M15E05",
+   "module": "M15",
+   "module_name": "The DeepSeek Playbook",
+   "mod_ep": 5,
+   "title": "Multi-token prediction (DeepSeek-V3)",
+   "slug": "multi-token-prediction-deepseek-v3",
+   "learn": "Sequential MTP modules; denser training signal; use for speculative decoding",
+   "build": "MTP head from scratch; loss with/without; spec-decode acceptance",
+   "hardware": "Mac",
+   "sources": [
+    "DSV3"
+   ],
+   "folder": "M15-deepseek",
+   "prep": "prep/M15-deepseek/E05-multi-token-prediction-deepseek-v3.md",
+   "code_file": "code/M15-deepseek/e05_multi_token_prediction_deepseek_v3.py",
+   "explainer": "explainers/scenes/m15e05_multi_token_prediction_deepseek_.py"
+  },
+  {
+   "ep": 188,
+   "code": "M15E06",
+   "module": "M15",
+   "module_name": "The DeepSeek Playbook",
+   "mod_ep": 6,
+   "title": "FP8 training the DeepSeek-V3 way",
+   "slug": "fp8-training-the-deepseek-v3-way",
+   "learn": "Fine-grained tile/block scaling, higher-precision accumulation",
+   "build": "Block-scaled FP8 matmul vs bf16: error and speed on H100",
+   "hardware": "RunPod 1x H100",
+   "sources": [
+    "DSV3",
+    "DS_DEEPGEMM",
+    "FP8"
+   ],
+   "folder": "M15-deepseek",
+   "prep": "prep/M15-deepseek/E06-fp8-training-the-deepseek-v3-way.md",
+   "code_file": "code/M15-deepseek/e06_fp8_training_the_deepseek_v3_way.py",
+   "explainer": "explainers/scenes/m15e06_fp8_training_the_deepseek_v3_way.py"
+  },
+  {
+   "ep": 189,
+   "code": "M15E07",
+   "module": "M15",
+   "module_name": "The DeepSeek Playbook",
+   "mod_ep": 7,
+   "title": "DualPipe: overlapping compute and communication",
+   "slug": "dualpipe-overlapping-compute-and-communication",
+   "learn": "Bidirectional pipeline schedule vs 1F1B",
+   "build": "Simulate DualPipe vs 1F1B bubbles; read the reference code",
+   "hardware": "Mac",
+   "sources": [
+    "DS_DUALPIPE",
+    "DSV3"
+   ],
+   "folder": "M15-deepseek",
+   "prep": "prep/M15-deepseek/E07-dualpipe-overlapping-compute-and-communication.md",
+   "code_file": "code/M15-deepseek/e07_dualpipe_overlapping_compute_and_communication.py",
+   "explainer": "explainers/scenes/m15e07_dualpipe_overlapping_compute_and.py"
+  },
+  {
+   "ep": 190,
+   "code": "M15E08",
+   "module": "M15",
+   "module_name": "The DeepSeek Playbook",
+   "mod_ep": 8,
+   "title": "DeepEP and EPLB: expert parallelism at scale",
+   "slug": "deepep-and-eplb-expert-parallelism-at-scale",
+   "learn": "All-to-all dispatch/combine kernels; balancing expert placement",
+   "build": "Run EPLB on a skewed expert-load trace; measure imbalance",
+   "hardware": "Mac",
+   "sources": [
+    "DEEPEP",
+    "DS_EPLB"
+   ],
+   "folder": "M15-deepseek",
+   "prep": "prep/M15-deepseek/E08-deepep-and-eplb-expert-parallelism-at-scale.md",
+   "code_file": "code/M15-deepseek/e08_deepep_and_eplb_expert_parallelism_at_scale.py",
+   "explainer": "explainers/scenes/m15e08_deepep_and_eplb_expert_paralleli.py"
+  },
+  {
+   "ep": 191,
+   "code": "M15E09",
+   "module": "M15",
+   "module_name": "The DeepSeek Playbook",
+   "mod_ep": 9,
+   "title": "FlashMLA and DeepGEMM: reading DeepSeek's kernels",
+   "slug": "flashmla-and-deepgemm-reading-deepseek-s-kernels",
+   "learn": "How they hit near-peak on Hopper",
+   "build": "Annotated walkthrough; benchmark FlashMLA decode on H100",
+   "hardware": "RunPod 1x H100",
+   "sources": [
+    "DS_FLASHMLA",
+    "DS_DEEPGEMM"
+   ],
+   "folder": "M15-deepseek",
+   "prep": "prep/M15-deepseek/E09-flashmla-and-deepgemm-reading-deepseek-s-kernels.md",
+   "code_file": "code/M15-deepseek/e09_flashmla_and_deepgemm_reading_deepseek_s_kernels.py",
+   "explainer": "explainers/scenes/m15e09_flashmla_and_deepgemm_reading_de.py"
+  },
+  {
+   "ep": 192,
+   "code": "M15E10",
+   "module": "M15",
+   "module_name": "The DeepSeek Playbook",
+   "mod_ep": 10,
+   "title": "The full R1 recipe",
+   "slug": "the-full-r1-recipe",
+   "learn": "R1-Zero, cold-start SFT, reasoning RL, rejection sampling, distillation",
+   "build": "Pipeline diagram mapped to code you already wrote in M11",
+   "hardware": "Mac",
+   "sources": [
+    "R1",
+    "GRPO"
+   ],
+   "folder": "M15-deepseek",
+   "prep": "prep/M15-deepseek/E10-the-full-r1-recipe.md",
+   "code_file": "code/M15-deepseek/e10_the_full_r1_recipe.py",
+   "explainer": "explainers/scenes/m15e10_the_full_r1_recipe.py"
+  },
+  {
+   "ep": 193,
+   "code": "M15E11",
+   "module": "M15",
+   "module_name": "The DeepSeek Playbook",
+   "mod_ep": 11,
+   "title": "DeepSeek Sparse Attention: the lightning indexer",
+   "slug": "deepseek-sparse-attention-the-lightning-indexer",
+   "learn": "Cheap indexer scores + top-k token selection (V3.2)",
+   "build": "DSA on your GPT; long-context speed vs quality",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "DS_V32"
+   ],
+   "folder": "M15-deepseek",
+   "prep": "prep/M15-deepseek/E11-deepseek-sparse-attention-the-lightning-indexer.md",
+   "code_file": "code/M15-deepseek/e11_deepseek_sparse_attention_the_lightning_indexer.py",
+   "explainer": "explainers/scenes/m15e11_deepseek_sparse_attention_the_li.py"
+  },
+  {
+   "ep": 194,
+   "code": "M15E12",
+   "module": "M15",
+   "module_name": "The DeepSeek Playbook",
+   "mod_ep": 12,
+   "title": "mHC: manifold-constrained hyper-connections",
+   "slug": "mhc-manifold-constrained-hyper-connections",
+   "learn": "Widening the residual stream; Sinkhorn-constrained mixing for stability",
+   "build": "Hyper-connections vs mHC vs residual on a small model; loss + grad norms",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "DS_MHC",
+    "HYPERCONN"
+   ],
+   "folder": "M15-deepseek",
+   "prep": "prep/M15-deepseek/E12-mhc-manifold-constrained-hyper-connections.md",
+   "code_file": "code/M15-deepseek/e12_mhc_manifold_constrained_hyper_connections.py",
+   "explainer": "explainers/scenes/m15e12_mhc_manifold_constrained_hyper_c.py"
+  },
+  {
+   "ep": 195,
+   "code": "M15E13",
+   "module": "M15",
+   "module_name": "The DeepSeek Playbook",
+   "mod_ep": 13,
+   "title": "Engram: conditional memory as a new sparsity axis",
+   "slug": "engram-conditional-memory-as-a-new-sparsity-axis",
+   "learn": "Hashed N-gram lookup memory next to MoE compute; the U-shaped allocation law",
+   "build": "Engram module on a small model; memory-vs-experts allocation sweep",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "DS_ENGRAM"
+   ],
+   "folder": "M15-deepseek",
+   "prep": "prep/M15-deepseek/E13-engram-conditional-memory-as-a-new-sparsity-axis.md",
+   "code_file": "code/M15-deepseek/e13_engram_conditional_memory_as_a_new_sparsity_axis.py",
+   "explainer": "explainers/scenes/m15e13_engram_conditional_memory_as_a_n.py"
+  },
+  {
+   "ep": 196,
+   "code": "M15E14",
+   "module": "M15",
+   "module_name": "The DeepSeek Playbook",
+   "mod_ep": 14,
+   "title": "DeepSeek-V4: million-token context",
+   "slug": "deepseek-v4-million-token-context",
+   "learn": "The V4 attention design and what it saves vs V3.2 (read the report first; verify details)",
+   "build": "KV/FLOPs calculator: V3 vs V3.2 vs V4 at 128k and 1M tokens",
+   "hardware": "Mac",
+   "sources": [
+    "DS_V4",
+    "DS_V32"
+   ],
+   "folder": "M15-deepseek",
+   "prep": "prep/M15-deepseek/E14-deepseek-v4-million-token-context.md",
+   "code_file": "code/M15-deepseek/e14_deepseek_v4_million_token_context.py",
+   "explainer": "explainers/scenes/m15e14_deepseek_v4_million_token_contex.py"
+  },
+  {
+   "ep": 197,
+   "code": "M15E15",
+   "module": "M15",
+   "module_name": "The DeepSeek Playbook",
+   "mod_ep": 15,
+   "title": "DeepSeek-OCR and the infra papers",
+   "slug": "deepseek-ocr-and-the-infra-papers",
+   "learn": "Vision tokens as context compression; Fire-Flyer cluster and 3FS co-design",
+   "build": "Compression ratio vs accuracy demo; infra diagram",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "DS_OCR",
+    "DS_FIREFLYER",
+    "DS_3FS"
+   ],
+   "folder": "M15-deepseek",
+   "prep": "prep/M15-deepseek/E15-deepseek-ocr-and-the-infra-papers.md",
+   "code_file": "code/M15-deepseek/e15_deepseek_ocr_and_the_infra_papers.py",
+   "explainer": "explainers/scenes/m15e15_deepseek_ocr_and_the_infra_paper.py"
+  },
+  {
+   "ep": 198,
+   "code": "M15E16",
+   "module": "M15",
+   "module_name": "The DeepSeek Playbook",
+   "mod_ep": 16,
+   "title": "DeepSeek in miniature: putting it together",
+   "slug": "deepseek-in-miniature-putting-it-together",
+   "learn": "Which ideas transfer to small scale, and which only pay off at scale",
+   "build": "Ablation table from P9: dense vs MoE vs +MTP vs +DSA vs +mHC",
+   "hardware": "RunPod 4x GPU",
+   "sources": [
+    "DSV3",
+    "DS_MHC"
+   ],
+   "folder": "M15-deepseek",
+   "prep": "prep/M15-deepseek/E16-deepseek-in-miniature-putting-it-together.md",
+   "code_file": "code/M15-deepseek/e16_deepseek_in_miniature_putting_it_together.py",
+   "explainer": "explainers/scenes/m15e16_deepseek_in_miniature_putting_it.py"
+  },
+  {
+   "ep": 199,
+   "code": "M16E01",
+   "module": "M16",
+   "module_name": "Research Frontier",
+   "mod_ep": 1,
+   "title": "How to read a paper in one hour",
+   "slug": "how-to-read-a-paper-in-one-hour",
+   "learn": "Three-pass reading; finding the one equation that matters",
+   "build": "Live read of a fresh arXiv paper; one-page summary",
+   "hardware": "Mac",
+   "sources": [
+    "ARXIVSANITY",
+    "LILIAN"
+   ],
+   "folder": "M16-frontier",
+   "prep": "prep/M16-frontier/E01-how-to-read-a-paper-in-one-hour.md",
+   "code_file": "code/M16-frontier/e01_how_to_read_a_paper_in_one_hour.py",
+   "explainer": "explainers/scenes/m16e01_how_to_read_a_paper_in_one_hour.py"
+  },
+  {
+   "ep": 200,
+   "code": "M16E02",
+   "module": "M16",
+   "module_name": "Research Frontier",
+   "mod_ep": 2,
+   "title": "How to reproduce a paper",
+   "slug": "how-to-reproduce-a-paper",
+   "learn": "Pick the claim, shrink the setup, match the baseline first",
+   "build": "Reproduction plan template, applied to the next episode",
+   "hardware": "Mac",
+   "sources": [
+    "KARPATHY_RECIPE",
+    "SCHULMAN_NUTS"
+   ],
+   "folder": "M16-frontier",
+   "prep": "prep/M16-frontier/E02-how-to-reproduce-a-paper.md",
+   "code_file": "code/M16-frontier/e02_how_to_reproduce_a_paper.py",
+   "explainer": "explainers/scenes/m16e02_how_to_reproduce_a_paper.py"
+  },
+  {
+   "ep": 201,
+   "code": "M16E03",
+   "module": "M16",
+   "module_name": "Research Frontier",
+   "mod_ep": 3,
+   "title": "Experiment design: seeds, baselines and error bars",
+   "slug": "experiment-design-seeds-baselines-and-error-bars",
+   "learn": "Why most ML results don't replicate",
+   "build": "Run 5 seeds; report mean and CI; spot a fake win",
+   "hardware": "Mac",
+   "sources": [
+    "SCHULMAN_NUTS"
+   ],
+   "folder": "M16-frontier",
+   "prep": "prep/M16-frontier/E03-experiment-design-seeds-baselines-and-error-bars.md",
+   "code_file": "code/M16-frontier/e03_experiment_design_seeds_baselines_and_error_bars.py",
+   "explainer": "explainers/scenes/m16e03_experiment_design_seeds_baseline.py"
+  },
+  {
+   "ep": 202,
+   "code": "M16E04",
+   "module": "M16",
+   "module_name": "Research Frontier",
+   "mod_ep": 4,
+   "title": "Reproduce: Muon at scale",
+   "slug": "reproduce-muon-at-scale",
+   "learn": "Orthogonalized updates; when Muon beats AdamW",
+   "build": "Muon vs AdamW at 3 model sizes, published curves",
+   "hardware": "RunPod 1x H100",
+   "sources": [
+    "MUON",
+    "MUONSCALE"
+   ],
+   "folder": "M16-frontier",
+   "prep": "prep/M16-frontier/E04-reproduce-muon-at-scale.md",
+   "code_file": "code/M16-frontier/e04_reproduce_muon_at_scale.py",
+   "explainer": "explainers/scenes/m16e04_reproduce_muon_at_scale.py"
+  },
+  {
+   "ep": 203,
+   "code": "M16E05",
+   "module": "M16",
+   "module_name": "Research Frontier",
+   "mod_ep": 5,
+   "title": "Reproduce: Native Sparse Attention",
+   "slug": "reproduce-native-sparse-attention",
+   "learn": "Compressed + selected + sliding branches",
+   "build": "NSA forward in Triton on a small model; quality vs speed",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "NSA"
+   ],
+   "folder": "M16-frontier",
+   "prep": "prep/M16-frontier/E05-reproduce-native-sparse-attention.md",
+   "code_file": "code/M16-frontier/e05_reproduce_native_sparse_attention.py",
+   "explainer": "explainers/scenes/m16e05_reproduce_native_sparse_attentio.py"
+  },
+  {
+   "ep": 204,
+   "code": "M16E06",
+   "module": "M16",
+   "module_name": "Research Frontier",
+   "mod_ep": 6,
+   "title": "Reproduce: test-time compute scaling",
+   "slug": "reproduce-test-time-compute-scaling",
+   "learn": "Best-of-N, verifier search, budget forcing",
+   "build": "Accuracy vs compute curve on GSM8K/MATH",
+   "hardware": "RunPod 1x H100",
+   "sources": [
+    "TESTTIME",
+    "R1"
+   ],
+   "folder": "M16-frontier",
+   "prep": "prep/M16-frontier/E06-reproduce-test-time-compute-scaling.md",
+   "code_file": "code/M16-frontier/e06_reproduce_test_time_compute_scaling.py",
+   "explainer": "explainers/scenes/m16e06_reproduce_test_time_compute_scal.py"
+  },
+  {
+   "ep": 205,
+   "code": "M16E07",
+   "module": "M16",
+   "module_name": "Research Frontier",
+   "mod_ep": 7,
+   "title": "Reproduce: an R1-Zero style RL result",
+   "slug": "reproduce-an-r1-zero-style-rl-result",
+   "learn": "Match a published GRPO/Dr. GRPO number on a 1.5B model",
+   "build": "Your curve vs the paper's, same budget",
+   "hardware": "RunPod 1x H100",
+   "sources": [
+    "DRGRPO",
+    "GRPO"
+   ],
+   "folder": "M16-frontier",
+   "prep": "prep/M16-frontier/E07-reproduce-an-r1-zero-style-rl-result.md",
+   "code_file": "code/M16-frontier/e07_reproduce_an_r1_zero_style_rl_result.py",
+   "explainer": "explainers/scenes/m16e07_reproduce_an_r1_zero_style_rl_re.py"
+  },
+  {
+   "ep": 206,
+   "code": "M16E08",
+   "module": "M16",
+   "module_name": "Research Frontier",
+   "mod_ep": 8,
+   "title": "Frontier MoE: Kimi K2 and DeepSeek-V3 systems",
+   "slug": "frontier-moe-kimi-k2-and-deepseek-v3-systems",
+   "learn": "MuonClip, expert routing at scale, DeepEP kernels",
+   "build": "Profile DeepEP-style all-to-all on 2 GPUs",
+   "hardware": "RunPod 4x GPU",
+   "sources": [
+    "KIMIK2",
+    "DEEPEP",
+    "DSV3"
+   ],
+   "folder": "M16-frontier",
+   "prep": "prep/M16-frontier/E08-frontier-moe-kimi-k2-and-deepseek-v3-systems.md",
+   "code_file": "code/M16-frontier/e08_frontier_moe_kimi_k2_and_deepseek_v3_systems.py",
+   "explainer": "explainers/scenes/m16e08_frontier_moe_kimi_k2_and_deepsee.py"
+  },
+  {
+   "ep": 207,
+   "code": "M16E09",
+   "module": "M16",
+   "module_name": "Research Frontier",
+   "mod_ep": 9,
+   "title": "Multimodal basics: ViT and CLIP",
+   "slug": "multimodal-basics-vit-and-clip",
+   "learn": "Images as tokens; contrastive pretraining",
+   "build": "Tiny CLIP trained on a small image-text set",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "VIT",
+    "CLIP"
+   ],
+   "folder": "M16-frontier",
+   "prep": "prep/M16-frontier/E09-multimodal-basics-vit-and-clip.md",
+   "code_file": "code/M16-frontier/e09_multimodal_basics_vit_and_clip.py",
+   "explainer": "explainers/scenes/m16e09_multimodal_basics_vit_and_clip.py"
+  },
+  {
+   "ep": 208,
+   "code": "M16E10",
+   "module": "M16",
+   "module_name": "Research Frontier",
+   "mod_ep": 10,
+   "title": "Interpretability at scale: SAE features",
+   "slug": "interpretability-at-scale-sae-features",
+   "learn": "What scaling monosemanticity found and how to test it",
+   "build": "SAE on a 1B model layer; feature dashboard",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "SAEBENCH",
+    "TLENS"
+   ],
+   "folder": "M16-frontier",
+   "prep": "prep/M16-frontier/E10-interpretability-at-scale-sae-features.md",
+   "code_file": "code/M16-frontier/e10_interpretability_at_scale_sae_features.py",
+   "explainer": "explainers/scenes/m16e10_interpretability_at_scale_sae_fe.py"
+  },
+  {
+   "ep": 209,
+   "code": "M16E11",
+   "module": "M16",
+   "module_name": "Research Frontier",
+   "mod_ep": 11,
+   "title": "AI control: monitoring untrusted agents",
+   "slug": "ai-control-monitoring-untrusted-agents",
+   "learn": "Trusted monitoring, protocols, red-team/blue-team",
+   "build": "Control eval on coding agents in OperatorOK's sandbox",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "AICONTROL",
+    "INSPECT"
+   ],
+   "folder": "M16-frontier",
+   "prep": "prep/M16-frontier/E11-ai-control-monitoring-untrusted-agents.md",
+   "code_file": "code/M16-frontier/e11_ai_control_monitoring_untrusted_agents.py",
+   "explainer": "explainers/scenes/m16e11_ai_control_monitoring_untrusted_.py"
+  },
+  {
+   "ep": 210,
+   "code": "M16E12",
+   "module": "M16",
+   "module_name": "Research Frontier",
+   "mod_ep": 12,
+   "title": "Model organisms: sleeper agents",
+   "slug": "model-organisms-sleeper-agents",
+   "learn": "Training in a backdoor and testing if safety training removes it",
+   "build": "Small-scale sleeper-agent replication",
+   "hardware": "RunPod 1x H100",
+   "sources": [
+    "SLEEPER"
+   ],
+   "folder": "M16-frontier",
+   "prep": "prep/M16-frontier/E12-model-organisms-sleeper-agents.md",
+   "code_file": "code/M16-frontier/e12_model_organisms_sleeper_agents.py",
+   "explainer": "explainers/scenes/m16e12_model_organisms_sleeper_agents.py"
+  },
+  {
+   "ep": 211,
+   "code": "M16E13",
+   "module": "M16",
+   "module_name": "Research Frontier",
+   "mod_ep": 13,
+   "title": "Your original research project, part 1",
+   "slug": "your-original-research-project-part-1",
+   "learn": "Question, hypothesis, minimal experiment",
+   "build": "Pre-registered plan + first results",
+   "hardware": "RunPod 1x H100",
+   "sources": [
+    "SCHULMAN_NUTS"
+   ],
+   "folder": "M16-frontier",
+   "prep": "prep/M16-frontier/E13-your-original-research-project-part-1.md",
+   "code_file": "code/M16-frontier/e13_your_original_research_project_part_1.py",
+   "explainer": "explainers/scenes/m16e13_your_original_research_project_p.py"
+  },
+  {
+   "ep": 212,
+   "code": "M16E14",
+   "module": "M16",
+   "module_name": "Research Frontier",
+   "mod_ep": 14,
+   "title": "Your original research project, part 2",
+   "slug": "your-original-research-project-part-2",
+   "learn": "Results, ablations, honest limitations; the write-up",
+   "build": "Published write-up (arXiv/LessWrong/blog) + code",
+   "hardware": "RunPod 1x H100",
+   "sources": [
+    "SCHULMAN_NUTS"
+   ],
+   "folder": "M16-frontier",
+   "prep": "prep/M16-frontier/E14-your-original-research-project-part-2.md",
+   "code_file": "code/M16-frontier/e14_your_original_research_project_part_2.py",
+   "explainer": "explainers/scenes/m16e14_your_original_research_project_p.py"
+  },
+  {
+   "ep": 213,
+   "code": "M17E01",
+   "module": "M17",
+   "module_name": "Capstones",
+   "mod_ep": 1,
+   "title": "Capstone 1: pretrain, SFT, GRPO a tiny model",
+   "slug": "capstone-1-pretrain-sft-grpo-a-tiny-model",
+   "learn": "Every stage of the pipeline on one model",
+   "build": "nanochat-style run end to end with costs",
+   "hardware": "RunPod 8x H100",
+   "sources": [
+    "NANOCHAT",
+    "CS336"
+   ],
+   "folder": "M17-capstone",
+   "prep": "prep/M17-capstone/E01-capstone-1-pretrain-sft-grpo-a-tiny-model.md",
+   "code_file": "code/M17-capstone/e01_capstone_1_pretrain_sft_grpo_a_tiny_model.py",
+   "explainer": "explainers/scenes/m17e01_capstone_1_pretrain_sft_grpo_a_t.py"
+  },
+  {
+   "ep": 214,
+   "code": "M17E02",
+   "module": "M17",
+   "module_name": "Capstones",
+   "mod_ep": 2,
+   "title": "Capstone 2: quantize and serve it",
+   "slug": "capstone-2-quantize-and-serve-it",
+   "learn": "Your engine + your quantization",
+   "build": "Latency/throughput/quality table",
+   "hardware": "RunPod 1x RTX 4090",
+   "sources": [
+    "NANOVLLM",
+    "TORCHAO"
+   ],
+   "folder": "M17-capstone",
+   "prep": "prep/M17-capstone/E02-capstone-2-quantize-and-serve-it.md",
+   "code_file": "code/M17-capstone/e02_capstone_2_quantize_and_serve_it.py",
+   "explainer": "explainers/scenes/m17e02_capstone_2_quantize_and_serve_it.py"
+  },
+  {
+   "ep": 215,
+   "code": "M17E03",
+   "module": "M17",
+   "module_name": "Capstones",
+   "mod_ep": 3,
+   "title": "Capstone 3: a distributed run with full numbers",
+   "slug": "capstone-3-a-distributed-run-with-full-numbers",
+   "learn": "FSDP+TP on rented GPUs, written up",
+   "build": "MFU and scaling report",
+   "hardware": "RunPod 4x GPU",
+   "sources": [
+    "TORCHFEATHER",
+    "ULTRASCALE"
+   ],
+   "folder": "M17-capstone",
+   "prep": "prep/M17-capstone/E03-capstone-3-a-distributed-run-with-full-numbers.md",
+   "code_file": "code/M17-capstone/e03_capstone_3_a_distributed_run_with_full_numbers.py",
+   "explainer": "explainers/scenes/m17e03_capstone_3_a_distributed_run_wit.py"
+  },
+  {
+   "ep": 216,
+   "code": "M17E04",
+   "module": "M17",
+   "module_name": "Capstones",
+   "mod_ep": 4,
+   "title": "The whole map: what 186 videos taught me",
+   "slug": "the-whole-map-what-186-videos-taught-me",
+   "learn": "Recap, mistakes, what to learn next",
+   "build": "One-page diagram of every piece",
+   "hardware": "Mac",
+   "sources": [
+    "CS336"
+   ],
+   "folder": "M17-capstone",
+   "prep": "prep/M17-capstone/E04-the-whole-map-what-186-videos-taught-me.md",
+   "code_file": "code/M17-capstone/e04_the_whole_map_what_186_videos_taught_me.py",
+   "explainer": "explainers/scenes/m17e04_the_whole_map_what_186_videos_ta.py"
+  }
+ ]
+}

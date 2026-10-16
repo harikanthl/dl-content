@@ -1,0 +1,110 @@
+[
+ {
+  "id": "P1",
+  "name": "feather-attn: FlashAttention forward + backward in Triton",
+  "unlocked_by": "M07, M08",
+  "start_after": "M08E06",
+  "weeks": 2,
+  "bar": "Forward and backward pass gradcheck vs SDPA; causal + GQA + variable length; >= 70% of FlashAttention-2 throughput on an RTX 4090 at seq 4k, bf16",
+  "metric": "TFLOPs/s vs FA2 and SDPA across seq 512-16k, charted",
+  "deliverable": "Public repo, pytest suite, benchmark chart, write-up: 'What it took to get within X% of FlashAttention-2'",
+  "roles": "Anthropic/OpenAI performance + kernels engineer, inference engineer, Together/Fireworks/Baseten",
+  "upstream": "Open a PR or a detailed issue to a kernel library (e.g. a missing feature or benchmark in flash-linear-attention / Liger-Kernel)"
+ },
+ {
+  "id": "P2",
+  "name": "featherserve: an LLM inference engine from scratch",
+  "unlocked_by": "M13",
+  "start_after": "M13E08",
+  "weeks": 3,
+  "bar": "Paged KV cache, continuous batching, chunked prefill, radix prefix cache, speculative decoding, CUDA graphs, OpenAI-compatible API; serves Qwen3-1.7B; >= 60% of vLLM throughput on the same GPU and workload",
+  "metric": "Throughput, TTFT p50/p99, ITL vs vLLM and SGLang on ShareGPT-style and shared-prefix workloads",
+  "deliverable": "Public repo, load-test harness, write-up with flame graphs explaining every gap to vLLM",
+  "roles": "Inference engineer at labs, vLLM/SGLang ecosystem companies, Baseten/Modal/Fireworks",
+  "upstream": "At least one merged PR to SGLang or vLLM (bug fix, benchmark, or small feature). Labs read these."
+ },
+ {
+  "id": "P3",
+  "name": "feathertrain: 4D-parallel training framework",
+  "unlocked_by": "M10",
+  "start_after": "M10E14",
+  "weeks": 3,
+  "bar": "DP/FSDP + TP + PP (1F1B) + CP from scratch on torch.distributed; trains a ~1B model on 8 GPUs; loss matches single-GPU baseline; MFU reported and >= 35% on H100",
+  "metric": "Scaling efficiency 1->2->4->8 GPUs, MFU, memory per GPU per strategy",
+  "deliverable": "Public repo, scaling report, write-up: 'Every collective in a 4D-parallel step, measured'",
+  "roles": "Pretraining / research engineer (scaling), ML infra at labs",
+  "upstream": "PR to torchtitan or a detailed reproducible issue"
+ },
+ {
+  "id": "P4",
+  "name": "Reasoning RL: reproduce and extend an R1-Zero style result",
+  "unlocked_by": "M11, M16",
+  "start_after": "M11E13",
+  "weeks": 3,
+  "bar": "Reproduce a published GRPO / Dr. GRPO number on a 1.5B model within the paper's error band, then one original ablation with 3+ seeds and CIs",
+  "metric": "MATH/GSM8K accuracy vs steps, your curve overlaid on the paper's; ablation table",
+  "deliverable": "Public repo + W&B report + write-up; the ablation is the original contribution",
+  "roles": "Post-training / RL research engineer at Anthropic, OpenAI, DeepMind, xAI, Meta; Anthropic Fellows",
+  "upstream": "PR to TRL / verl / OpenRLHF if you hit a bug"
+ },
+ {
+  "id": "P5",
+  "name": "Pretraining at speedrun quality",
+  "unlocked_by": "M06, M09",
+  "start_after": "M06E16",
+  "weeks": 2,
+  "bar": "Train GPT-2-small class model to the speedrun loss target; then one ablation (optimizer, attention variant, data) with a clean before/after under fixed compute",
+  "metric": "Time/compute to target loss; ablation delta with seeds",
+  "deliverable": "Write-up + logs; submit a record attempt or a documented negative result to modded-nanogpt",
+  "roles": "Pretraining research engineer",
+  "upstream": "modded-nanogpt PR / discussion"
+ },
+ {
+  "id": "P6",
+  "name": "DeepSeek-V3 in miniature, with the 2026 ideas ablated",
+  "unlocked_by": "M09, M10, M15",
+  "start_after": "M15E05",
+  "weeks": 3,
+  "bar": "A ~0.5-1B model with MLA + DeepSeekMoE (shared + fine-grained experts, aux-loss-free balancing) + MTP, trained FP8 on RunPod; then ablations of DSA, mHC and Engram under fixed compute, 3 seeds each, vs a dense Llama-style baseline at equal active params",
+  "metric": "Val loss at fixed FLOPs, tokens/s, KV cache per token, expert load balance, grad-norm stability",
+  "deliverable": "Public repo + paper-style write-up: 'Which DeepSeek ideas still help at 1B scale?' Negative results reported honestly",
+  "roles": "Pretraining / architecture research engineer at every lab; strong Anthropic Fellows research artifact",
+  "upstream": "Share the ablation results with the authors' repos / community; PR fixes to any reference code you used"
+ },
+ {
+  "id": "P7",
+  "name": "Safety research: agent monitoring + interpretability",
+  "unlocked_by": "M14, M16",
+  "start_after": "M16E11",
+  "weeks": 4,
+  "bar": "An AI-control style eval: coding agents in OperatorOK sandboxes attempt covert side tasks; compare monitor protocols (trusted LLM monitor, SAE-feature probe) with catch rate vs false-positive rate, 3+ models",
+  "metric": "Safety/usefulness tradeoff curves with CIs",
+  "deliverable": "Paper-style write-up on arXiv or LessWrong/Alignment Forum + open-source eval (Inspect)",
+  "roles": "Anthropic Fellows, Anthropic/OpenAI safety research engineer, Redwood, METR, UK AISI",
+  "upstream": "Contribute the eval to inspect_evals"
+ },
+ {
+  "id": "P8",
+  "name": "Low-precision: int4/fp8 quantization with kernels",
+  "unlocked_by": "M12, M07",
+  "start_after": "M12E08",
+  "weeks": 2,
+  "bar": "GPTQ + AWQ from scratch; a W4A16 Triton matmul kernel; perplexity within 2% of bf16 on a 7B-class model; speedup measured end to end in featherserve",
+  "metric": "Perplexity, tokens/s, memory at bf16/int8/int4",
+  "deliverable": "Repo + write-up; integrate into P2",
+  "roles": "Inference / efficiency engineer",
+  "upstream": "PR to torchao"
+ },
+ {
+  "id": "P9",
+  "name": "Open-source track record",
+  "unlocked_by": "ongoing from M07",
+  "start_after": "M07E01",
+  "weeks": 0,
+  "bar": "5+ merged PRs across PyTorch, Triton, vLLM, SGLang, TRL, torchtitan, TransformerLens by the end of the roadmap",
+  "metric": "Merged PR links",
+  "deliverable": "A 'Contributions' section on the resume and harikanth.site",
+  "roles": "Every lab. Merged PRs to the infrastructure they run are the strongest signal for a non-traditional candidate.",
+  "upstream": "Start with 'good first issue' labels, then fix things you hit while building P1-P7"
+ }
+]

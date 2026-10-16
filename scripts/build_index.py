@@ -1,0 +1,137 @@
+#!/usr/bin/env python3
+"""Regenerate CURRICULUM.md and schedule.csv, and merge progress.csv, from curriculum.json.
+
+  python3 scripts/build_index.py [--start 2026-10-16]
+
+Idempotent: per-episode state in progress.csv (recorded, urls, notes) is preserved.
+Schedule rules:
+  - Mon to Sat, two video slots a day (A and B). Sunday is review + next week's prep.
+  - Slot A is always the next curriculum episode.
+  - Slot B is the next curriculum episode, except during a project sprint, when it is
+    a filmed build log for that project (projects.json: start_after, weeks).
+  - M00E01 (the trailer) is recorded after M01, once there is footage to cut from.
+"""
+import csv, datetime as dt, json, os, sys
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+CUR = f"{ROOT}/curriculum/curriculum.json"
+PROJ = f"{ROOT}/curriculum/projects.json"
+PROG = f"{ROOT}/curriculum/progress.csv"
+SCHED = f"{ROOT}/curriculum/schedule.csv"
+
+STATE_COLS = ["prep_ready", "explainer", "recorded", "edited", "yt_long", "short",
+              "x", "linkedin", "instagram", "tiktok", "facebook"]
+PROG_COLS = ["ep", "code", "module", "title", "planned_date", "slot"] + STATE_COLS + \
+            ["youtube_url", "short_url", "notes"]
+
+
+def order(eps):
+    """Curriculum order with the trailer moved after M01."""
+    trailer = next(e for e in eps if e["code"] == "M00E01")
+    rest = [e for e in eps if e["code"] != "M00E01"]
+    i = max(k for k, e in enumerate(rest) if e["module"] == "M01")
+    return rest[: i + 1] + [trailer] + rest[i + 1:]
+
+
+def schedule(eps, projects, start):
+    queue = order(eps)
+    sprints = [p for p in projects if p["weeks"] > 0]
+    pending = {p["start_after"]: p for p in sprints}
+    waiting, active, left, logday = [], None, 0, 0
+    day, rows, done_codes = start, [], set()
+    while queue or active or waiting:
+        if day.weekday() == 6:  # Sunday
+            rows.append(dict(date=day.isoformat(), dow="Sun", slot="", kind="review",
+                             code="", title="Weekly review, thumbnails batch, read next week's prep"))
+            day += dt.timedelta(days=1)
+            continue
+        for slot in ("A", "B"):
+            if active is None and waiting:
+                active, left, logday = waiting.pop(0), waiting and 0 or 0, 0
+                left = active["weeks"] * 6
+            if slot == "B" and active is not None:
+                logday += 1
+                rows.append(dict(date=day.isoformat(), dow=day.strftime("%a"), slot=slot,
+                                 kind="project", code=active["id"],
+                                 title=f"{active['name']}: build log day {logday}"))
+                continue
+            if not queue:
+                if active is not None:
+                    logday += 1
+                    rows.append(dict(date=day.isoformat(), dow=day.strftime("%a"), slot=slot,
+                                     kind="project", code=active["id"],
+                                     title=f"{active['name']}: build log day {logday}"))
+                continue
+            e = queue.pop(0)
+            rows.append(dict(date=day.isoformat(), dow=day.strftime("%a"), slot=slot,
+                             kind="episode", code=e["code"], title=e["title"]))
+            done_codes.add(e["code"])
+            if e["code"] in pending:
+                waiting.append(pending.pop(e["code"]))
+        if active is not None:
+            left -= 1
+            if left <= 0:
+                active = None
+        day += dt.timedelta(days=1)
+    return rows
+
+
+def main():
+    start = dt.date(2026, 10, 16)
+    if "--start" in sys.argv:
+        start = dt.date.fromisoformat(sys.argv[sys.argv.index("--start") + 1])
+    d = json.load(open(CUR))
+    eps, mods = d["episodes"], {m["code"]: m for m in d["modules"]}
+    projects = json.load(open(PROJ))
+
+    rows = schedule(eps, projects, start)
+    with open(SCHED, "w", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=["date", "dow", "slot", "kind", "code", "title"])
+        w.writeheader(); w.writerows(rows)
+    when = {r["code"]: (r["date"], r["slot"]) for r in rows if r["kind"] == "episode"}
+
+    old = {}
+    if os.path.exists(PROG):
+        with open(PROG) as f:
+            old = {r["code"]: r for r in csv.DictReader(f)}
+    with open(PROG, "w", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=PROG_COLS)
+        w.writeheader()
+        for e in eps:
+            o = old.get(e["code"], {})
+            r = {c: o.get(c, "") for c in PROG_COLS}
+            for c in STATE_COLS:
+                r[c] = r[c] or "N"
+            if os.path.exists(f"{ROOT}/{e['prep']}"):
+                r["prep_ready"] = "Y"
+            r.update(ep=e["ep"], code=e["code"], module=e["module"], title=e["title"],
+                     planned_date=when[e["code"]][0], slot=when[e["code"]][1])
+            w.writerow(r)
+
+    lines = [f"# {d['series']}: the {len(eps)}-episode index", "",
+             "Generated by `scripts/build_index.py` from `curriculum.json`. Do not hand-edit.", "",
+             "| Module | Episodes | Hardware |", "|---|---:|---|"]
+    for m in d["modules"]:
+        lines.append(f"| {m['code']} {m['name']} | {m['episodes']} | {m['hardware']} |")
+    for m in d["modules"]:
+        lines += ["", f"## {m['code']} · {m['name']}", ""]
+        if m["resume"]:
+            lines += [f"*Resume line it earns:* {m['resume']}", ""]
+        lines += ["| # | Code | Episode | Builds / verifies | HW | Planned |", "|---:|---|---|---|---|---|"]
+        for e in eps:
+            if e["module"] == m["code"]:
+                lines.append(f"| {e['ep']} | {e['code']} | [{e['title']}](../{e['prep']}) | "
+                             f"{e['build']} | {e['hardware']} | {when[e['code']][0]} |")
+    lines += ["", "## Flagship projects", "",
+              "| ID | Project | Starts after | Weeks | The bar |", "|---|---|---|---:|---|"]
+    for p in projects:
+        lines.append(f"| {p['id']} | {p['name']} | {p['start_after']} | {p['weeks']} | {p['bar']} |")
+    open(f"{ROOT}/curriculum/CURRICULUM.md", "w").write("\n".join(lines) + "\n")
+
+    last = rows[-1]["date"]
+    nproj = sum(1 for r in rows if r["kind"] == "project")
+    print(f"{len(eps)} episodes + {nproj} project build-log days, {start} -> {last}")
+
+
+if __name__ == "__main__":
+    main()
